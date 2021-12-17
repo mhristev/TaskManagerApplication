@@ -119,7 +119,9 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="JWn-55-zGO" firstAttribute="centerY" secondItem="pkm-o3-WVB" secondAttribute="centerY" id="EWu-M4-PcX"/>
+                            <constraint firstItem="3FP-XB-K44" firstAttribute="trailing" secondItem="JWn-55-zGO" secondAttribute="trailing" constant="51.5" id="OwG-Gn-Q56"/>
                             <constraint firstItem="JWn-55-zGO" firstAttribute="centerX" secondItem="pkm-o3-WVB" secondAttribute="centerX" id="hOk-G2-H5U"/>
+                            <constraint firstItem="JWn-55-zGO" firstAttribute="leading" secondItem="3FP-XB-K44" secondAttribute="leading" constant="51.5" id="lih-Nz-Q6z"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="M3H-ya-9A5"/>
