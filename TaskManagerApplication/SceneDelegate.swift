@@ -24,7 +24,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         
         if Auth.auth().currentUser != nil {
-            let welcomeVC = storyboard.instantiateViewController(identifier: "WelcomeViewController")
+            let welcomeVC = storyboard.instantiateViewController(identifier: "NavController")
             self.window?.rootViewController = welcomeVC
             self.window?.makeKeyAndVisible()
         } else {

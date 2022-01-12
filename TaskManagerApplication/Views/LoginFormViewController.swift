@@ -16,25 +16,26 @@ class LoginFormViewController: UIViewController{
     @IBOutlet var actionButton: UIButton!
     @IBOutlet var titleForm: UILabel!
     
-    @IBOutlet var buttonForgotPassword: UIButton!
+   // @IBOutlet var buttonForgotPassword: UIButton!
     
     @IBOutlet var emailTextField: UITextField!
     @IBOutlet var passwordTextField: UITextField!
     
     
-    
-    
     @IBAction func segmentAction(_ sender: UISegmentedControl) {
+        
+        let titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
+        segmentController.setTitleTextAttributes(titleTextAttributes, for:.normal)
         
         switch segmentController.selectedSegmentIndex {
             
         case 1:
             actionButton.setTitle("Sign Up", for: .normal)
-            buttonForgotPassword.alpha = 0;
+          //  buttonForgotPassword.alpha = 0;
             titleForm.text = "Sign Up with your email and password"
         default:
             actionButton.setTitle("Sign In", for: .normal)
-            buttonForgotPassword.alpha = 1;
+          //  buttonForgotPassword.alpha = 1;
             titleForm.text = "Sign In with your email and password"
             
         }
@@ -139,8 +140,8 @@ class LoginFormViewController: UIViewController{
             emailTextField.text = ""
             
         } else {
-        // LOG IN
-        //print("127")
+            // LOG IN
+            //print("127")
         
             Auth.auth().signIn(withEmail: email, password: password) { (result, error) in
                 if error != nil {
