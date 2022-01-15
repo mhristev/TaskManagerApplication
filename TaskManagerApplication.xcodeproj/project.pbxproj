@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		020572182793607B0001D702 /* CategoryListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 020572172793607B0001D702 /* CategoryListViewController.swift */; };
 		020A52F0276B3C1700257A6C /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = 020A52EF276B3C1700257A6C /* GoogleSignIn */; };
 		0213407827662E1D002C2EBB /* LoginFormViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0213407727662E1D002C2EBB /* LoginFormViewController.swift */; };
 		024EDCCB2764C8F900B73D98 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 024EDCCA2764C8F900B73D98 /* AppDelegate.swift */; };
@@ -41,10 +42,13 @@
 		024EDD102764C8FB00B73D98 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 024EDD0F2764C8FB00B73D98 /* FirebaseStorage */; };
 		024EDD122764C8FB00B73D98 /* FirebaseStorageCombine-Community in Frameworks */ = {isa = PBXBuildFile; productRef = 024EDD112764C8FB00B73D98 /* FirebaseStorageCombine-Community */; };
 		024EDD142764C8FB00B73D98 /* FirebaseStorageSwift-Beta in Frameworks */ = {isa = PBXBuildFile; productRef = 024EDD132764C8FB00B73D98 /* FirebaseStorageSwift-Beta */; };
+		0268DD922785CB7700A18414 /* Realm in Frameworks */ = {isa = PBXBuildFile; productRef = 0268DD912785CB7700A18414 /* Realm */; };
+		0268DD942785CB7700A18414 /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 0268DD932785CB7700A18414 /* RealmSwift */; };
 		026E229C27690C83001B0ACD /* WelcomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 026E229B27690C83001B0ACD /* WelcomeViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		020572172793607B0001D702 /* CategoryListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryListViewController.swift; sourceTree = "<group>"; };
 		0213407727662E1D002C2EBB /* LoginFormViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginFormViewController.swift; sourceTree = "<group>"; };
 		024EDCC72764C8F900B73D98 /* TaskManagerApplication.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TaskManagerApplication.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		024EDCCA2764C8F900B73D98 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -69,6 +73,7 @@
 				024EDCE82764C8FB00B73D98 /* FirebaseAppCheck in Frameworks */,
 				024EDD102764C8FB00B73D98 /* FirebaseStorage in Frameworks */,
 				024EDCEC2764C8FB00B73D98 /* FirebaseAuth in Frameworks */,
+				0268DD942785CB7700A18414 /* RealmSwift in Frameworks */,
 				024EDD142764C8FB00B73D98 /* FirebaseStorageSwift-Beta in Frameworks */,
 				024EDD022764C8FB00B73D98 /* FirebaseInAppMessaging-Beta in Frameworks */,
 				024EDCE42764C8FB00B73D98 /* FirebaseAnalyticsSwift-Beta in Frameworks */,
@@ -76,6 +81,7 @@
 				024EDCF82764C8FB00B73D98 /* FirebaseFirestore in Frameworks */,
 				024EDD0A2764C8FB00B73D98 /* FirebaseMessaging in Frameworks */,
 				024EDD062764C8FB00B73D98 /* FirebaseInstallations in Frameworks */,
+				0268DD922785CB7700A18414 /* Realm in Frameworks */,
 				024EDD002764C8FB00B73D98 /* FirebaseFunctionsCombine-Community in Frameworks */,
 				024EDCEA2764C8FB00B73D98 /* FirebaseAppDistribution-Beta in Frameworks */,
 				024EDCE62764C8FB00B73D98 /* FirebaseAnalyticsWithoutAdIdSupport in Frameworks */,
@@ -131,6 +137,7 @@
 			children = (
 				0213407727662E1D002C2EBB /* LoginFormViewController.swift */,
 				026E229B27690C83001B0ACD /* WelcomeViewController.swift */,
+				020572172793607B0001D702 /* CategoryListViewController.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -179,6 +186,8 @@
 				024EDD112764C8FB00B73D98 /* FirebaseStorageCombine-Community */,
 				024EDD132764C8FB00B73D98 /* FirebaseStorageSwift-Beta */,
 				020A52EF276B3C1700257A6C /* GoogleSignIn */,
+				0268DD912785CB7700A18414 /* Realm */,
+				0268DD932785CB7700A18414 /* RealmSwift */,
 			);
 			productName = TaskManagerApplication;
 			productReference = 024EDCC72764C8F900B73D98 /* TaskManagerApplication.app */;
@@ -211,6 +220,7 @@
 			packageReferences = (
 				024EDCE02764C8FB00B73D98 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 				020A52EE276B3C1700257A6C /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */,
+				0268DD902785CB7700A18414 /* XCRemoteSwiftPackageReference "realm-swift" */,
 			);
 			productRefGroup = 024EDCC82764C8F900B73D98 /* Products */;
 			projectDirPath = "";
@@ -240,6 +250,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				020572182793607B0001D702 /* CategoryListViewController.swift in Sources */,
 				024EDCCB2764C8F900B73D98 /* AppDelegate.swift in Sources */,
 				026E229C27690C83001B0ACD /* WelcomeViewController.swift in Sources */,
 				0213407827662E1D002C2EBB /* LoginFormViewController.swift in Sources */,
@@ -485,6 +496,14 @@
 				minimumVersion = 8.0.0;
 			};
 		};
+		0268DD902785CB7700A18414 /* XCRemoteSwiftPackageReference "realm-swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/realm/realm-swift.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.0.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -622,6 +641,16 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 024EDCE02764C8FB00B73D98 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = "FirebaseStorageSwift-Beta";
+		};
+		0268DD912785CB7700A18414 /* Realm */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 0268DD902785CB7700A18414 /* XCRemoteSwiftPackageReference "realm-swift" */;
+			productName = Realm;
+		};
+		0268DD932785CB7700A18414 /* RealmSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 0268DD902785CB7700A18414 /* XCRemoteSwiftPackageReference "realm-swift" */;
+			productName = RealmSwift;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
