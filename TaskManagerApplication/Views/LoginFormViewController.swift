@@ -44,6 +44,8 @@ class LoginFormViewController: UIViewController{
    
     override func viewDidLoad() {
         super.viewDidLoad()
+        emailTextField.delegate = self
+        passwordTextField.delegate = self
         actionButton.layer.cornerRadius = 18
        
     }
@@ -168,7 +170,7 @@ class LoginFormViewController: UIViewController{
     
     func presentWelcomeViewController() {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let welcomeVC = storyboard.instantiateViewController(identifier: "WelcomeViewController")
+        let welcomeVC = storyboard.instantiateViewController(identifier: "NavController")
         
         welcomeVC.modalPresentationStyle = .fullScreen
         welcomeVC.modalTransitionStyle = .crossDissolve
@@ -235,5 +237,13 @@ class LoginFormViewController: UIViewController{
     }
     
     
+}
+
+extension LoginFormViewController: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        emailTextField.resignFirstResponder()
+        passwordTextField.resignFirstResponder()
+        return true
+    }
 }
     

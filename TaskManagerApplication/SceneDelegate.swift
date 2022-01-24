@@ -11,6 +11,8 @@ import Firebase
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
+    
+    
 
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
@@ -22,13 +24,16 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
     func authenticate() {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let currentUser = Auth.auth().currentUser
         
-        if Auth.auth().currentUser != nil {
-            let welcomeVC = storyboard.instantiateViewController(identifier: "NavController")
+       
+        
+        if currentUser != nil {
+            let welcomeVC = storyboard.instantiateViewController(identifier: "NavController") as! UINavigationController
             self.window?.rootViewController = welcomeVC
             self.window?.makeKeyAndVisible()
         } else {
-            let loginVC = storyboard.instantiateViewController(withIdentifier: "LoginFormViewController")
+            let loginVC = storyboard.instantiateViewController(withIdentifier: "LoginFormViewController") as! LoginFormViewController
             self.window?.rootViewController = loginVC
             self.window?.makeKeyAndVisible()
         }
