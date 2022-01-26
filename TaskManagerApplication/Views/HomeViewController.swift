@@ -8,8 +8,10 @@
 import UIKit
 import Firebase
 import FirebaseAuth
+import RealmSwift
 
 class HomeViewController: UIViewController {
+        
     
     @IBOutlet var overviewView: UIView!
     @IBOutlet var remindersView: UIView!
@@ -20,12 +22,20 @@ class HomeViewController: UIViewController {
     
     @IBOutlet var segmentRemindersOverview: UISegmentedControl!
     
+    
+   
+    
     @IBAction func segmentAction(_ sender: UISegmentedControl) {
         switch segmentRemindersOverview.selectedSegmentIndex {
             
         case 1:
             remindersView.isHidden = false
             overviewView.isHidden = true
+            
+            
+            
+            
+           
         default:
             remindersView.isHidden = true
             overviewView.isHidden = false
@@ -39,8 +49,14 @@ class HomeViewController: UIViewController {
         prepareChildren()
         
         super.viewDidLoad()
+        
+        print("11111111111111111111")
+        //print(realm.configuration.fileURL!.path)
 
-
+        
+        //realm.beginWrite()
+        //realm.add(myCategory)
+        //try! realm.commitWrite()
         // Do any additional setup after loading the view.
     }
     
@@ -49,7 +65,9 @@ class HomeViewController: UIViewController {
     
     
     @IBAction func signOutClicked(_ sender: UIButton) {
+        RealmHandler.shared.createCategoryWith(title: "Handler", color: "red", icon: "swag")
         showCreateAccount()
+        
     }
     
     func presentLoginViewController() {

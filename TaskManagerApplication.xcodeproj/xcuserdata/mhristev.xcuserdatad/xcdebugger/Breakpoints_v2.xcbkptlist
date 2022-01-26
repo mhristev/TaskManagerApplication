@@ -116,5 +116,68 @@
             landmarkType = "3">
          </BreakpointContent>
       </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "EFA4C880-7BB3-4E9E-B336-6209394746B2"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "TaskManagerApplication/Models/Category.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "12"
+            endingLineNumber = "12"
+            landmarkName = "Category"
+            landmarkType = "3">
+            <Locations>
+               <Location
+                  uuid = "EFA4C880-7BB3-4E9E-B336-6209394746B2 - bf2544cbacf9356a"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "TaskManagerApplication.Category.title.getter : Swift.String"
+                  moduleName = "TaskManagerApplication"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/mhristev/Desktop/TaskManagerApplication/TaskManagerApplication/Models/Category.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "12"
+                  endingLineNumber = "12"
+                  offsetFromSymbolStart = "103">
+               </Location>
+               <Location
+                  uuid = "EFA4C880-7BB3-4E9E-B336-6209394746B2 - cc215a298710255e"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "TaskManagerApplication.Category.title.setter : Swift.String"
+                  moduleName = "TaskManagerApplication"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/mhristev/Desktop/TaskManagerApplication/TaskManagerApplication/Models/Category.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "12"
+                  endingLineNumber = "12"
+                  offsetFromSymbolStart = "139">
+               </Location>
+               <Location
+                  uuid = "EFA4C880-7BB3-4E9E-B336-6209394746B2 - f00a473c26bd6677"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "TaskManagerApplication.Category.init() -&gt; TaskManagerApplication.Category"
+                  moduleName = "TaskManagerApplication"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/mhristev/Desktop/TaskManagerApplication/TaskManagerApplication/Models/Category.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "12"
+                  endingLineNumber = "12"
+                  offsetFromSymbolStart = "58">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
    </Breakpoints>
 </Bucket>

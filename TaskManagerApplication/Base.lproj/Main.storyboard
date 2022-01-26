@@ -625,7 +625,7 @@
                                                 </attributes>
                                             </fragment>
                                         </attributedString>
-                                        <nil key="highlightedColor"/>
+                                        <color key="highlightedColor" systemColor="systemFillColor"/>
                                     </label>
                                     <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="MU9-dt-Sg1">
                                         <rect key="frame" x="0.0" y="126.5" width="374" height="32"/>
@@ -665,7 +665,7 @@
                             </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="DDE-Lz-pyF"/>
-                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="backgroundColor" systemColor="systemFillColor"/>
                         <constraints>
                             <constraint firstItem="XtH-rh-70N" firstAttribute="leading" secondItem="DDE-Lz-pyF" secondAttribute="leading" constant="20" id="IYA-9t-jdq"/>
                             <constraint firstItem="Jdh-KI-51z" firstAttribute="top" secondItem="ZXS-wP-y0s" secondAttribute="bottom" constant="22.5" id="QuO-u2-Y20"/>
@@ -1215,6 +1215,9 @@
         </systemColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="systemFillColor">
+            <color red="0.47058823529411764" green="0.47058823529411764" blue="0.50196078431372548" alpha="0.20000000000000001" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="systemGray2Color">
             <color red="0.68235294117647061" green="0.68235294117647061" blue="0.69803921568627447" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
