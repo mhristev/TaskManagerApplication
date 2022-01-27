@@ -1,13 +1,13 @@
 //
-//  RemindersChildWelcomeViewController.swift
+//  TestViewController.swift
 //  TaskManagerApplication
 //
-//  Created by Martin Hristev on 17.01.22.
+//  Created by Martin Hristev on 26.01.22.
 //
 
 import UIKit
 
-class RemindersChildHomeController: UIViewController {
+class TestViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -15,7 +15,7 @@ class RemindersChildHomeController: UIViewController {
         // Do any additional setup after loading the view.
     }
     
-    
+
     /*
     // MARK: - Navigation
 

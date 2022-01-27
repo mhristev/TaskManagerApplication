@@ -16,14 +16,27 @@ class Note: Object {
     @objc dynamic var updatedAt = NSDate()
     @objc dynamic var revisions: Int = 0
     @objc dynamic var favourite: Bool = false
+    @objc dynamic var category: Category? = nil
     
-    convenience init(title: String, text: String, createdAt: NSDate, favourite: Bool) {
+    
+    
+    
+    
+    
+    convenience init(title: String, text: String, favourite: Bool, category: Category?) {
         self.init()
         self.title = title
         self.text = text
-        self.createdAt = createdAt
+        self.createdAt = NSDate()
         self.updatedAt = createdAt
         self.revisions = 1
         self.favourite = favourite
+        self.category = category
+    }
+    
+ 
+    
+    func getTitle() -> String{
+        return self.title
     }
 }

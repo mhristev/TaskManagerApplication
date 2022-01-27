@@ -65,7 +65,7 @@ class HomeViewController: UIViewController {
     
     
     @IBAction func signOutClicked(_ sender: UIButton) {
-        RealmHandler.shared.createCategoryWith(title: "Handler", color: "red", icon: "swag")
+        
         showCreateAccount()
         
     }

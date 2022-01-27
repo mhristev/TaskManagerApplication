@@ -239,6 +239,8 @@ class LoginFormViewController: UIViewController{
     
 }
 
+
+// return key on the keyboard
 extension LoginFormViewController: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         emailTextField.resignFirstResponder()

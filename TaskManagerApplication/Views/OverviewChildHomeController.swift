@@ -11,10 +11,17 @@ class OverviewChildHomeController: UIViewController {
     
     @IBOutlet var tableView: UITableView!
     
-    var nameOfCategories: [String] = ["Quick notes"]
+    var categoryTitle: String?
+    
+  //  var nameOfCategories: [String] = ["Quick notes"]
+    var categories: Array<Category> = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        categories = RealmHandler.shared.getAllCategories()
+        print(categories)
+        
         //self.becomeFirstResponder()
         //view.addSubview(swag)
         //tableView.delegate = self
@@ -23,12 +30,15 @@ class OverviewChildHomeController: UIViewController {
         // Do any additional setup after loading the view.
     }
     
-    func createCategory(withName: String) {
-        nameOfCategories.append(withName)
-        print(nameOfCategories)
+    func createCategoryWith(name: String, color: String, icon: String) {
+        RealmHandler.shared.createCategoryWith(title: name, color: color, icon: icon)
+        categories = RealmHandler.shared.getAllCategories()
+        print(categories)
+        
         tableView.beginUpdates()
-        tableView.insertRows(at: [IndexPath.init(row: 1, section: 0)], with: .automatic)
+        tableView.insertRows(at: [IndexPath.init(row: 0, section: 0)], with: .automatic)
         tableView.endUpdates()
+        
     }
     
     
@@ -50,11 +60,10 @@ extension OverviewChildHomeController: UITableViewDelegate {
 
     private func handleMoveToTrash(indexPath: IndexPath) {
         
-        if indexPath.row == 0 {
-            return
-        }
+        RealmHandler.shared.deleteCategoryWith(ID: categories[categories.count - (1 + indexPath.row)].getID())
+        categories = RealmHandler.shared.getAllCategories()
+        print(categories)
         tableView.beginUpdates()
-        nameOfCategories.remove(at: indexPath.row)
         tableView.deleteRows(at: [indexPath], with: .fade)
         tableView.endUpdates()
         print("Moved to trash")
@@ -69,6 +78,13 @@ extension OverviewChildHomeController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         print("You tapped \(indexPath.row)")
+        //RealmHandler.shared.createNoteWith(title: "Swag Note", text: "Ne", favourite: false, category: categories[categories.count - (1 + indexPath.row)])
+       // RealmHandler.shared.getAllNotesForCategory(name: categories[categories.count - (1 + indexPath.row)].getTitle())
+        //let destinationVC = CategoryViewController()
+//        RealmHandler.shared.createQuickNoteWith(title: "Quick note", text: "swag", favourite: false)
+       // RealmHandler.shared.updateCategoryWith(ID: categories[categories.count - (1 + indexPath.row)].getID())
+        categoryTitle = categories[categories.count - (1 + indexPath.row)].getTitle()
+        //destinationVC.title = "\(categories[categories.count - (1 + indexPath.row)])"
         
         self.performSegue(withIdentifier: "test", sender: self)
     }
@@ -99,12 +115,51 @@ extension OverviewChildHomeController: UITableViewDelegate {
 
 extension OverviewChildHomeController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return nameOfCategories.count
+        
+        return categories.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "categoryCell", for: indexPath)
-        cell.textLabel?.text = nameOfCategories[nameOfCategories.count - 1]
+        cell.textLabel?.text = categories[categories.count-(1+indexPath.row)].getTitle()
+       // cell.contentView.backgroundColor = stringToUIColorWith(hex: categories[categories.count - 1].getColor())
+        //cell.backgroundColor = .red
+        print(categories[categories.count-1].getColor())
+        cell.contentView.backgroundColor = hexStringToUIColor(hex: categories[categories.count-(1+indexPath.row)].getColor())
         return cell
     }
 }
+
+extension OverviewChildHomeController {
+    func hexStringToUIColor (hex:String) -> UIColor {
+        var cString:String = hex.trimmingCharacters(in: .whitespacesAndNewlines).uppercased()
+
+        if (cString.hasPrefix("#")) {
+            cString.remove(at: cString.startIndex)
+        }
+
+        if ((cString.count) != 6) {
+            return UIColor.gray
+        }
+
+        var rgbValue:UInt64 = 0
+        Scanner(string: cString).scanHexInt64(&rgbValue)
+
+        return UIColor(
+            red: CGFloat((rgbValue & 0xFF0000) >> 16) / 255.0,
+            green: CGFloat((rgbValue & 0x00FF00) >> 8) / 255.0,
+            blue: CGFloat(rgbValue & 0x0000FF) / 255.0,
+            alpha: CGFloat(1.0)
+        )
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "test" {
+            if let kid = segue.destination as? CategoryViewController {
+                kid.title = categoryTitle
+            }
+        }
+    }
+}
+
+

@@ -8,11 +8,24 @@
 import UIKit
 
 class CategoryViewController: UIViewController {
-    var notes: [String] = ["My first note"]
+    
+    
+
+    var notes: Array<Note> = []
+    var categoryName: String = ""
+    
     @IBOutlet var NotesInCategoryTableView: UITableView!
+    @IBOutlet var titleCategory: UINavigationItem!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        guard self.title != nil else {
+            return
+        }
+        self.categoryName = self.title!
+        
+        notes = RealmHandler.shared.getAllNotesForCategory(name: categoryName)
         NotesInCategoryTableView.delegate = self
         NotesInCategoryTableView.dataSource = self
 
@@ -22,8 +35,11 @@ class CategoryViewController: UIViewController {
 
     @IBAction func createNote(_ sender: Any) {
         
-        notes.append("New note")
+        //notes.append("New note")
+        
         NotesInCategoryTableView.beginUpdates()
+        RealmHandler.shared.createNoteWith(title: "note in purple", text: "ne", favourite: false, categoryTitle: self.categoryName)
+        notes = RealmHandler.shared.getAllNotesForCategory(name: self.categoryName)
         NotesInCategoryTableView.insertRows(at: [IndexPath.init(row: 0, section: 0)], with: .automatic)
         NotesInCategoryTableView.endUpdates()
     }
@@ -127,7 +143,8 @@ extension CategoryViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = NotesInCategoryTableView.dequeueReusableCell(withIdentifier: "noteCell", for: indexPath)
         print(notes)
-        cell.textLabel?.text = "\(notes[notes.count-1]) - \(notes.count)"
+        
+        cell.textLabel?.text = notes[notes.count - (1 + indexPath.row)].getTitle() 
         return cell
     }
     

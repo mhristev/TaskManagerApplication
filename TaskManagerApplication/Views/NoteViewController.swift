@@ -14,6 +14,12 @@ class NoteViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        //emailTextField.delegate = self
+        //passwordTextField.delegate = self
+        textView.delegate = self
+        
+        
         textView.inputAccessoryView = toolbarView
         textView.keyboardDismissMode = .onDrag
         
@@ -58,4 +64,33 @@ class NoteViewController: UIViewController {
     }
     */
 
+}
+
+
+
+extension NoteViewController: UITextViewDelegate {
+    func textViewShouldReturn(_ textField: UITextView) -> Bool {
+        //emailTextField.resignFirstResponder()
+        //passwordTextField.resignFirstResponder()
+        print("ddasd")
+        textField.resignFirstResponder()
+        guard let title = textField.text else {
+            return false
+        }
+       // RealmHandler.shared.createNoteWith(title: title, text: "", favourite: false, category: Category())
+        
+        
+        
+        return true
+    }
+    
+    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+        print("hhhehehh")
+        textView.resignFirstResponder()
+        guard let title = textView.text else {
+            return false
+        }
+        
+        return true
+    }
 }
