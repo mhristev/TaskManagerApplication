@@ -74,8 +74,10 @@ class CategoryViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         print("DJAJSDJASJDASJKDJKASJK")
-        //NotesInCategoryTableView.beginUpdates()
-         self.notes = RealmHandler.shared.getAllNotesForCategory(name: self.title!)
+        
+        
+        
+        self.notes = RealmHandler.shared.getAllNotesForCategory(name: self.title!)
         NotesInCategoryTableView.reloadData()
        // NotesInCategoryTableView.endUpdates()
        // print(RealmHandler.shared.getAllNotesForCategory(name: self.title ?? ""))

@@ -82,7 +82,11 @@ class NoteViewController: UIViewController {
             let text = textView.text ?? ""
             
             if currNoteID != nil {
-                RealmHandler.shared.updateNoteWith(ID: currNoteID!, title: title, text: text, favourite: false)
+                if text == "" {
+                    RealmHandler.shared.deleteNoteWith(ID: currNoteID!)
+                }else {
+                    RealmHandler.shared.updateNoteWith(ID: currNoteID!, title: title, text: text, favourite: false)
+                }
             }
             
             
