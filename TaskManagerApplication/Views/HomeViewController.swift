@@ -11,7 +11,7 @@ import FirebaseAuth
 import RealmSwift
 
 class HomeViewController: UIViewController {
-        
+    var newNoteDelegate: createNoteDelegate!
     
     @IBOutlet var overviewView: UIView!
     @IBOutlet var remindersView: UIView!
@@ -61,6 +61,26 @@ class HomeViewController: UIViewController {
     }
     
     
+    @IBAction func quickNoteAction(_ sender: Any) {
+        RealmHandler.shared.createNoteWith(title: "", text: "", favourite: false, categoryTitle: "Quick Notes")
+        
+        let destinationVC = storyboard?.instantiateViewController(withIdentifier: "NoteViewController") as! NoteViewController
+        newNoteDelegate = destinationVC
+        //destinationVC.modalPresentationStyle = UIModalPresentationStyle.overCurrentContext
+       // destinationVC.modalTransitionStyle = UIModalTransitionStyle.crossDissolve
+        //let passTitle = categories[categories.count - (1 + indexPath.row)].getTitle()
+       // let notes = RealmHandler.shared.getAllNotesForCategory(name: passTitle)
+        //destinationVC.title = "\(categories[categories.count - (1 + indexPath.row)])"
+       // selectionDelegate.didSelectCategoryWith(name: passTitle, notes: notes)
+        //let note = RealmHandler.shared.getNoteWith(name: "")
+       guard let note = RealmHandler.shared.getNoteWith(name: "") else {
+            return
+       }
+        //print(note.id)
+        newNoteDelegate.didCreateNoteWith(ID: note.id)
+        
+        self.navigationController?.pushViewController(destinationVC, animated: true)
+    }
     
     
     

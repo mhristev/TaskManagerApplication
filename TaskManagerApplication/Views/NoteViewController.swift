@@ -131,6 +131,7 @@ extension NoteViewController: UITextViewDelegate {
 extension NoteViewController: createNoteDelegate {
     func didCreateNoteWith(ID: String) {
         self.currNoteID = ID
+       // self.textView.text = "bhjbhjbbhjbh"
         print(ID)
     }
 }

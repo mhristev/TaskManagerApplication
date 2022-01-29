@@ -12,6 +12,15 @@ class RealmHandler {
     static let shared = RealmHandler()
     
     private let categories = try! Realm()
+    
+    private init() {
+        if categories.objects(Category.self).isEmpty {
+            createCategoryWith(title: "Quick Notes", color: "#FF0000", icon: "quickNotes")
+        }
+    }
+    
+    
+    
     private let notes = try! Realm()
     
     func createCategoryWith(title: String, color: String, icon: String) {
@@ -64,10 +73,12 @@ class RealmHandler {
         return cat
     }
     
-    func updateCategoryWith(ID: String) {
+    func updateCategoryWith(ID: String, title: String, icon: String, color: String) {
         if let category = categories.objects(Category.self).filter("id == %@", ID).first {
             categories.beginWrite()
-            category.title = "PROMENENO SUM"
+            category.title = title
+            category.icon = icon
+            category.color = color
             try! categories.commitWrite()
         }
     }

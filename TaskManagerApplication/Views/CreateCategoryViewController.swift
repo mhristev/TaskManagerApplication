@@ -7,9 +7,17 @@
 
 import UIKit
 
+protocol categoryActionDelegate {
+    func didEditCategory(categories: Array<Category>)
+    func didCreateCategory(category: Category)
+}
+
+
 class CreateCategoryViewController: UIViewController {
 
-    var editNameCategory: String?
+    var categoryDelegate: categoryActionDelegate!
+    
+    var editCategory: Category? = nil
     
     @IBOutlet var createCategoryButton: UIButton!
     
@@ -25,10 +33,26 @@ class CreateCategoryViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        if (editNameCategory != nil) {
-            nameOfCategory.text = editNameCategory
+       
+        if (editCategory != nil) {
             titleViewController.text = "Edit Category"
+            nameOfCategory.text = editCategory?.title
             buttonCreate.setTitle("Edit", for: .normal)
+            for button in colorButtons {
+                if (hexStringFromColor(color: button.backgroundColor!) == editCategory?.color) {
+                    button.layer.borderWidth = 2
+                    button.layer.borderColor = UIColor(red: 255, green: 255, blue: 255, alpha: 1).cgColor
+                    break
+                }
+            }
+            
+            for icon in iconButtons {
+                if (icon.restorationIdentifier == editCategory?.icon) {
+                    icon.tintColor = .blue
+                    break
+                }
+            }
+            
         }
         // Do any additional setup after loading the view.
     }
@@ -87,16 +111,40 @@ class CreateCategoryViewController: UIViewController {
             return
         }
         
-     
-        
-        
-        guard ((vc.overviewChildController?.createCategoryWith(name: name, color: color, icon: icon)) != nil) else {
+        if (icon == "" || name == "" || color == "") {
+            dialogWindow(message: "Please fill all the fields!", title: "Error")
             return
+        }
+        
+        if (editCategory == nil) {
+            //RealmHandler.shared.createCategoryWith(title: name, color: color, icon: icon)
+            //var categories = RealmHandler.shared.getAllCategories()
+            var category = Category(title: name, color: color, icon: icon)
+            categoryDelegate.didCreateCategory(category: category)
+        } else {
+            RealmHandler.shared.updateCategoryWith(ID: editCategory!.id, title: name, icon: icon, color: color)
+            var categories = RealmHandler.shared.getAllCategories()
+            categoryDelegate.didEditCategory(categories: categories)
         }
         
         self.dismiss(animated: true, completion: nil)
         
     }
+    
+    func dialogWindow(message: String, title: String) {
+    
+        let myalert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        
+        myalert.addAction(UIAlertAction(title: "Dismiss", style: .default,
+                                      handler: {_ in
+        }))
+                        
+    
+        present(myalert, animated: true)
+            
+    }
+    
+   
     
     /*
     // MARK: - Navigation
@@ -123,4 +171,20 @@ extension CreateCategoryViewController{
      }
 
     
+}
+
+
+extension CreateCategoryViewController: categorySelectionDelegate {
+    func didSelectCategoryWith(name: String, notes: Array<Note>) {
+        return
+    }
+    
+    func didEditCategory(category: Category) {
+        //print(titleViewController.text)
+        self.editCategory = category
+        
+       // nameOfCategory.text = category.title
+       // titleViewController.text = "Edit Category"
+       // buttonCreate.setTitle("Edit", for: .normal)
+    }
 }

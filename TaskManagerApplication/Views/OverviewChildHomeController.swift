@@ -7,11 +7,14 @@
 
 import UIKit
 
+
 protocol categorySelectionDelegate {
     func didSelectCategoryWith(name: String, notes: Array<Note>)
+    func didEditCategory(category: Category)
 }
 
 class OverviewChildHomeController: UIViewController {
+    
     
     var selectionDelegate: categorySelectionDelegate!
     
@@ -36,14 +39,14 @@ class OverviewChildHomeController: UIViewController {
         // Do any additional setup after loading the view.
     }
     
-    func createCategoryWith(name: String, color: String, icon: String) {
-        RealmHandler.shared.createCategoryWith(title: name, color: color, icon: icon)
-        categories = RealmHandler.shared.getAllCategories()
-        print(categories)
+
+   
+
+    @IBAction func createCategory(_ sender: UIButton) {
+        let destinationVC = storyboard?.instantiateViewController(withIdentifier: "CreateCategoryViewController") as! CreateCategoryViewController
         
-        tableView.beginUpdates()
-        tableView.insertRows(at: [IndexPath.init(row: 0, section: 0)], with: .automatic)
-        tableView.endUpdates()
+        destinationVC.categoryDelegate = self
+        present(destinationVC, animated: true, completion: nil)
         
     }
     
@@ -77,8 +80,26 @@ extension OverviewChildHomeController: UITableViewDelegate {
     }
     
     private func handleEdit(indexPath: IndexPath) {
-        categoryTitle = categories[categories.count - (1 + indexPath.row)].getTitle()
-        self.performSegue(withIdentifier: "editWindow", sender: self)
+        //categoryTitle = categories[categories.count - (1 + indexPath.row)].getTitle()
+      // self.performSegue(withIdentifier: "editWindow", sender: self)
+        
+        let destinationVC = storyboard?.instantiateViewController(withIdentifier: "CreateCategoryViewController") as! CreateCategoryViewController
+        
+            //self.selectionDelegate = destinationVC
+       // destinationVC.viewDidLoad()
+        selectionDelegate = destinationVC
+        
+        guard let category = RealmHandler.shared.getCategoryWith(name: categories[categories.count - (1 + indexPath.row)].getTitle()) else {
+            return
+        }
+        
+        
+        selectionDelegate.didEditCategory(category: category)
+        //destinationVC.vc = self
+        
+        destinationVC.categoryDelegate = self
+       // self.navigationController?.pushViewController(destinationVC, animated: true)
+        present(destinationVC, animated: true, completion: nil)
         print("Edit")
     }
 
@@ -95,7 +116,9 @@ extension OverviewChildHomeController: UITableViewDelegate {
         selectionDelegate = destinationVC
         //destinationVC.modalPresentationStyle = UIModalPresentationStyle.overCurrentContext
        // destinationVC.modalTransitionStyle = UIModalTransitionStyle.crossDissolve
+        
         let passTitle = categories[categories.count - (1 + indexPath.row)].getTitle()
+     
         let notes = RealmHandler.shared.getAllNotesForCategory(name: passTitle)
         //destinationVC.title = "\(categories[categories.count - (1 + indexPath.row)])"
         selectionDelegate.didSelectCategoryWith(name: passTitle, notes: notes)
@@ -137,7 +160,7 @@ extension OverviewChildHomeController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "categoryCell", for: indexPath)
-        cell.textLabel?.text = categories[categories.count-(1+indexPath.row)].getTitle()
+        cell.textLabel?.text = categories[categories.count - (1+indexPath.row)].getTitle()
        // cell.contentView.backgroundColor = stringToUIColorWith(hex: categories[categories.count - 1].getColor())
         //cell.backgroundColor = .red
         print(categories[categories.count-1].getColor())
@@ -178,10 +201,11 @@ extension OverviewChildHomeController {
             }
         } else if (segue.identifier == "editWindow") {
             if let editCategory = segue.destination as? CreateCategoryViewController {
-                print(categoryTitle)
-                print("heree")
-                editCategory.editNameCategory = categoryTitle
-                editCategory.title = "Edit Category"
+                //print(categoryTitle)
+                //print("heree")
+              //  editCategory.nameOfCategory.text = "swag"
+                // editCategory.editNameCategory = categoryTitle
+               // editCategory.title = "Edit Category"
                 
             }
         }
@@ -189,3 +213,28 @@ extension OverviewChildHomeController {
 }
 
 
+extension OverviewChildHomeController: categoryActionDelegate {
+    func didCreateCategory(category: Category) {
+        //print(categories)
+        RealmHandler.shared.createCategoryWith(title: category.title, color: category.color, icon: category.icon)
+        self.categories = RealmHandler.shared.getAllCategories()
+      //  print(self.categories)
+       
+            //quick notes da e otgore vinagi
+          //  self.categories.swapAt(0, 1
+
+       // tableView.reloadData()
+     //   tableView.beginUpdates()
+      //  tableView.insertRows(at: [IndexPath.init(row: 1, section: 0)], with: .automatic)
+      //  tableView.endUpdates()
+        tableView.reloadData()
+       // self.categories.swapAt(0, categories.count-1)
+       // print(self.categories)
+        
+    }
+    
+    func didEditCategory(categories: Array<Category>) {
+        self.categories = categories
+        tableView.reloadData()
+    }
+}

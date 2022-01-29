@@ -47,7 +47,6 @@
 		024EDD142764C8FB00B73D98 /* FirebaseStorageSwift-Beta in Frameworks */ = {isa = PBXBuildFile; productRef = 024EDD132764C8FB00B73D98 /* FirebaseStorageSwift-Beta */; };
 		026E229C27690C83001B0ACD /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 026E229B27690C83001B0ACD /* HomeViewController.swift */; };
 		027DEF48279D75CF0062AA08 /* CreateCategoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 027DEF47279D75CF0062AA08 /* CreateCategoryViewController.swift */; };
-		027EB25D27A1E07200D2FD09 /* TestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 027EB25C27A1E07200D2FD09 /* TestViewController.swift */; };
 		029847CC27A170970046B90F /* Note.swift in Sources */ = {isa = PBXBuildFile; fileRef = 029847CB27A170970046B90F /* Note.swift */; };
 		029847CF27A171CF0046B90F /* RealmHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 029847CE27A171CF0046B90F /* RealmHandler.swift */; };
 		02C0202527957C2800AEA028 /* OverviewChildHomeController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02C0202427957C2700AEA028 /* OverviewChildHomeController.swift */; };
@@ -71,7 +70,6 @@
 		024EDCDE2764C8FB00B73D98 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		026E229B27690C83001B0ACD /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		027DEF47279D75CF0062AA08 /* CreateCategoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateCategoryViewController.swift; sourceTree = "<group>"; };
-		027EB25C27A1E07200D2FD09 /* TestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestViewController.swift; sourceTree = "<group>"; };
 		029847CB27A170970046B90F /* Note.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Note.swift; sourceTree = "<group>"; };
 		029847CE27A171CF0046B90F /* RealmHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmHandler.swift; sourceTree = "<group>"; };
 		02C0202427957C2700AEA028 /* OverviewChildHomeController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverviewChildHomeController.swift; sourceTree = "<group>"; };
@@ -161,7 +159,6 @@
 				022E09AC279C869800484A94 /* GalleryViewController.swift */,
 				027DEF47279D75CF0062AA08 /* CreateCategoryViewController.swift */,
 				02029EA0279E02FD00A29A07 /* NoteViewController.swift */,
-				027EB25C27A1E07200D2FD09 /* TestViewController.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -299,7 +296,6 @@
 				029847CF27A171CF0046B90F /* RealmHandler.swift in Sources */,
 				027DEF48279D75CF0062AA08 /* CreateCategoryViewController.swift in Sources */,
 				0213407827662E1D002C2EBB /* LoginFormViewController.swift in Sources */,
-				027EB25D27A1E07200D2FD09 /* TestViewController.swift in Sources */,
 				02029EA1279E02FD00A29A07 /* NoteViewController.swift in Sources */,
 				024EDCCD2764C8F900B73D98 /* SceneDelegate.swift in Sources */,
 				02C5BA7E279F06E70091DDD4 /* Category.swift in Sources */,

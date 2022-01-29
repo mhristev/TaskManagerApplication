@@ -296,13 +296,13 @@
         <!--Create Category-->
         <scene sceneID="flq-48-esC">
             <objects>
-                <viewController id="wMc-cQ-Tkf" customClass="CreateCategoryViewController" customModule="TaskManagerApplication" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="CreateCategoryViewController" id="wMc-cQ-Tkf" customClass="CreateCategoryViewController" customModule="TaskManagerApplication" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="tU7-sc-4IK">
-                        <rect key="frame" x="0.0" y="0.0" width="374" height="574"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="50" translatesAutoresizingMaskIntoConstraints="NO" id="vOZ-iq-zyd">
-                                <rect key="frame" x="22" y="45" width="330" height="465"/>
+                                <rect key="frame" x="42" y="89" width="330" height="465"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Create Category" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="U1W-vM-67i">
                                         <rect key="frame" x="0.0" y="0.0" width="330" height="35"/>
@@ -721,7 +721,7 @@
                                     <color key="baseForegroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </buttonConfiguration>
                                 <connections>
-                                    <segue destination="hvl-tY-16o" kind="show" id="Wci-GX-jRL"/>
+                                    <action selector="quickNoteAction:" destination="O1g-au-6nt" eventType="touchUpInside" id="9eT-89-DdS"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -1150,7 +1150,7 @@
                                                         <state key="normal" title="Button"/>
                                                         <buttonConfiguration key="configuration" style="plain" image="folder.fill.badge.plus" catalog="system"/>
                                                         <connections>
-                                                            <segue destination="wMc-cQ-Tkf" kind="showDetail" identifier="editCategory" id="Qcd-hz-S1W"/>
+                                                            <action selector="createCategory:" destination="UoK-Aw-4UD" eventType="touchUpInside" id="3En-d1-RHm"/>
                                                         </connections>
                                                     </button>
                                                 </subviews>
@@ -1189,7 +1189,6 @@
                     <connections>
                         <outlet property="tableView" destination="A2b-Ub-W9A" id="oRN-uT-B0H"/>
                         <segue destination="SOe-Bz-B0c" kind="show" identifier="test" id="URP-dE-7lB"/>
-                        <segue destination="wMc-cQ-Tkf" kind="showDetail" identifier="editWindow" id="qAf-vr-dNm"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="N6T-R1-3Nz" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -1254,10 +1253,6 @@
             <point key="canvasLocation" x="9183" y="705"/>
         </scene>
     </scenes>
-    <inferredMetricsTieBreakers>
-        <segue reference="qAf-vr-dNm"/>
-        <segue reference="Itu-6n-Zma"/>
-    </inferredMetricsTieBreakers>
     <resources>
         <image name="bell.fill" catalog="system" width="128" height="124"/>
         <image name="book.fill" catalog="system" width="128" height="95"/>

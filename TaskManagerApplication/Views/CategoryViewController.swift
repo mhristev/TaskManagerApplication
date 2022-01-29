@@ -46,11 +46,12 @@ class CategoryViewController: UIViewController {
         
         //notes.append("New note")
        
-        NotesInCategoryTableView.beginUpdates()
+       // NotesInCategoryTableView.beginUpdates()
         RealmHandler.shared.createNoteWith(title: "", text: "", favourite: false, categoryTitle: self.title)
         notes = RealmHandler.shared.getAllNotesForCategory(name: self.title!)
-        NotesInCategoryTableView.insertRows(at: [IndexPath.init(row: 0, section: 0)], with: .automatic)
-        NotesInCategoryTableView.endUpdates()
+        NotesInCategoryTableView.reloadData()
+        //NotesInCategoryTableView.insertRows(at: [IndexPath.init(row: 0, section: 0)], with: .automatic)
+        //NotesInCategoryTableView.endUpdates()
         
         let destinationVC = storyboard?.instantiateViewController(withIdentifier: "NoteViewController") as! NoteViewController
         newNoteDelegate = destinationVC
@@ -205,7 +206,12 @@ extension CategoryViewController: UITableViewDataSource {
 }
 
 extension CategoryViewController: categorySelectionDelegate {
+    func didEditCategory(category: Category) {
+        return
+    }
+    
     func didSelectCategoryWith(name: String, notes: Array<Note>) {
+       // self.navigationItem.title = "hjhhhj"
         self.notes = notes
         self.title = name
     }
