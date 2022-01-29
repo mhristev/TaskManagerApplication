@@ -7,25 +7,34 @@
 
 import UIKit
 
+
+protocol createNoteDelegate {
+    func didCreateNoteWith(ID: String)
+}
+
 class CategoryViewController: UIViewController {
     
-    
+    var newNoteDelegate: createNoteDelegate!
 
     var notes: Array<Note> = []
-    var categoryName: String = ""
+   // var categoryName: String = ""
     
     @IBOutlet var NotesInCategoryTableView: UITableView!
     @IBOutlet var titleCategory: UINavigationItem!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+       // notes = RealmHandler.shared.getAllNotesForCategory(name: self.title ?? "")
+        //NotesInCategoryTableView.beginUpdates()
+        //NotesInCategoryTableView.endUpdates()
+        print("MINAVAM")
         
-        guard self.title != nil else {
-            return
-        }
-        self.categoryName = self.title!
+       // guard self.title != nil else {
+         //   return
+       // }
+       // self.categoryName = self.title!
         
-        notes = RealmHandler.shared.getAllNotesForCategory(name: categoryName)
+       // notes = RealmHandler.shared.getAllNotesForCategory(name: self.title!)
         NotesInCategoryTableView.delegate = self
         NotesInCategoryTableView.dataSource = self
 
@@ -36,13 +45,43 @@ class CategoryViewController: UIViewController {
     @IBAction func createNote(_ sender: Any) {
         
         //notes.append("New note")
-        
+       
         NotesInCategoryTableView.beginUpdates()
-        RealmHandler.shared.createNoteWith(title: "note in purple", text: "ne", favourite: false, categoryTitle: self.categoryName)
-        notes = RealmHandler.shared.getAllNotesForCategory(name: self.categoryName)
+        RealmHandler.shared.createNoteWith(title: "", text: "", favourite: false, categoryTitle: self.title)
+        notes = RealmHandler.shared.getAllNotesForCategory(name: self.title!)
         NotesInCategoryTableView.insertRows(at: [IndexPath.init(row: 0, section: 0)], with: .automatic)
         NotesInCategoryTableView.endUpdates()
+        
+        let destinationVC = storyboard?.instantiateViewController(withIdentifier: "NoteViewController") as! NoteViewController
+        newNoteDelegate = destinationVC
+        //destinationVC.modalPresentationStyle = UIModalPresentationStyle.overCurrentContext
+       // destinationVC.modalTransitionStyle = UIModalTransitionStyle.crossDissolve
+        //let passTitle = categories[categories.count - (1 + indexPath.row)].getTitle()
+       // let notes = RealmHandler.shared.getAllNotesForCategory(name: passTitle)
+        //destinationVC.title = "\(categories[categories.count - (1 + indexPath.row)])"
+       // selectionDelegate.didSelectCategoryWith(name: passTitle, notes: notes)
+        //let note = RealmHandler.shared.getNoteWith(name: "")
+        guard let note = RealmHandler.shared.getNoteWith(name: "") else {
+            return
+        }
+        print(note.id)
+        newNoteDelegate.didCreateNoteWith(ID: note.id)
+        
+        self.navigationController?.pushViewController(destinationVC, animated: true)
+        
+        
     }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        print("DJAJSDJASJDASJKDJKASJK")
+        //NotesInCategoryTableView.beginUpdates()
+         self.notes = RealmHandler.shared.getAllNotesForCategory(name: self.title!)
+        NotesInCategoryTableView.reloadData()
+       // NotesInCategoryTableView.endUpdates()
+       // print(RealmHandler.shared.getAllNotesForCategory(name: self.title ?? ""))
+       // notes = RealmHandler.shared.getAllNotesForCategory(name: self.title ?? "")
+    }
+    
     /*
     // MARK: - Navigation
 
@@ -69,8 +108,10 @@ extension CategoryViewController: UITableViewDelegate {
     }
 
     private func handleMoveToTrash(indexPath: IndexPath) {
+        //NotesInCategoryTableView.beginUpdates()
+        RealmHandler.shared.deleteNoteWith(ID: notes[notes.count - (1 + indexPath.row)].getID())
+        notes = RealmHandler.shared.getAllNotesForCategory(name: self.title!)
         NotesInCategoryTableView.beginUpdates()
-        notes.remove(at: indexPath.row)
         NotesInCategoryTableView.deleteRows(at: [indexPath], with: .fade)
         NotesInCategoryTableView.endUpdates()
         
@@ -127,8 +168,17 @@ extension CategoryViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         print("You tapped \(indexPath.row)")
+        let destinationVC = storyboard?.instantiateViewController(withIdentifier: "NoteViewController") as! NoteViewController
+        newNoteDelegate = destinationVC
         
-        self.performSegue(withIdentifier: "clickNoteToView", sender: self)
+        guard let note = RealmHandler.shared.getNoteWith(name: notes[notes.count - (1 + indexPath.row)].getTitle()) else {
+            return
+        }
+        //print(note.id)
+        newNoteDelegate.didCreateNoteWith(ID: note.id)
+        
+        self.navigationController?.pushViewController(destinationVC, animated: true)
+        //self.performSegue(withIdentifier: "clickNoteToView", sender: self)
     }
     
     
@@ -137,6 +187,7 @@ extension CategoryViewController: UITableViewDelegate {
 
 extension CategoryViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        print(notes.count)
         return notes.count
     }
     
@@ -149,4 +200,11 @@ extension CategoryViewController: UITableViewDataSource {
     }
     
     
+}
+
+extension CategoryViewController: categorySelectionDelegate {
+    func didSelectCategoryWith(name: String, notes: Array<Note>) {
+        self.notes = notes
+        self.title = name
+    }
 }

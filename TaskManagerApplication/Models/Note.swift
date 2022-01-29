@@ -9,7 +9,7 @@ import Foundation
 import RealmSwift
 
 class Note: Object {
-    
+    @objc dynamic var id = UUID().uuidString
     @objc dynamic var title: String = ""
     @objc dynamic var text: String = ""
     @objc dynamic var createdAt = NSDate()
@@ -34,7 +34,9 @@ class Note: Object {
         self.category = category
     }
     
- 
+    func getID() -> String {
+        return self.id
+    }
     
     func getTitle() -> String{
         return self.title

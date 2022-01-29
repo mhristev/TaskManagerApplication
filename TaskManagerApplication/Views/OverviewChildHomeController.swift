@@ -7,7 +7,13 @@
 
 import UIKit
 
+protocol categorySelectionDelegate {
+    func didSelectCategoryWith(name: String, notes: Array<Note>)
+}
+
 class OverviewChildHomeController: UIViewController {
+    
+    var selectionDelegate: categorySelectionDelegate!
     
     @IBOutlet var tableView: UITableView!
     
@@ -18,7 +24,7 @@ class OverviewChildHomeController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+       
         categories = RealmHandler.shared.getAllCategories()
         print(categories)
         
@@ -71,6 +77,8 @@ extension OverviewChildHomeController: UITableViewDelegate {
     }
     
     private func handleEdit(indexPath: IndexPath) {
+        categoryTitle = categories[categories.count - (1 + indexPath.row)].getTitle()
+        self.performSegue(withIdentifier: "editWindow", sender: self)
         print("Edit")
     }
 
@@ -83,10 +91,18 @@ extension OverviewChildHomeController: UITableViewDelegate {
         //let destinationVC = CategoryViewController()
 //        RealmHandler.shared.createQuickNoteWith(title: "Quick note", text: "swag", favourite: false)
        // RealmHandler.shared.updateCategoryWith(ID: categories[categories.count - (1 + indexPath.row)].getID())
-        categoryTitle = categories[categories.count - (1 + indexPath.row)].getTitle()
+        let destinationVC = storyboard?.instantiateViewController(withIdentifier: "CategoryViewController") as! CategoryViewController
+        selectionDelegate = destinationVC
+        //destinationVC.modalPresentationStyle = UIModalPresentationStyle.overCurrentContext
+       // destinationVC.modalTransitionStyle = UIModalTransitionStyle.crossDissolve
+        let passTitle = categories[categories.count - (1 + indexPath.row)].getTitle()
+        let notes = RealmHandler.shared.getAllNotesForCategory(name: passTitle)
         //destinationVC.title = "\(categories[categories.count - (1 + indexPath.row)])"
+        selectionDelegate.didSelectCategoryWith(name: passTitle, notes: notes)
+        self.navigationController?.pushViewController(destinationVC, animated: true)
+       // present(destinationVC, animated: true, completion: nil)
         
-        self.performSegue(withIdentifier: "test", sender: self)
+        //self.performSegue(withIdentifier: "test", sender: self)
     }
     
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
@@ -156,7 +172,17 @@ extension OverviewChildHomeController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "test" {
             if let kid = segue.destination as? CategoryViewController {
-                kid.title = categoryTitle
+                selectionDelegate = kid
+                //kid.title = categoryTitle
+
+            }
+        } else if (segue.identifier == "editWindow") {
+            if let editCategory = segue.destination as? CreateCategoryViewController {
+                print(categoryTitle)
+                print("heree")
+                editCategory.editNameCategory = categoryTitle
+                editCategory.title = "Edit Category"
+                
             }
         }
     }

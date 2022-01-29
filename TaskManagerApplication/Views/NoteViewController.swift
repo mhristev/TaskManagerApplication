@@ -7,18 +7,30 @@
 
 import UIKit
 
+/*protocol updateNoteDelegate {
+    func didUpdateNote(notes: Array<Note>)
+}*/
+
 class NoteViewController: UIViewController {
 
     @IBOutlet var toolbarView: UIView!
     @IBOutlet var textView: UITextView!
     
+    var currNoteID: String?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        //print(self.parentVie)
+        
+       
         
         //emailTextField.delegate = self
         //passwordTextField.delegate = self
         textView.delegate = self
-        
+        if currNoteID != nil {
+            let note = RealmHandler.shared.getNoteWith(ID: currNoteID!)
+            textView.text = note?.text
+        }
         
         textView.inputAccessoryView = toolbarView
         textView.keyboardDismissMode = .onDrag
@@ -53,6 +65,32 @@ class NoteViewController: UIViewController {
         textView.scrollRangeToVisible(selectedRange)
     }
     
+    
+
+    
+    
+    override func willMove(toParent parent: UIViewController?) {
+        
+        
+        super.willMove(toParent: parent)
+      
+        
+        if (parent == nil) {
+            
+            
+            let title = textView.text.trimmingCharacters(in: .whitespacesAndNewlines).components(separatedBy: .newlines).first ?? ""
+            let text = textView.text ?? ""
+            
+            if currNoteID != nil {
+                RealmHandler.shared.updateNoteWith(ID: currNoteID!, title: title, text: text, favourite: false)
+            }
+            
+            
+            print("Note to category view")
+        }
+    }
+    
+    
 
     /*
     // MARK: - Navigation
@@ -83,14 +121,12 @@ extension NoteViewController: UITextViewDelegate {
         
         return true
     }
-    
-    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
-        print("hhhehehh")
-        textView.resignFirstResponder()
-        guard let title = textView.text else {
-            return false
-        }
-        
-        return true
+}
+
+
+extension NoteViewController: createNoteDelegate {
+    func didCreateNoteWith(ID: String) {
+        self.currNoteID = ID
+        print(ID)
     }
 }

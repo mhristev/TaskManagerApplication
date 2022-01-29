@@ -72,6 +72,22 @@ class RealmHandler {
         }
     }
     
+    func updateNoteWith(ID: String, title: String, text: String, favourite: Bool) {
+        if let note = notes.objects(Note.self).filter("id == %@", ID).first {
+            
+            if (note.text != text || note.title != title || note.favourite != favourite) {
+                notes.beginWrite()
+                
+                note.text = text
+                note.title = title
+                note.favourite = favourite
+                note.updatedAt = NSDate()
+                note.revisions += 1
+                try! notes.commitWrite()
+            }
+        }
+    }
+    
     func deleteCategoryWith(ID: String) {
         if let category = categories.objects(Category.self).filter("id == %@", ID).first {
             let notesInCategory = getAllNotesForCategory(name: category.getTitle())
@@ -86,6 +102,34 @@ class RealmHandler {
         }
     }
     
+    func getNoteWith(name: String) -> Note?{
+        let note = notes.objects(Note.self).filter("title == %@", name).first
+        
+        guard note != nil else {
+            return note
+        }
+        
+        return note
+    }
     
+    func getNoteWith(ID: String) -> Note?{
+        let note = notes.objects(Note.self).filter("id == %@", ID).first
+        
+        guard note != nil else {
+            return note
+        }
+        
+        return note
+    }
+    
+    func deleteNoteWith(ID: String) {
+        if let note = categories.objects(Note.self).filter("id == %@", ID).first {
+            notes.beginWrite()
+            notes.delete(note)
+            try! notes.commitWrite()
+        }
+
+           
+    }
     
 }

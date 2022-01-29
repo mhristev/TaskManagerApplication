@@ -201,7 +201,6 @@
                                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="cRl-zW-Vp2">
                                                 <rect key="frame" x="20" y="21" width="334" height="543"/>
                                                 <color key="backgroundColor" systemColor="labelColor"/>
-                                                <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
                                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
@@ -526,8 +525,10 @@
                     </view>
                     <navigationItem key="navigationItem" title="Create Category" id="JLa-9v-w7A"/>
                     <connections>
+                        <outlet property="buttonCreate" destination="agz-Rs-NKn" id="tjN-Pb-4iC"/>
                         <outlet property="createCategoryButton" destination="gTP-YC-ZMP" id="cwY-eq-Pex"/>
                         <outlet property="nameOfCategory" destination="HDr-g2-qfD" id="Pya-6b-m6x"/>
+                        <outlet property="titleViewController" destination="U1W-vM-67i" id="8Da-G8-2eD"/>
                         <outletCollection property="colorButtons" destination="wg7-Et-Upp" collectionClass="NSMutableArray" id="CN5-2A-3J0"/>
                         <outletCollection property="colorButtons" destination="gTP-YC-ZMP" collectionClass="NSMutableArray" id="z3Y-5a-3E9"/>
                         <outletCollection property="colorButtons" destination="6rU-9N-UVh" collectionClass="NSMutableArray" id="iEj-R1-HNj"/>
@@ -542,7 +543,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="1aD-KS-5ce" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="10696" y="623"/>
+            <point key="canvasLocation" x="10794" y="527"/>
         </scene>
         <!--Weekly progress-->
         <scene sceneID="Hjj-61-BTd">
@@ -775,7 +776,7 @@
         <!--Category Name-->
         <scene sceneID="Lmk-hA-QC2">
             <objects>
-                <viewController storyboardIdentifier="categoryView" id="SOe-Bz-B0c" customClass="CategoryViewController" customModule="TaskManagerApplication" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="CategoryViewController" id="SOe-Bz-B0c" customClass="CategoryViewController" customModule="TaskManagerApplication" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="VlG-5g-0Mn">
                         <rect key="frame" x="0.0" y="0.0" width="374" height="574"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -806,7 +807,6 @@
                                                 </buttonConfiguration>
                                                 <connections>
                                                     <action selector="createNote:" destination="SOe-Bz-B0c" eventType="touchUpInside" id="oNT-7x-630"/>
-                                                    <segue destination="hvl-tY-16o" kind="show" identifier="clickNoteToView" id="lwe-Vh-L7P"/>
                                                 </connections>
                                             </button>
                                         </subviews>
@@ -845,7 +845,7 @@
                     <connections>
                         <outlet property="NotesInCategoryTableView" destination="ebP-zg-eud" id="QkC-ud-402"/>
                         <outlet property="titleCategory" destination="xg9-53-0lO" id="v3g-tJ-nUF"/>
-                        <segue destination="hvl-tY-16o" kind="show" id="Itu-6n-Zma"/>
+                        <segue destination="hvl-tY-16o" kind="show" identifier="clickNoteToView" id="Itu-6n-Zma"/>
                         <segue destination="cXr-us-Psz" kind="presentation" identifier="showCreateReminder" id="Tq1-H4-yaL"/>
                         <segue destination="LMH-fc-nQe" kind="presentation" identifier="addToFolder" id="s8V-OC-wkk"/>
                     </connections>
@@ -1150,7 +1150,7 @@
                                                         <state key="normal" title="Button"/>
                                                         <buttonConfiguration key="configuration" style="plain" image="folder.fill.badge.plus" catalog="system"/>
                                                         <connections>
-                                                            <segue destination="wMc-cQ-Tkf" kind="presentation" id="VOd-nT-UCq"/>
+                                                            <segue destination="wMc-cQ-Tkf" kind="showDetail" identifier="editCategory" id="Qcd-hz-S1W"/>
                                                         </connections>
                                                     </button>
                                                 </subviews>
@@ -1189,6 +1189,7 @@
                     <connections>
                         <outlet property="tableView" destination="A2b-Ub-W9A" id="oRN-uT-B0H"/>
                         <segue destination="SOe-Bz-B0c" kind="show" identifier="test" id="URP-dE-7lB"/>
+                        <segue destination="wMc-cQ-Tkf" kind="showDetail" identifier="editWindow" id="qAf-vr-dNm"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="N6T-R1-3Nz" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -1254,6 +1255,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
+        <segue reference="qAf-vr-dNm"/>
         <segue reference="Itu-6n-Zma"/>
     </inferredMetricsTieBreakers>
     <resources>
