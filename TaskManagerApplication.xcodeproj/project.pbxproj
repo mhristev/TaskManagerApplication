@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		02029EA1279E02FD00A29A07 /* NoteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02029EA0279E02FD00A29A07 /* NoteViewController.swift */; };
 		020572182793607B0001D702 /* CategoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 020572172793607B0001D702 /* CategoryViewController.swift */; };
+		02065E3A27A6A31E009184BC /* AddToCategoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02065E3927A6A31E009184BC /* AddToCategoryViewController.swift */; };
+		02065E4027A6B0FA009184BC /* CategoryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02065E3E27A6B0FA009184BC /* CategoryTableViewCell.swift */; };
 		020A52F0276B3C1700257A6C /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = 020A52EF276B3C1700257A6C /* GoogleSignIn */; };
 		0213407827662E1D002C2EBB /* LoginFormViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0213407727662E1D002C2EBB /* LoginFormViewController.swift */; };
 		022E09AD279C869800484A94 /* GalleryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 022E09AC279C869800484A94 /* GalleryViewController.swift */; };
@@ -57,6 +59,8 @@
 /* Begin PBXFileReference section */
 		02029EA0279E02FD00A29A07 /* NoteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteViewController.swift; sourceTree = "<group>"; };
 		020572172793607B0001D702 /* CategoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryViewController.swift; sourceTree = "<group>"; };
+		02065E3927A6A31E009184BC /* AddToCategoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddToCategoryViewController.swift; sourceTree = "<group>"; };
+		02065E3E27A6B0FA009184BC /* CategoryTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryTableViewCell.swift; sourceTree = "<group>"; };
 		0213407727662E1D002C2EBB /* LoginFormViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginFormViewController.swift; sourceTree = "<group>"; };
 		022E09AC279C869800484A94 /* GalleryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GalleryViewController.swift; sourceTree = "<group>"; };
 		0239B7482795F06A00CCEC2D /* RemindersChildHomeController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemindersChildHomeController.swift; sourceTree = "<group>"; };
@@ -115,6 +119,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		02065E3D27A6B0DF009184BC /* TableViewCells */ = {
+			isa = PBXGroup;
+			children = (
+				02065E3E27A6B0FA009184BC /* CategoryTableViewCell.swift */,
+			);
+			path = TableViewCells;
+			sourceTree = "<group>";
+		};
 		024EDCBE2764C8F900B73D98 = {
 			isa = PBXGroup;
 			children = (
@@ -134,6 +146,7 @@
 		024EDCC92764C8F900B73D98 /* TaskManagerApplication */ = {
 			isa = PBXGroup;
 			children = (
+				02065E3D27A6B0DF009184BC /* TableViewCells */,
 				029847CD27A171B80046B90F /* RealmDB */,
 				02C5BA7C279F06CE0091DDD4 /* Models */,
 				024EDD1727650E0C00B73D98 /* Views */,
@@ -159,6 +172,7 @@
 				022E09AC279C869800484A94 /* GalleryViewController.swift */,
 				027DEF47279D75CF0062AA08 /* CreateCategoryViewController.swift */,
 				02029EA0279E02FD00A29A07 /* NoteViewController.swift */,
+				02065E3927A6A31E009184BC /* AddToCategoryViewController.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -292,12 +306,14 @@
 				024EDCCB2764C8F900B73D98 /* AppDelegate.swift in Sources */,
 				02C0202527957C2800AEA028 /* OverviewChildHomeController.swift in Sources */,
 				026E229C27690C83001B0ACD /* HomeViewController.swift in Sources */,
+				02065E4027A6B0FA009184BC /* CategoryTableViewCell.swift in Sources */,
 				022E09AD279C869800484A94 /* GalleryViewController.swift in Sources */,
 				029847CF27A171CF0046B90F /* RealmHandler.swift in Sources */,
 				027DEF48279D75CF0062AA08 /* CreateCategoryViewController.swift in Sources */,
 				0213407827662E1D002C2EBB /* LoginFormViewController.swift in Sources */,
 				02029EA1279E02FD00A29A07 /* NoteViewController.swift in Sources */,
 				024EDCCD2764C8F900B73D98 /* SceneDelegate.swift in Sources */,
+				02065E3A27A6A31E009184BC /* AddToCategoryViewController.swift in Sources */,
 				02C5BA7E279F06E70091DDD4 /* Category.swift in Sources */,
 				029847CC27A170970046B90F /* Note.swift in Sources */,
 			);

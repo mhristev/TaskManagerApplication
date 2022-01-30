@@ -15,7 +15,7 @@ class RealmHandler {
     
     private init() {
         if categories.objects(Category.self).isEmpty {
-            createCategoryWith(title: "Quick Notes", color: "#FF0000", icon: "quickNotes")
+            createCategoryWith(title: "Quick Notes", color: "#1E63FF", icon: "folder.fill")
         }
     }
     
@@ -139,8 +139,14 @@ class RealmHandler {
             notes.delete(note)
             try! notes.commitWrite()
         }
-
-           
+    }
+    
+    func updateNoteCategory(note: Note, category: Category) {
+        if let note = categories.objects(Note.self).filter("id == %@", note.id).first {
+            notes.beginWrite()
+            note.category = category
+            try! notes.commitWrite()
+        }
     }
     
 }

@@ -10,11 +10,18 @@ import UIKit
 
 protocol createNoteDelegate {
     func didCreateNoteWith(ID: String)
+    func didUpdateNoteCategory(notes: Array<Note>)
 }
+
+/*protocol categoriesDelegate {
+    func addToCategory()
+}*/
 
 class CategoryViewController: UIViewController {
     
     var newNoteDelegate: createNoteDelegate!
+    
+    var categoryDelegate: categoryActionDelegate!
 
     var notes: Array<Note> = []
    // var categoryName: String = ""
@@ -27,7 +34,7 @@ class CategoryViewController: UIViewController {
        // notes = RealmHandler.shared.getAllNotesForCategory(name: self.title ?? "")
         //NotesInCategoryTableView.beginUpdates()
         //NotesInCategoryTableView.endUpdates()
-        print("MINAVAM")
+
         
        // guard self.title != nil else {
          //   return
@@ -55,17 +62,11 @@ class CategoryViewController: UIViewController {
         
         let destinationVC = storyboard?.instantiateViewController(withIdentifier: "NoteViewController") as! NoteViewController
         newNoteDelegate = destinationVC
-        //destinationVC.modalPresentationStyle = UIModalPresentationStyle.overCurrentContext
-       // destinationVC.modalTransitionStyle = UIModalTransitionStyle.crossDissolve
-        //let passTitle = categories[categories.count - (1 + indexPath.row)].getTitle()
-       // let notes = RealmHandler.shared.getAllNotesForCategory(name: passTitle)
-        //destinationVC.title = "\(categories[categories.count - (1 + indexPath.row)])"
-       // selectionDelegate.didSelectCategoryWith(name: passTitle, notes: notes)
-        //let note = RealmHandler.shared.getNoteWith(name: "")
+
         guard let note = RealmHandler.shared.getNoteWith(name: "") else {
             return
         }
-        print(note.id)
+
         newNoteDelegate.didCreateNoteWith(ID: note.id)
         
         self.navigationController?.pushViewController(destinationVC, animated: true)
@@ -74,15 +75,9 @@ class CategoryViewController: UIViewController {
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        print("DJAJSDJASJDASJKDJKASJK")
-        
-        
         
         self.notes = RealmHandler.shared.getAllNotesForCategory(name: self.title!)
         NotesInCategoryTableView.reloadData()
-       // NotesInCategoryTableView.endUpdates()
-       // print(RealmHandler.shared.getAllNotesForCategory(name: self.title ?? ""))
-       // notes = RealmHandler.shared.getAllNotesForCategory(name: self.title ?? "")
     }
     
     /*
@@ -105,9 +100,31 @@ extension CategoryViewController: UITableViewDelegate {
         print("Marked as favourite")
     }
 
-    private func handleAddToFolder() {
-        self.performSegue(withIdentifier: "addToFolder", sender: self)
-        print("Perform add to folder")
+    private func handleAddToFolder(indexPath: IndexPath) {
+        
+        let destinationVC = storyboard?.instantiateViewController(withIdentifier: "AddToCategoryViewController") as! AddToCategoryViewController
+        
+        //selectionDelegate = destinationVC
+        categoryDelegate = destinationVC
+        
+        guard let category = RealmHandler.shared.getCategoryWith(name: self.title ?? "") else {
+            return
+        }
+        
+        guard let note = RealmHandler.shared.getNoteWith(ID: notes[notes.count - (1 + indexPath.row)].getID()) else {
+            return
+        }
+        
+        categoryDelegate.didChangeCategory(currCategory: category, currNote: note)
+        
+        destinationVC.noteDelegate = self
+      
+        present(destinationVC, animated: true, completion: nil)
+        
+        
+        
+        //self.performSegue(withIdentifier: "addToFolder", sender: self)
+       // print("Perform add to folder")
     }
 
     private func handleMoveToTrash(indexPath: IndexPath) {
@@ -158,7 +175,7 @@ extension CategoryViewController: UITableViewDelegate {
         // Add To Folder action
         let folder = UIContextualAction(style: .normal,
                                        title: "Add to folder") { [weak self] (action, view, completionHandler) in
-                                        self?.handleAddToFolder()
+                                        self?.handleAddToFolder(indexPath: indexPath)
                                         completionHandler(true)
         }
         folder.backgroundColor = .systemOrange
@@ -190,7 +207,6 @@ extension CategoryViewController: UITableViewDelegate {
 
 extension CategoryViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        print(notes.count)
         return notes.count
     }
     
@@ -215,4 +231,19 @@ extension CategoryViewController: categorySelectionDelegate {
         self.notes = notes
         self.title = name
     }
+}
+
+
+extension CategoryViewController: createNoteDelegate {
+    func didUpdateNoteCategory(notes: Array<Note>) {
+        print("PROTOCOL")
+        self.notes = notes
+        self.NotesInCategoryTableView.reloadData()
+    }
+    
+    func didCreateNoteWith(ID: String) {
+        return
+    }
+    
+    
 }

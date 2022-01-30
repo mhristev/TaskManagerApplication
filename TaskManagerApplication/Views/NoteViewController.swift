@@ -7,26 +7,22 @@
 
 import UIKit
 
-/*protocol updateNoteDelegate {
-    func didUpdateNote(notes: Array<Note>)
-}*/
+
 
 class NoteViewController: UIViewController {
 
     @IBOutlet var toolbarView: UIView!
     @IBOutlet var textView: UITextView!
     
+    
+    
+    
     var currNoteID: String?
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        //print(self.parentVie)
-        
-       
-        
-        //emailTextField.delegate = self
-        //passwordTextField.delegate = self
-        textView.delegate = self
+
+
         if currNoteID != nil {
             let note = RealmHandler.shared.getNoteWith(ID: currNoteID!)
             textView.text = note?.text
@@ -93,8 +89,6 @@ class NoteViewController: UIViewController {
             print("Note to category view")
         }
     }
-    
-    
 
     /*
     // MARK: - Navigation
@@ -110,28 +104,17 @@ class NoteViewController: UIViewController {
 
 
 
-extension NoteViewController: UITextViewDelegate {
-    func textViewShouldReturn(_ textField: UITextView) -> Bool {
-        //emailTextField.resignFirstResponder()
-        //passwordTextField.resignFirstResponder()
-        print("ddasd")
-        textField.resignFirstResponder()
-        guard let title = textField.text else {
-            return false
-        }
-       // RealmHandler.shared.createNoteWith(title: title, text: "", favourite: false, category: Category())
-        
-        
-        
-        return true
-    }
-}
-
-
 extension NoteViewController: createNoteDelegate {
+    func didUpdateNoteCategory(notes: Array<Note>) {
+        return
+    }
+    
     func didCreateNoteWith(ID: String) {
         self.currNoteID = ID
+        
        // self.textView.text = "bhjbhjbbhjbh"
         print(ID)
     }
 }
+
+

@@ -10,6 +10,7 @@ import UIKit
 protocol categoryActionDelegate {
     func didEditCategory(categories: Array<Category>)
     func didCreateCategory(category: Category)
+    func didChangeCategory(currCategory: Category, currNote: Note)
 }
 
 
@@ -75,11 +76,14 @@ class CreateCategoryViewController: UIViewController {
         var color: String = ""
         
         for button in iconButtons {
-            if button.tintColor == .blue {
+            print("tintcolor = \(button.tintColor)")
+            if button.tintColor != .white {
                 
                 guard let name = button.restorationIdentifier else {
                     return
                 }
+                
+                print(button.restorationIdentifier)
                 
                 icon = name
                 
@@ -93,7 +97,13 @@ class CreateCategoryViewController: UIViewController {
                     return
                 }
                 
+                
+                print("background color - \(button.backgroundColor?.hashValue)")
+                
                 color = hexStringFromColor(color: buttonColor)
+                print("aaaaa")
+                print(buttonColor.toHexString())
+                
             
             }
         }
@@ -110,6 +120,10 @@ class CreateCategoryViewController: UIViewController {
         guard let name = nameOfCategory.text else {
             return
         }
+        
+        print("icon = \(icon)")
+        print("name = \(name)")
+        print("color = \(color)")
         
         if (icon == "" || name == "" || color == "") {
             dialogWindow(message: "Please fill all the fields!", title: "Error")
@@ -171,6 +185,19 @@ extension CreateCategoryViewController{
      }
 
     
+}
+
+extension UIColor {
+    func toHexString() -> String {
+            var r:CGFloat = 0
+            var g:CGFloat = 0
+            var b:CGFloat = 0
+            var a:CGFloat = 0
+            getRed(&r, green: &g, blue: &b, alpha: &a)
+            let rgb:Int = (Int)(r*255)<<16 | (Int)(g*255)<<8 | (Int)(b*255)<<0
+
+            return String(format:"#%06x", rgb)
+        }
 }
 
 

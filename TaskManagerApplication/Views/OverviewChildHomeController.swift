@@ -27,7 +27,9 @@ class OverviewChildHomeController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-       
+        //tableView.register(CategoryTableViewCell.nib(), forCellReuseIdentifier: CategoryTableViewCell.identifier)
+        
+        
         categories = RealmHandler.shared.getAllCategories()
         print(categories)
         
@@ -107,25 +109,16 @@ extension OverviewChildHomeController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         print("You tapped \(indexPath.row)")
-        //RealmHandler.shared.createNoteWith(title: "Swag Note", text: "Ne", favourite: false, category: categories[categories.count - (1 + indexPath.row)])
-       // RealmHandler.shared.getAllNotesForCategory(name: categories[categories.count - (1 + indexPath.row)].getTitle())
-        //let destinationVC = CategoryViewController()
-//        RealmHandler.shared.createQuickNoteWith(title: "Quick note", text: "swag", favourite: false)
-       // RealmHandler.shared.updateCategoryWith(ID: categories[categories.count - (1 + indexPath.row)].getID())
+
         let destinationVC = storyboard?.instantiateViewController(withIdentifier: "CategoryViewController") as! CategoryViewController
         selectionDelegate = destinationVC
-        //destinationVC.modalPresentationStyle = UIModalPresentationStyle.overCurrentContext
-       // destinationVC.modalTransitionStyle = UIModalTransitionStyle.crossDissolve
+
         
         let passTitle = categories[categories.count - (1 + indexPath.row)].getTitle()
      
         let notes = RealmHandler.shared.getAllNotesForCategory(name: passTitle)
-        //destinationVC.title = "\(categories[categories.count - (1 + indexPath.row)])"
         selectionDelegate.didSelectCategoryWith(name: passTitle, notes: notes)
         self.navigationController?.pushViewController(destinationVC, animated: true)
-       // present(destinationVC, animated: true, completion: nil)
-        
-        //self.performSegue(withIdentifier: "test", sender: self)
     }
     
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
@@ -155,22 +148,49 @@ extension OverviewChildHomeController: UITableViewDelegate {
 extension OverviewChildHomeController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        return categories.count
+        return categories.count - 1
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "categoryCell", for: indexPath)
-        cell.textLabel?.text = categories[categories.count - (1+indexPath.row)].getTitle()
-       // cell.contentView.backgroundColor = stringToUIColorWith(hex: categories[categories.count - 1].getColor())
-        //cell.backgroundColor = .red
-        print(categories[categories.count-1].getColor())
-        cell.contentView.backgroundColor = hexStringToUIColor(hex: categories[categories.count-(1+indexPath.row)].getColor())
+        let cell = tableView.dequeueReusableCell(withIdentifier: CategoryTableViewCell.identifier, for: indexPath) as! CategoryTableViewCell
+        cell.configureWith(title: categories[categories.count - (1+indexPath.row)].getTitle(),
+                           imageName: categories[categories.count-(1+indexPath.row)].icon,
+                           color: OverviewChildHomeController.hexStringToUIColor(hex: categories[categories.count-(1+indexPath.row)].getColor()))
         return cell
+    }
+    
+    
+    
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+
+        let cell = tableView.dequeueReusableCell(withIdentifier: CategoryTableViewCell.identifier) as! CategoryTableViewCell
+
+        let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(handleTap))
+        
+        cell.configureWith(title: categories[0].getTitle(), imageName: categories[0].icon, color: OverviewChildHomeController.hexStringToUIColor(hex: categories[0].getColor()))
+        
+        cell.addGestureRecognizer(tapRecognizer)
+        return cell
+     
+    }
+    
+    @objc func handleTap(gestureRecognizer: UIGestureRecognizer) {
+        let destinationVC = storyboard?.instantiateViewController(withIdentifier: "CategoryViewController") as! CategoryViewController
+        selectionDelegate = destinationVC
+        //destinationVC.modalPresentationStyle = UIModalPresentationStyle.overCurrentContext
+       // destinationVC.modalTransitionStyle = UIModalTransitionStyle.crossDissolve
+        
+        let passTitle = categories[0].getTitle()
+     
+        let notes = RealmHandler.shared.getAllNotesForCategory(name: passTitle)
+        //destinationVC.title = "\(categories[categories.count - (1 + indexPath.row)])"
+        selectionDelegate.didSelectCategoryWith(name: passTitle, notes: notes)
+        self.navigationController?.pushViewController(destinationVC, animated: true)
     }
 }
 
 extension OverviewChildHomeController {
-    func hexStringToUIColor (hex:String) -> UIColor {
+    static func hexStringToUIColor (hex:String) -> UIColor {
         var cString:String = hex.trimmingCharacters(in: .whitespacesAndNewlines).uppercased()
 
         if (cString.hasPrefix("#")) {
@@ -192,45 +212,20 @@ extension OverviewChildHomeController {
         )
     }
     
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "test" {
-            if let kid = segue.destination as? CategoryViewController {
-                selectionDelegate = kid
-                //kid.title = categoryTitle
 
-            }
-        } else if (segue.identifier == "editWindow") {
-            if let editCategory = segue.destination as? CreateCategoryViewController {
-                //print(categoryTitle)
-                //print("heree")
-              //  editCategory.nameOfCategory.text = "swag"
-                // editCategory.editNameCategory = categoryTitle
-               // editCategory.title = "Edit Category"
-                
-            }
-        }
-    }
 }
 
 
 extension OverviewChildHomeController: categoryActionDelegate {
+    func didChangeCategory(currCategory: Category, currNote: Note) {
+        return
+    }
+    
+    
     func didCreateCategory(category: Category) {
-        //print(categories)
         RealmHandler.shared.createCategoryWith(title: category.title, color: category.color, icon: category.icon)
         self.categories = RealmHandler.shared.getAllCategories()
-      //  print(self.categories)
-       
-            //quick notes da e otgore vinagi
-          //  self.categories.swapAt(0, 1
-
-       // tableView.reloadData()
-     //   tableView.beginUpdates()
-      //  tableView.insertRows(at: [IndexPath.init(row: 1, section: 0)], with: .automatic)
-      //  tableView.endUpdates()
         tableView.reloadData()
-       // self.categories.swapAt(0, categories.count-1)
-       // print(self.categories)
-        
     }
     
     func didEditCategory(categories: Array<Category>) {
