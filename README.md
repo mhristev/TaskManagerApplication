@@ -1,6 +1,7 @@
 # TaskManagerApplication
 ## TODO: <br />
 mark note as favourite <br/>
+fix protocols <br /> <br />
 ~~add to folder~~ <br />
 ~~check for filled boxes, while creating category~~ <br />
 ~~edit category functionality~~ <br />
