@@ -1,6 +1,6 @@
 # TaskManagerApplication
-## TODO:__
-mark note as favourite__
+## TODO: <br />
+mark note as favourite <br/>
 ~~add to folder~~__
 ~~check for filled boxes, while creating category~~
 ~~edit category functionality~~
