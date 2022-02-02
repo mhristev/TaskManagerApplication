@@ -1,8 +1,8 @@
 # TaskManagerApplication
 ## TODO: <br />
 mark note as favourite <br/>
-force quit from note view (save text?) <br />
-fix protocols <br /> <br />
+force quit from note view (save text?) <br /> <br />
+~~fix protocols~~ <br /> 
 ~~add to folder~~ <br />
 ~~check for filled boxes, while creating category~~ <br />
 ~~edit category functionality~~ <br />
