@@ -6,26 +6,41 @@
 //
 
 import UIKit
-
+import RealmSwift
 
 
 class NoteViewController: UIViewController {
-
+    
+    let fontSize = 20.0
+    
+    @IBOutlet var favouriteButton: UIButton!
     @IBOutlet var toolbarView: UIView!
     @IBOutlet var textView: UITextView!
     
-    
-    
-    
     var currNoteID: String?
+    let realm = try! Realm()
+    
+    @IBOutlet var metaInformation: UILabel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        textView.allowsEditingTextAttributes = true
+      //  textView.delegate = self
 
-
+        
         if currNoteID != nil {
-            let note = RealmHandler.shared.getNoteWith(ID: currNoteID!)
-            textView.text = note?.text
+            guard let note = RealmHandler.shared.getNoteWith(ID: currNoteID!) else {
+                return
+            }
+            textView.attributedText = try? note.unarchiveAttrString()
+            
+            let f = DateFormatter()
+            f.dateFormat = "yyy-MM-dd HH:mm:ss"
+            
+           
+            
+            metaInformation.text = "created at: \(f.string(from: note.createdAt as Date))\nupdated at: \(f.string(from: note.updatedAt as Date)) \nrevisions: \(note.revisions)\n"
+//            self.textView.font = UIFont(name: self.textView.font!.fontName, size: self.fontSize)
         }
         
         textView.inputAccessoryView = toolbarView
@@ -43,6 +58,18 @@ class NoteViewController: UIViewController {
 
         // Do any additional setup after loading the view.
     }
+    
+    @IBAction func addToFavourite(_ sender: UIButton) {
+        
+       // print(sender.imageView)
+       // let title = sender.accessibilityLabel!
+        if ((sender.currentImage?.isEqual(UIImage(named: "heart"))) != nil) {
+            
+            sender.setImage( UIImage(named: "heart.fill"), for: .normal)
+        }
+    }
+    
+    
     @objc func adjustForKeyboard(notification: Notification) {
         guard let keyboardValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue else { return }
 
@@ -62,7 +89,59 @@ class NoteViewController: UIViewController {
     }
     
     
+    // title = 34
+    // heading =
+    @IBAction func boldButton(_ sender: UIButton) {
+        
+        if let text = textView {
+                    let range = text.selectedRange
+                            let string = NSMutableAttributedString(attributedString:
+                             textView.attributedText)
+                            let boldAttribute = [
+                                NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: self.fontSize)
+                             ]
+                              string.addAttributes(boldAttribute, range: textView.selectedRange)
+                            textView.attributedText = string
+                              textView.selectedRange = range
+                           
+        }
+    }
+    
+    @IBAction func italicButton(_ sender: UIButton) {
+        
+        if let text = textView {
+                    let range = text.selectedRange
 
+                            let string = NSMutableAttributedString(attributedString:
+                             textView.attributedText)
+            
+                            let italicAttribute = [
+                                NSAttributedString.Key.font: UIFont.italicSystemFont(ofSize: self.fontSize)
+                             ]
+                              string.addAttributes(italicAttribute, range: textView.selectedRange)
+                            textView.attributedText = string
+                              textView.selectedRange = range
+                           
+        }
+            
+    }
+    
+    @IBAction func underlineButton(_ sender: UIButton) {
+        
+        if let text = textView {
+                    let range = text.selectedRange
+                            let string = NSMutableAttributedString(attributedString:
+                             textView.attributedText)
+                    let underlineAttribute = [NSAttributedString.Key.underlineStyle: NSUnderlineStyle.thick.rawValue]
+                             
+                              string.addAttributes(underlineAttribute, range: textView.selectedRange)
+                            textView.attributedText = string
+                              textView.selectedRange = range
+                           
+        }
+    }
+    
+    
     
     
     override func willMove(toParent parent: UIViewController?) {
@@ -75,13 +154,15 @@ class NoteViewController: UIViewController {
             
             
             let title = textView.text.trimmingCharacters(in: .whitespacesAndNewlines).components(separatedBy: .newlines).first ?? ""
-            let text = textView.text ?? ""
+            let text = textView.attributedText
+            
             
             if currNoteID != nil {
-                if text == "" {
+                if text?.string == "" {
                     RealmHandler.shared.deleteNoteWith(ID: currNoteID!)
                 }else {
-                    RealmHandler.shared.updateNoteWith(ID: currNoteID!, title: title, text: text, favourite: false)
+                    RealmHandler.shared.updateNoteWith(ID: currNoteID!, title: title, attrText: text ?? NSAttributedString(""), favourite: false)
+                  
                 }
             }
             
@@ -104,17 +185,26 @@ class NoteViewController: UIViewController {
 
 
 
-extension NoteViewController: createNoteDelegate {
+extension NoteViewController: noteActionDelegate {
     func didUpdateNoteCategory(notes: Array<Note>) {
         return
     }
     
     func didCreateNoteWith(ID: String) {
         self.currNoteID = ID
-        
-       // self.textView.text = "bhjbhjbbhjbh"
-        print(ID)
     }
 }
 
-
+/*
+extension NoteViewController: UITextViewDelegate {
+    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+      
+        if (text == "\n") {
+            
+           // self.textView.font = UIFont(name: self.textView.font!.fontName, size: 18)
+            return false
+        }
+        return true
+    }
+}
+*/

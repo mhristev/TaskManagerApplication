@@ -16,7 +16,7 @@ protocol categorySelectionDelegate {
 class OverviewChildHomeController: UIViewController {
     
     
-    var selectionDelegate: categorySelectionDelegate!
+    var selectionDelegate: categoryActionDelegate!
     
     @IBOutlet var tableView: UITableView!
     
@@ -91,7 +91,7 @@ extension OverviewChildHomeController: UITableViewDelegate {
        // destinationVC.viewDidLoad()
         selectionDelegate = destinationVC
         
-        guard let category = RealmHandler.shared.getCategoryWith(name: categories[categories.count - (1 + indexPath.row)].getTitle()) else {
+        guard let category = RealmHandler.shared.getCategoryWith(name: categories[categories.count - (1 + indexPath.row)].getName()) else {
             return
         }
         
@@ -112,12 +112,13 @@ extension OverviewChildHomeController: UITableViewDelegate {
 
         let destinationVC = storyboard?.instantiateViewController(withIdentifier: "CategoryViewController") as! CategoryViewController
         selectionDelegate = destinationVC
-
         
-        let passTitle = categories[categories.count - (1 + indexPath.row)].getTitle()
-     
-        let notes = RealmHandler.shared.getAllNotesForCategory(name: passTitle)
+        
+        let passTitle = categories[categories.count - (1 + indexPath.row)].getName()
+        
+        let notes = RealmHandler.shared.getAllNotesInCategoryWith(name: passTitle)
         selectionDelegate.didSelectCategoryWith(name: passTitle, notes: notes)
+    
         self.navigationController?.pushViewController(destinationVC, animated: true)
     }
     
@@ -153,7 +154,7 @@ extension OverviewChildHomeController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: CategoryTableViewCell.identifier, for: indexPath) as! CategoryTableViewCell
-        cell.configureWith(title: categories[categories.count - (1+indexPath.row)].getTitle(),
+        cell.configureWith(title: categories[categories.count - (1+indexPath.row)].getName(),
                            imageName: categories[categories.count-(1+indexPath.row)].icon,
                            color: OverviewChildHomeController.hexStringToUIColor(hex: categories[categories.count-(1+indexPath.row)].getColor()))
         return cell
@@ -167,7 +168,7 @@ extension OverviewChildHomeController: UITableViewDataSource {
 
         let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(handleTap))
         
-        cell.configureWith(title: categories[0].getTitle(), imageName: categories[0].icon, color: OverviewChildHomeController.hexStringToUIColor(hex: categories[0].getColor()))
+        cell.configureWith(title: categories[0].getName(), imageName: categories[0].icon, color: OverviewChildHomeController.hexStringToUIColor(hex: categories[0].getColor()))
         
         cell.addGestureRecognizer(tapRecognizer)
         return cell
@@ -180,9 +181,9 @@ extension OverviewChildHomeController: UITableViewDataSource {
         //destinationVC.modalPresentationStyle = UIModalPresentationStyle.overCurrentContext
        // destinationVC.modalTransitionStyle = UIModalTransitionStyle.crossDissolve
         
-        let passTitle = categories[0].getTitle()
+        let passTitle = categories[0].getName()
      
-        let notes = RealmHandler.shared.getAllNotesForCategory(name: passTitle)
+        let notes = RealmHandler.shared.getAllNotesInCategoryWith(name: passTitle)
         //destinationVC.title = "\(categories[categories.count - (1 + indexPath.row)])"
         selectionDelegate.didSelectCategoryWith(name: passTitle, notes: notes)
         self.navigationController?.pushViewController(destinationVC, animated: true)
@@ -217,13 +218,26 @@ extension OverviewChildHomeController {
 
 
 extension OverviewChildHomeController: categoryActionDelegate {
+    func didSelectCategoryWith(name: String, notes: Array<Note>) {
+        return
+    }
+    
+    func didEditCategory(category: Category) {
+        return
+    }
+    
     func didChangeCategory(currCategory: Category, currNote: Note) {
         return
     }
     
     
     func didCreateCategory(category: Category) {
-        RealmHandler.shared.createCategoryWith(title: category.title, color: category.color, icon: category.icon)
+        do {
+            try RealmHandler.shared.createCategoryWith(name: category.name, color: category.color, icon: category.icon)
+        } catch {
+            print("creating didcreatecategory error")
+        }
+        
         self.categories = RealmHandler.shared.getAllCategories()
         tableView.reloadData()
     }

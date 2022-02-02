@@ -7,11 +7,7 @@
 
 import UIKit
 
-protocol categoryActionDelegate {
-    func didEditCategory(categories: Array<Category>)
-    func didCreateCategory(category: Category)
-    func didChangeCategory(currCategory: Category, currNote: Note)
-}
+
 
 
 class CreateCategoryViewController: UIViewController {
@@ -37,7 +33,7 @@ class CreateCategoryViewController: UIViewController {
        
         if (editCategory != nil) {
             titleViewController.text = "Edit Category"
-            nameOfCategory.text = editCategory?.title
+            nameOfCategory.text = editCategory?.getName()
             buttonCreate.setTitle("Edit", for: .normal)
             for button in colorButtons {
                 if (hexStringFromColor(color: button.backgroundColor!) == editCategory?.color) {
@@ -50,6 +46,7 @@ class CreateCategoryViewController: UIViewController {
             for icon in iconButtons {
                 if (icon.restorationIdentifier == editCategory?.icon) {
                     icon.tintColor = .blue
+                    icon.layer.borderWidth = 2
                     break
                 }
             }
@@ -66,8 +63,15 @@ class CreateCategoryViewController: UIViewController {
     }
     
     @IBAction func iconSelected(_ sender: UIButton) {
-        iconButtons.forEach({$0.tintColor = .white})
+        for button in iconButtons {
+            button.tintColor = .white
+            button.layer.borderWidth = 0
+        }
+        
+        //iconButtons.forEach({$0.tintColor = .white })
         sender.tintColor = .blue
+        sender.layer.borderWidth = 2
+       // sender.layer.borderColor = UIColor(red: 255, green: 255, blue: 255, alpha: 0).cgColor
     }
     
     
@@ -76,14 +80,12 @@ class CreateCategoryViewController: UIViewController {
         var color: String = ""
         
         for button in iconButtons {
-            print("tintcolor = \(button.tintColor)")
-            if button.tintColor != .white {
+            
+            if button.layer.borderWidth == 2 {
                 
                 guard let name = button.restorationIdentifier else {
                     return
                 }
-                
-                print(button.restorationIdentifier)
                 
                 icon = name
                 
@@ -98,11 +100,10 @@ class CreateCategoryViewController: UIViewController {
                 }
                 
                 
-                print("background color - \(button.backgroundColor?.hashValue)")
+               
                 
                 color = hexStringFromColor(color: buttonColor)
-                print("aaaaa")
-                print(buttonColor.toHexString())
+                
                 
             
             }
@@ -133,10 +134,10 @@ class CreateCategoryViewController: UIViewController {
         if (editCategory == nil) {
             //RealmHandler.shared.createCategoryWith(title: name, color: color, icon: icon)
             //var categories = RealmHandler.shared.getAllCategories()
-            var category = Category(title: name, color: color, icon: icon)
+            var category = Category(name: name, color: color, icon: icon)
             categoryDelegate.didCreateCategory(category: category)
         } else {
-            RealmHandler.shared.updateCategoryWith(ID: editCategory!.id, title: name, icon: icon, color: color)
+            RealmHandler.shared.updateCategoryWith(ID: editCategory!.id, name: name, icon: icon, color: color)
             var categories = RealmHandler.shared.getAllCategories()
             categoryDelegate.didEditCategory(categories: categories)
         }
@@ -201,7 +202,19 @@ extension UIColor {
 }
 
 
-extension CreateCategoryViewController: categorySelectionDelegate {
+extension CreateCategoryViewController: categoryActionDelegate {
+    func didEditCategory(categories: Array<Category>) {
+        return
+    }
+    
+    func didCreateCategory(category: Category) {
+        return
+    }
+    
+    func didChangeCategory(currCategory: Category, currNote: Note) {
+        return
+    }
+    
     func didSelectCategoryWith(name: String, notes: Array<Note>) {
         return
     }

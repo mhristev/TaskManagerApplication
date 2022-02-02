@@ -13,6 +13,8 @@
 		02065E4027A6B0FA009184BC /* CategoryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02065E3E27A6B0FA009184BC /* CategoryTableViewCell.swift */; };
 		020A52F0276B3C1700257A6C /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = 020A52EF276B3C1700257A6C /* GoogleSignIn */; };
 		0213407827662E1D002C2EBB /* LoginFormViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0213407727662E1D002C2EBB /* LoginFormViewController.swift */; };
+		0215036227AB0A5E00086D5D /* CategoryActionDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0215036127AB0A5E00086D5D /* CategoryActionDelegate.swift */; };
+		0215036427AB0B0C00086D5D /* NoteActionDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0215036327AB0B0C00086D5D /* NoteActionDelegate.swift */; };
 		022E09AD279C869800484A94 /* GalleryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 022E09AC279C869800484A94 /* GalleryViewController.swift */; };
 		0239B7492795F06A00CCEC2D /* RemindersChildHomeController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0239B7482795F06A00CCEC2D /* RemindersChildHomeController.swift */; };
 		024EDCCB2764C8F900B73D98 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 024EDCCA2764C8F900B73D98 /* AppDelegate.swift */; };
@@ -51,6 +53,7 @@
 		027DEF48279D75CF0062AA08 /* CreateCategoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 027DEF47279D75CF0062AA08 /* CreateCategoryViewController.swift */; };
 		029847CC27A170970046B90F /* Note.swift in Sources */ = {isa = PBXBuildFile; fileRef = 029847CB27A170970046B90F /* Note.swift */; };
 		029847CF27A171CF0046B90F /* RealmHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 029847CE27A171CF0046B90F /* RealmHandler.swift */; };
+		0298891827A93F8E0083E959 /* CreateReminderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0298891727A93F8E0083E959 /* CreateReminderViewController.swift */; };
 		02C0202527957C2800AEA028 /* OverviewChildHomeController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02C0202427957C2700AEA028 /* OverviewChildHomeController.swift */; };
 		02C5BA7E279F06E70091DDD4 /* Category.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02C5BA7D279F06E70091DDD4 /* Category.swift */; };
 		02C5BA81279F26630091DDD4 /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 02C5BA80279F26630091DDD4 /* RealmSwift */; };
@@ -62,6 +65,8 @@
 		02065E3927A6A31E009184BC /* AddToCategoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddToCategoryViewController.swift; sourceTree = "<group>"; };
 		02065E3E27A6B0FA009184BC /* CategoryTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryTableViewCell.swift; sourceTree = "<group>"; };
 		0213407727662E1D002C2EBB /* LoginFormViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginFormViewController.swift; sourceTree = "<group>"; };
+		0215036127AB0A5E00086D5D /* CategoryActionDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryActionDelegate.swift; sourceTree = "<group>"; };
+		0215036327AB0B0C00086D5D /* NoteActionDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteActionDelegate.swift; sourceTree = "<group>"; };
 		022E09AC279C869800484A94 /* GalleryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GalleryViewController.swift; sourceTree = "<group>"; };
 		0239B7482795F06A00CCEC2D /* RemindersChildHomeController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemindersChildHomeController.swift; sourceTree = "<group>"; };
 		024EDCC72764C8F900B73D98 /* TaskManagerApplication.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TaskManagerApplication.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -76,6 +81,7 @@
 		027DEF47279D75CF0062AA08 /* CreateCategoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateCategoryViewController.swift; sourceTree = "<group>"; };
 		029847CB27A170970046B90F /* Note.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Note.swift; sourceTree = "<group>"; };
 		029847CE27A171CF0046B90F /* RealmHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmHandler.swift; sourceTree = "<group>"; };
+		0298891727A93F8E0083E959 /* CreateReminderViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateReminderViewController.swift; sourceTree = "<group>"; };
 		02C0202427957C2700AEA028 /* OverviewChildHomeController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverviewChildHomeController.swift; sourceTree = "<group>"; };
 		02C5BA7D279F06E70091DDD4 /* Category.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Category.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -127,6 +133,15 @@
 			path = TableViewCells;
 			sourceTree = "<group>";
 		};
+		0215036027AB0A2800086D5D /* Protocols */ = {
+			isa = PBXGroup;
+			children = (
+				0215036127AB0A5E00086D5D /* CategoryActionDelegate.swift */,
+				0215036327AB0B0C00086D5D /* NoteActionDelegate.swift */,
+			);
+			path = Protocols;
+			sourceTree = "<group>";
+		};
 		024EDCBE2764C8F900B73D98 = {
 			isa = PBXGroup;
 			children = (
@@ -146,8 +161,9 @@
 		024EDCC92764C8F900B73D98 /* TaskManagerApplication */ = {
 			isa = PBXGroup;
 			children = (
+				0215036027AB0A2800086D5D /* Protocols */,
 				02065E3D27A6B0DF009184BC /* TableViewCells */,
-				029847CD27A171B80046B90F /* RealmDB */,
+				029847CD27A171B80046B90F /* Databases */,
 				02C5BA7C279F06CE0091DDD4 /* Models */,
 				024EDD1727650E0C00B73D98 /* Views */,
 				024EDCCA2764C8F900B73D98 /* AppDelegate.swift */,
@@ -173,16 +189,17 @@
 				027DEF47279D75CF0062AA08 /* CreateCategoryViewController.swift */,
 				02029EA0279E02FD00A29A07 /* NoteViewController.swift */,
 				02065E3927A6A31E009184BC /* AddToCategoryViewController.swift */,
+				0298891727A93F8E0083E959 /* CreateReminderViewController.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
 		};
-		029847CD27A171B80046B90F /* RealmDB */ = {
+		029847CD27A171B80046B90F /* Databases */ = {
 			isa = PBXGroup;
 			children = (
 				029847CE27A171CF0046B90F /* RealmHandler.swift */,
 			);
-			path = RealmDB;
+			path = Databases;
 			sourceTree = "<group>";
 		};
 		02C5BA7C279F06CE0091DDD4 /* Models */ = {
@@ -308,13 +325,16 @@
 				026E229C27690C83001B0ACD /* HomeViewController.swift in Sources */,
 				02065E4027A6B0FA009184BC /* CategoryTableViewCell.swift in Sources */,
 				022E09AD279C869800484A94 /* GalleryViewController.swift in Sources */,
+				0215036227AB0A5E00086D5D /* CategoryActionDelegate.swift in Sources */,
 				029847CF27A171CF0046B90F /* RealmHandler.swift in Sources */,
 				027DEF48279D75CF0062AA08 /* CreateCategoryViewController.swift in Sources */,
 				0213407827662E1D002C2EBB /* LoginFormViewController.swift in Sources */,
 				02029EA1279E02FD00A29A07 /* NoteViewController.swift in Sources */,
 				024EDCCD2764C8F900B73D98 /* SceneDelegate.swift in Sources */,
 				02065E3A27A6A31E009184BC /* AddToCategoryViewController.swift in Sources */,
+				0215036427AB0B0C00086D5D /* NoteActionDelegate.swift in Sources */,
 				02C5BA7E279F06E70091DDD4 /* Category.swift in Sources */,
+				0298891827A93F8E0083E959 /* CreateReminderViewController.swift in Sources */,
 				029847CC27A170970046B90F /* Note.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

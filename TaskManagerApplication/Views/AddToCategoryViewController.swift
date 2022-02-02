@@ -13,7 +13,7 @@ class AddToCategoryViewController: UIViewController {
     var currCategory: Category!
     var currNote: Note!
     
-    var noteDelegate: createNoteDelegate!
+    var noteDelegate: noteActionDelegate!
     
     @IBOutlet var tableView: UITableView!
     
@@ -46,11 +46,11 @@ extension AddToCategoryViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: CategoryTableViewCell.identifier, for: indexPath) as! CategoryTableViewCell
-        cell.configureWith(title: categories[categories.count - (1+indexPath.row)].getTitle(),
+        cell.configureWith(title: categories[categories.count - (1+indexPath.row)].getName(),
                            imageName: categories[categories.count-(1+indexPath.row)].icon,
                            color: OverviewChildHomeController.hexStringToUIColor(hex: categories[categories.count-(1+indexPath.row)].getColor()))
         
-        if cell.titleLabel.text == currCategory.getTitle() {
+        if cell.titleLabel.text == currCategory.getName() {
             cell.isUserInteractionEnabled = false
             cell.titleLabel.isEnabled = false
         }
@@ -65,11 +65,11 @@ extension AddToCategoryViewController: UITableViewDataSource {
 extension AddToCategoryViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         print("You tapped \(indexPath.row)")
-        if let newCategory = RealmHandler.shared.getCategoryWith(name: categories[categories.count - (1+indexPath.row)].getTitle()) {
-            RealmHandler.shared.updateNoteCategory(note: currNote, category: newCategory)
+        if let newCategory = RealmHandler.shared.getCategoryWith(name: categories[categories.count - (1+indexPath.row)].getName()) {
+            RealmHandler.shared.updateNotesCategory(note: currNote, category: newCategory)
         }
         
-        noteDelegate.didUpdateNoteCategory(notes: RealmHandler.shared.getAllNotesForCategory(name: currCategory.getTitle()))
+        noteDelegate.didUpdateNoteCategory(notes: RealmHandler.shared.getAllNotesInCategoryWith(name: currCategory.getName()))
         
         dismiss(animated: true, completion: nil)
     }
@@ -77,6 +77,14 @@ extension AddToCategoryViewController: UITableViewDelegate {
 
 
 extension AddToCategoryViewController: categoryActionDelegate {
+    func didSelectCategoryWith(name: String, notes: Array<Note>) {
+        return
+    }
+    
+    func didEditCategory(category: Category) {
+        return
+    }
+    
     func didEditCategory(categories: Array<Category>) {
         return
     }
