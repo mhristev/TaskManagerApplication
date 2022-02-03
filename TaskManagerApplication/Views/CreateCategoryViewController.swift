@@ -6,14 +6,14 @@
 //
 
 import UIKit
-
+import RealmSwift
 
 
 
 class CreateCategoryViewController: UIViewController {
 
     var categoryDelegate: categoryActionDelegate!
-    
+    let realm = try! Realm(configuration: RealmHandler.configurationHelper(), queue: nil)
     var editCategory: Category? = nil
     
     @IBOutlet var createCategoryButton: UIButton!
@@ -137,8 +137,8 @@ class CreateCategoryViewController: UIViewController {
             var category = Category(name: name, color: color, icon: icon)
             categoryDelegate.didCreateCategory(category: category)
         } else {
-            RealmHandler.shared.updateCategoryWith(ID: editCategory!.id, name: name, icon: icon, color: color)
-            var categories = RealmHandler.shared.getAllCategories()
+            RealmHandler.shared.updateCategoryWith(ID: editCategory!.id, name: name, icon: icon, color: color, inRealmObject: realm)
+            var categories = RealmHandler.shared.getAllCategories(inRealmObject: realm)
             categoryDelegate.didEditCategory(categories: categories)
         }
         

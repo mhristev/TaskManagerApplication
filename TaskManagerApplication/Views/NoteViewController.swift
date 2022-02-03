@@ -12,13 +12,13 @@ import RealmSwift
 class NoteViewController: UIViewController {
     
     let fontSize = 20.0
-    
+    let realm = try! Realm(configuration: RealmHandler.configurationHelper(), queue: nil)
     @IBOutlet var favouriteButton: UIButton!
     @IBOutlet var toolbarView: UIView!
     @IBOutlet var textView: UITextView!
     
     var currNoteID: String?
-    let realm = try! Realm()
+    //let notes = try! Realm()
     
     @IBOutlet var metaInformation: UILabel!
     
@@ -29,7 +29,7 @@ class NoteViewController: UIViewController {
 
         
         if currNoteID != nil {
-            guard let note = RealmHandler.shared.getNoteWith(ID: currNoteID!) else {
+            guard let note = RealmHandler.shared.getNoteWith(ID: currNoteID!, inRealmObject: realm) else {
                 return
             }
             textView.attributedText = try? note.unarchiveAttrString()
@@ -63,8 +63,7 @@ class NoteViewController: UIViewController {
         
        // print(sender.imageView)
        // let title = sender.accessibilityLabel!
-        if ((sender.currentImage?.isEqual(UIImage(named: "heart"))) != nil) {
-            
+        if (sender.currentImage!.isEqual(UIImage(named: "heart"))) {
             sender.setImage( UIImage(named: "heart.fill"), for: .normal)
         }
     }
@@ -159,9 +158,9 @@ class NoteViewController: UIViewController {
             
             if currNoteID != nil {
                 if text?.string == "" {
-                    RealmHandler.shared.deleteNoteWith(ID: currNoteID!)
+                    RealmHandler.shared.deleteNoteWith(ID: currNoteID!, inRealmObject: realm)
                 }else {
-                    RealmHandler.shared.updateNoteWith(ID: currNoteID!, title: title, attrText: text ?? NSAttributedString(""), favourite: false)
+                    RealmHandler.shared.updateNoteWith(ID: currNoteID!, title: title, attrText: text ?? NSAttributedString(""), favourite: false, inRealmObject: realm)
                   
                 }
             }

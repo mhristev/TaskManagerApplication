@@ -13,8 +13,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     var window: UIWindow?
     
     
-
-
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         authenticate()
         // Use this method to optionally configure and attach the UIWindow `window` to the provided UIWindowScene `scene`.
@@ -24,17 +22,24 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
     func authenticate() {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let currentUser = Auth.auth().currentUser
-        
+       
+        //let userID : String = (Auth.auth().currentUser?.uid)!
+          //  print("Current user ID is " + userID)
        
         
-        if currentUser != nil {
+        if let currentUser = Auth.auth().currentUser {
             let welcomeVC = storyboard.instantiateViewController(identifier: "NavController") as! UINavigationController
+            RealmHandler.currUserID = currentUser.uid
+            print(currentUser.uid)
+            RealmHandler.shared.loadfirstConfiguration()
             self.window?.rootViewController = welcomeVC
             self.window?.makeKeyAndVisible()
         } else {
             let loginVC = storyboard.instantiateViewController(withIdentifier: "LoginFormViewController") as! LoginFormViewController
+            RealmHandler.currUserID = nil
+            
             self.window?.rootViewController = loginVC
+            print("HEAASA")
             self.window?.makeKeyAndVisible()
         }
     }
@@ -69,4 +74,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
 
 }
+
+
 

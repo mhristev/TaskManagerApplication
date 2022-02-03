@@ -6,9 +6,10 @@
 //
 
 import UIKit
+import RealmSwift
 
 class AddToCategoryViewController: UIViewController {
-    
+    let realm = try! Realm(configuration: RealmHandler.configurationHelper(), queue: nil)
     var categories: Array<Category> = []
     var currCategory: Category!
     var currNote: Note!
@@ -65,11 +66,11 @@ extension AddToCategoryViewController: UITableViewDataSource {
 extension AddToCategoryViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         print("You tapped \(indexPath.row)")
-        if let newCategory = RealmHandler.shared.getCategoryWith(name: categories[categories.count - (1+indexPath.row)].getName()) {
-            RealmHandler.shared.updateNotesCategory(note: currNote, category: newCategory)
+        if let newCategory = RealmHandler.shared.getCategoryWith(name: categories[categories.count - (1+indexPath.row)].getName(), inRealmObject: realm) {
+            RealmHandler.shared.update(note: currNote, inCategory: newCategory, inRealmObject: realm)
         }
         
-        noteDelegate.didUpdateNoteCategory(notes: RealmHandler.shared.getAllNotesInCategoryWith(name: currCategory.getName()))
+        noteDelegate.didUpdateNoteCategory(notes: RealmHandler.shared.getAllNotesInCategoryWith(name: currCategory.getName(), inRealmObject: realm))
         
         dismiss(animated: true, completion: nil)
     }
@@ -96,7 +97,7 @@ extension AddToCategoryViewController: categoryActionDelegate {
     func didChangeCategory(currCategory: Category, currNote: Note) {
         self.currCategory = currCategory
         self.currNote = currNote
-        self.categories = RealmHandler.shared.getAllCategories()
+        self.categories = RealmHandler.shared.getAllCategories(inRealmObject: realm)
     }
     
     

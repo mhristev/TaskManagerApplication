@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import RealmSwift
 
 
 protocol categorySelectionDelegate {
@@ -15,6 +16,7 @@ protocol categorySelectionDelegate {
 
 class OverviewChildHomeController: UIViewController {
     
+    let realm = try! Realm(configuration: RealmHandler.configurationHelper(), queue: nil)
     
     var selectionDelegate: categoryActionDelegate!
     
@@ -30,7 +32,7 @@ class OverviewChildHomeController: UIViewController {
         //tableView.register(CategoryTableViewCell.nib(), forCellReuseIdentifier: CategoryTableViewCell.identifier)
         
         
-        categories = RealmHandler.shared.getAllCategories()
+        categories = RealmHandler.shared.getAllCategories(inRealmObject: realm)
         print(categories)
         
         //self.becomeFirstResponder()
@@ -71,8 +73,8 @@ extension OverviewChildHomeController: UITableViewDelegate {
 
     private func handleMoveToTrash(indexPath: IndexPath) {
         
-        RealmHandler.shared.deleteCategoryWith(ID: categories[categories.count - (1 + indexPath.row)].getID())
-        categories = RealmHandler.shared.getAllCategories()
+        RealmHandler.shared.deleteCategoryWith(ID: categories[categories.count - (1 + indexPath.row)].getID(), inRealmObject: realm)
+        categories = RealmHandler.shared.getAllCategories(inRealmObject: realm)
         print(categories)
         tableView.beginUpdates()
         tableView.deleteRows(at: [indexPath], with: .fade)
@@ -91,7 +93,7 @@ extension OverviewChildHomeController: UITableViewDelegate {
        // destinationVC.viewDidLoad()
         selectionDelegate = destinationVC
         
-        guard let category = RealmHandler.shared.getCategoryWith(name: categories[categories.count - (1 + indexPath.row)].getName()) else {
+        guard let category = RealmHandler.shared.getCategoryWith(name: categories[categories.count - (1 + indexPath.row)].getName(), inRealmObject: realm) else {
             return
         }
         
@@ -116,7 +118,7 @@ extension OverviewChildHomeController: UITableViewDelegate {
         
         let passTitle = categories[categories.count - (1 + indexPath.row)].getName()
         
-        let notes = RealmHandler.shared.getAllNotesInCategoryWith(name: passTitle)
+        let notes = RealmHandler.shared.getAllNotesInCategoryWith(name: passTitle, inRealmObject: realm)
         selectionDelegate.didSelectCategoryWith(name: passTitle, notes: notes)
     
         self.navigationController?.pushViewController(destinationVC, animated: true)
@@ -183,7 +185,7 @@ extension OverviewChildHomeController: UITableViewDataSource {
         
         let passTitle = categories[0].getName()
      
-        let notes = RealmHandler.shared.getAllNotesInCategoryWith(name: passTitle)
+        let notes = RealmHandler.shared.getAllNotesInCategoryWith(name: passTitle, inRealmObject: realm)
         //destinationVC.title = "\(categories[categories.count - (1 + indexPath.row)])"
         selectionDelegate.didSelectCategoryWith(name: passTitle, notes: notes)
         self.navigationController?.pushViewController(destinationVC, animated: true)
@@ -233,12 +235,12 @@ extension OverviewChildHomeController: categoryActionDelegate {
     
     func didCreateCategory(category: Category) {
         do {
-            try RealmHandler.shared.createCategoryWith(name: category.name, color: category.color, icon: category.icon)
+            try RealmHandler.shared.createCategoryWith(name: category.name, color: category.color, icon: category.icon, inRealmObject: realm)
         } catch {
             print("creating didcreatecategory error")
         }
         
-        self.categories = RealmHandler.shared.getAllCategories()
+        self.categories = RealmHandler.shared.getAllCategories(inRealmObject: realm)
         tableView.reloadData()
     }
     

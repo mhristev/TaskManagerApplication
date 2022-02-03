@@ -11,8 +11,10 @@ import FirebaseAuth
 import RealmSwift
 
 class HomeViewController: UIViewController {
+    
     var newNoteDelegate: noteActionDelegate!
     
+    let realm = try! Realm(configuration: RealmHandler.configurationHelper(), queue: nil)
     @IBOutlet var overviewView: UIView!
     @IBOutlet var remindersView: UIView!
     
@@ -23,18 +25,13 @@ class HomeViewController: UIViewController {
     @IBOutlet var segmentRemindersOverview: UISegmentedControl!
     
     
-   
-    
     @IBAction func segmentAction(_ sender: UISegmentedControl) {
         switch segmentRemindersOverview.selectedSegmentIndex {
             
         case 1:
             remindersView.isHidden = false
             overviewView.isHidden = true
-            
-            
-            
-            
+               
            
         default:
             remindersView.isHidden = true
@@ -62,12 +59,12 @@ class HomeViewController: UIViewController {
     
     
     @IBAction func quickNoteAction(_ sender: Any) {
-        RealmHandler.shared.createNoteWith(title: "", text: NSAttributedString(""), favourite: false, categoryTitle: "Quick Notes")
+        RealmHandler.shared.createNoteWith(title: "", text: NSAttributedString(""), favourite: false, categoryName: "Quick Notes", inRealmObject: self.realm)
         
         let destinationVC = storyboard?.instantiateViewController(withIdentifier: "NoteViewController") as! NoteViewController
         newNoteDelegate = destinationVC
 
-       guard let note = RealmHandler.shared.getNoteWith(name: "") else {
+        guard let note = RealmHandler.shared.getNoteWith(name: "", inRealmObject: self.realm) else {
             return
        }
         //print(note.id)
@@ -79,7 +76,6 @@ class HomeViewController: UIViewController {
     
     
     @IBAction func signOutClicked(_ sender: UIButton) {
-        
         showCreateAccount()
         
     }
@@ -107,6 +103,7 @@ class HomeViewController: UIViewController {
                                       handler: {_ in
             do {
                 try Auth.auth().signOut()
+                //RealmHandler.currUserID = nil
                 self.presentLoginViewController()
                 
                 

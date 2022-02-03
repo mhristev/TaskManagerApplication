@@ -6,7 +6,7 @@
 //
 
 import UIKit
-
+import RealmSwift
 
 
 
@@ -21,6 +21,8 @@ class CategoryViewController: UIViewController {
     var categoryDelegate: categoryActionDelegate!
 
     var notes: Array<Note> = []
+    
+    let realm = try! Realm(configuration: RealmHandler.configurationHelper(), queue: nil)
 
     
     @IBOutlet var NotesInCategoryTableView: UITableView!
@@ -38,7 +40,7 @@ class CategoryViewController: UIViewController {
 
     @IBAction func createNote(_ sender: Any) {
     
-        RealmHandler.shared.createNoteWith(title: "", text: NSAttributedString(""), favourite: false, categoryTitle: self.title!)
+        RealmHandler.shared.createNoteWith(title: "", text: NSAttributedString(""), favourite: false, categoryName: self.title!, inRealmObject: realm)
         
         updateDataInTableView()
         
@@ -46,7 +48,7 @@ class CategoryViewController: UIViewController {
         let destinationVC = storyboard?.instantiateViewController(withIdentifier: "NoteViewController") as! NoteViewController
         newNoteDelegate = destinationVC
 
-        guard let note = RealmHandler.shared.getNoteWith(name: "") else {
+        guard let note = RealmHandler.shared.getNoteWith(name: "", inRealmObject: realm) else {
             return
         }
 
@@ -56,7 +58,7 @@ class CategoryViewController: UIViewController {
     }
     
     func updateDataInTableView() {
-        notes = RealmHandler.shared.getAllNotesInCategoryWith(name: self.title!)
+        notes = RealmHandler.shared.getAllNotesInCategoryWith(name: self.title!, inRealmObject: realm)
         NotesInCategoryTableView.reloadData()
     }
     
@@ -91,11 +93,11 @@ extension CategoryViewController: UITableViewDelegate {
         
         categoryDelegate = destinationVC
         
-        guard let category = RealmHandler.shared.getCategoryWith(name: self.title!) else {
+        guard let category = RealmHandler.shared.getCategoryWith(name: self.title!, inRealmObject: realm) else {
             return
         }
         
-        guard let note = RealmHandler.shared.getNoteWith(ID: notes[notes.count - (1 + indexPath.row)].getID()) else {
+        guard let note = RealmHandler.shared.getNoteWith(ID: notes[notes.count - (1 + indexPath.row)].getID(), inRealmObject: realm) else {
             return
         }
         
@@ -108,8 +110,8 @@ extension CategoryViewController: UITableViewDelegate {
 
     private func handleMoveToTrash(indexPath: IndexPath) {
         //NotesInCategoryTableView.beginUpdates()
-        RealmHandler.shared.deleteNoteWith(ID: notes[notes.count - (1 + indexPath.row)].getID())
-        notes = RealmHandler.shared.getAllNotesInCategoryWith(name: self.title!) 
+        RealmHandler.shared.deleteNoteWith(ID: notes[notes.count - (1 + indexPath.row)].getID(), inRealmObject: realm)
+        notes = RealmHandler.shared.getAllNotesInCategoryWith(name: self.title!, inRealmObject: realm) 
         NotesInCategoryTableView.beginUpdates()
         NotesInCategoryTableView.deleteRows(at: [indexPath], with: .fade)
         NotesInCategoryTableView.endUpdates()
@@ -170,7 +172,7 @@ extension CategoryViewController: UITableViewDelegate {
         let destinationVC = storyboard?.instantiateViewController(withIdentifier: "NoteViewController") as! NoteViewController
         newNoteDelegate = destinationVC
         
-        guard let note = RealmHandler.shared.getNoteWith(name: notes[notes.count - (1 + indexPath.row)].getTitle()) else {
+        guard let note = RealmHandler.shared.getNoteWith(name: notes[notes.count - (1 + indexPath.row)].getTitle(), inRealmObject: realm) else {
             return
         }
         //print(note.id)

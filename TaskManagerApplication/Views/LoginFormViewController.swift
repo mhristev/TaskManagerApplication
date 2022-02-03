@@ -47,6 +47,7 @@ class LoginFormViewController: UIViewController{
         emailTextField.delegate = self
         passwordTextField.delegate = self
         actionButton.layer.cornerRadius = 18
+        RealmHandler.currUserID = nil
        
     }
     
@@ -124,7 +125,7 @@ class LoginFormViewController: UIViewController{
                         return
                     }
                     
-                    let values = ["username": "", "ID": uid, "email" : email]
+                    let values = ["ID": uid, "email" : email]
                     
                     Firestore.firestore().collection("users").addDocument(data: values){ (error) in
                         if error != nil {
@@ -153,7 +154,15 @@ class LoginFormViewController: UIViewController{
                     //print("Failed to sign user in with error:", error.localizedDescription)
                     return
                 }
+                if let currentUser = Auth.auth().currentUser {
+                    RealmHandler.currUserID = currentUser.uid
+                    RealmHandler.shared.loadfirstConfiguration()
+                    print(currentUser.uid)
+                }
+                
+                
                 print("Succesfully logged user in..")
+                
                 self.presentWelcomeViewController()
              //   print("136")
                 
@@ -216,7 +225,11 @@ class LoginFormViewController: UIViewController{
             }
              
         }
-            
+        if let currentUser = Auth.auth().currentUser {
+            RealmHandler.currUserID = currentUser.uid
+            RealmHandler.shared.loadfirstConfiguration()
+            print(currentUser.uid)
+        }
         print("User is signed in...")
         self.presentWelcomeViewController()
         

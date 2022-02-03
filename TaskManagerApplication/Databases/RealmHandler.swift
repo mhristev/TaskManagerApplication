@@ -14,132 +14,154 @@ import RealmSwift
 
 class RealmHandler {
     static let shared = RealmHandler()
+    static var currUserID: String?
     
-    private let categories = try! Realm()
-    private let notes = try! Realm()
+   // private let categories = try! Realm()
+   // private let notes = try! Realm()
     
-    private init() {
-        if categories.objects(Category.self).isEmpty {
+    
+    func loadfirstConfiguration() {
+        guard let uuid = RealmHandler.currUserID else {
+            return
+        }
+        print(RealmHandler.currUserID)
+        //let categories = try! Realm(configuration: RealmHandler.configurationHelper(), queue: nil)
+        let realm = try! Realm(configuration: RealmHandler.configurationHelper(), queue: nil)
+        
+        if realm.objects(Category.self).isEmpty {
             do {
-                try createCategoryWith(name: "Quick Notes", color: "#1E63FF", icon: "folder.fill")
+                try createCategoryWith(name: "Quick Notes", color: "#1E63FF", icon: "folder.fill", inRealmObject: realm)
             } catch {
                 print(error.localizedDescription)
             }
         }
     }
     
-    func doesExistCategoryWith(name: String) -> Bool {
-        return (categories.objects(Category.self).filter("name == %@", name).first != nil)
+    static func configurationHelper() -> Realm.Configuration {
+        var config = Realm.Configuration()
+        if let uuid = RealmHandler.shared.getCurrUserID() {
+            config.fileURL = config.fileURL!.deletingLastPathComponent().appendingPathComponent("\(uuid).realm")
+        }
+        
+        return config
+    }
+    
+
+    
+    func getCurrUserID() -> String? {
+        return RealmHandler.currUserID
     }
     
     
-    func createCategoryWith(name: String, color: String, icon: String) throws {
-        print(categories.configuration.fileURL!.path)
+    func doesExistCategoryWith(name: String, inRealmObject: Realm) -> Bool {
+        return (inRealmObject.objects(Category.self).filter("name == %@", name).first != nil)
+    }
+    
+    
+    func createCategoryWith(name: String, color: String, icon: String, inRealmObject: Realm) throws {
+        print(inRealmObject.configuration.fileURL!.path)
         
-        if doesExistCategoryWith(name: name) {
+        if doesExistCategoryWith(name: name, inRealmObject: inRealmObject) {
             throw RealmError.existCategory
         }
         
         
-        try! categories.write() {
-            categories.add(Category(name: name, color: color, icon: icon))
+        try! inRealmObject.write() {
+            inRealmObject.add(Category(name: name, color: color, icon: icon))
         }
     }
     
-    func deleteCategoryWith(ID: String) {
-        if let category = categories.objects(Category.self).filter("id == %@", ID).first {
-            let notesInCategory = getAllNotesInCategoryWith(name: category.getName())
+    func deleteCategoryWith(ID: String, inRealmObject: Realm) {
+        if let category = inRealmObject.objects(Category.self).filter("id == %@", ID).first {
+            let notesInCategory = getAllNotesInCategoryWith(name: category.getName(), inRealmObject: inRealmObject)
             
-            try! notes.write() {
-                notes.delete(notesInCategory)
+            try! inRealmObject.write() {
+                inRealmObject.delete(notesInCategory)
             }
            
-            try! categories.write() {
-                categories.delete(category)
+            try! inRealmObject.write() {
+                inRealmObject.delete(category)
             }
      
         }
     }
     
-    func getAllCategories() -> Array<Category> {
-        return Array(categories.objects(Category.self))
+    func getAllCategories(inRealmObject: Realm) -> Array<Category> {
+        
+            //let realm = try! Realm(configuration: RealmHandler.configurationHelper(), queue: nil)
+        print(inRealmObject.objects(Category.self))
+        return Array(inRealmObject.objects(Category.self))
     }
     
-    func getAllNotesInCategoryWith(name: String) -> Array<Note> {
-        //print(notes.objects(Note.self).filter("category.title == %@", name))
-        return Array(notes.objects(Note.self).filter("category.name == %@", name))
+    func getAllNotesInCategoryWith(name: String, inRealmObject: Realm) -> Array<Note> {
+        return Array(inRealmObject.objects(Note.self).filter("category.name == %@", name))
     }
     
-    func getCategoryWith(name: String) -> Category? {
-        return categories.objects(Category.self).filter("name == %@", name).first
+    func getCategoryWith(name: String, inRealmObject: Realm) -> Category? {
+        return inRealmObject.objects(Category.self).filter("name == %@", name).first
     }
     
-    func updateCategoryWith(ID: String, name: String, icon: String, color: String) {
-        if let category = categories.objects(Category.self).filter("id == %@", ID).first {
-            try! categories.write() {
-                //categories.beginWrite()
+    func updateCategoryWith(ID: String, name: String, icon: String, color: String, inRealmObject: Realm) {
+        if let category = inRealmObject.objects(Category.self).filter("id == %@", ID).first {
+            try! inRealmObject.write() {
                 category.name = name
                 category.icon = icon
                 category.color = color
-               // try! categories.commitWrite()
             }
         }
     }
     
 
-    func createNoteWith(title: String, text: NSAttributedString, favourite: Bool, categoryTitle: String) {
-        print(notes.configuration.fileURL!.path)
+    func createNoteWith(title: String, text: NSAttributedString, favourite: Bool, categoryName: String, inRealmObject: Realm) {
+        print(inRealmObject.configuration.fileURL!.path)
         
-        if let foundCategory = categories.objects(Category.self).filter("name == %@", categoryTitle).first {
-            try! notes.write() {
-                notes.add(Note(title: title, attrText: text, favourite: favourite, category: foundCategory))
+        if let foundCategory = inRealmObject.objects(Category.self).filter("name == %@", categoryName).first {
+            try! inRealmObject.write() {
+                inRealmObject.add(Note(title: title, attrText: text, favourite: favourite, category: foundCategory))
             }
         }
     
     }
     
-    func updateNoteWith(ID: String, title: String, attrText: NSAttributedString, favourite: Bool) {
-        if let note = notes.objects(Note.self).filter("id == %@", ID).first {
+    func updateNoteWith(ID: String, title: String, attrText: NSAttributedString, favourite: Bool, inRealmObject: Realm) {
+        if let note = inRealmObject.objects(Note.self).filter("id == %@", ID).first {
             
-            try! notes.write() {
+            try! inRealmObject.write() {
                 note.attrStringData = try! note.archiveAttrString(attrString: attrText)
                 note.title = title
                 note.favourite = favourite
                 note.updatedAt = NSDate()
                 note.revisions += 1
             }
-            
-           
         }
     }
     
 
     
-    func getNoteWith(name: String) -> Note? {
-        return notes.objects(Note.self).filter("title == %@", name).first
+    func getNoteWith(name: String, inRealmObject: Realm) -> Note? {
+        return inRealmObject.objects(Note.self).filter("title == %@", name).first
     }
     
-    func getNoteWith(ID: String) -> Note? {
-        return notes.objects(Note.self).filter("id == %@", ID).first
+    func getNoteWith(ID: String, inRealmObject: Realm) -> Note? {
+        return inRealmObject.objects(Note.self).filter("id == %@", ID).first
     }
     
-    func deleteNoteWith(ID: String) {
-        if let note = categories.objects(Note.self).filter("id == %@", ID).first {
-            try! notes.write() {
-                notes.delete(note)
+    func deleteNoteWith(ID: String, inRealmObject: Realm) {
+        if let note = inRealmObject.objects(Note.self).filter("id == %@", ID).first {
+            try! inRealmObject.write() {
+                inRealmObject.delete(note)
             }
         }
     }
     
-    func updateNotesCategory(note: Note, category: Category) {
-        if let note = categories.objects(Note.self).filter("id == %@", note.id).first {
-            try! categories.write() {
-                note.category = category
+    func update(note: Note, inCategory: Category, inRealmObject: Realm) {
+        if let note = inRealmObject.objects(Note.self).filter("id == %@", note.id).first {
+            try! inRealmObject.write() {
+                note.category = inCategory
             }
         }
     }
     
 }
-
 
 
