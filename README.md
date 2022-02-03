@@ -10,7 +10,7 @@
 ## TODO: <br />
 
 mark note as favourite <br/>
-- realmhelper
+- realmhelper <br />
 -- helper method to init realm db by userId
 -- data method to accept realm db instance
 - note from attributes string -> to markdown text -> store in realm as string
