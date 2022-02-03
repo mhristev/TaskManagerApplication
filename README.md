@@ -8,7 +8,18 @@
 <br />
 
 ## TODO: <br />
+
 mark note as favourite <br/>
+- realmhelper
+-- helper method to init realm db by userId
+-- data method to accept realm db instance
+- note from attributes string -> to markdown text -> store in realm as string
+- ream file name to be the logged in user id
+- colors
+- reminder field in DB (model change in notes)
+- reminder remove fav, add only date time (datepicker ui only)
+- note, heart button to fav
+- reminder logic as notification
 force quit from note view (save text?) <br /> <br />
 ~~fix protocols~~ <br /> 
 ~~add to folder~~ <br />
