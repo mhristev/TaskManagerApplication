@@ -11,9 +11,12 @@ import FirebaseAuth
 
 class WelcomeViewController: UIViewController {
 
+    @IBOutlet var categoriesTableView: UITableView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        categoriesTableView.delegate = self
+        categoriesTableView.dataSource = self
 
         // Do any additional setup after loading the view.
     }
@@ -75,4 +78,27 @@ class WelcomeViewController: UIViewController {
     }
     */
 
+}
+
+
+extension WelcomeViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        print("You tapped \(indexPath.row)")
+        
+        self.performSegue(withIdentifier: "categoryView", sender: self)
+    }
+}
+
+
+extension WelcomeViewController: UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 1
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = categoriesTableView.dequeueReusableCell(withIdentifier: "categoryCell", for: indexPath)
+        
+        cell.textLabel?.text = "Quick Notes"
+        return cell
+    }
 }

@@ -16,25 +16,26 @@ class LoginFormViewController: UIViewController{
     @IBOutlet var actionButton: UIButton!
     @IBOutlet var titleForm: UILabel!
     
-    @IBOutlet var buttonForgotPassword: UIButton!
+   // @IBOutlet var buttonForgotPassword: UIButton!
     
     @IBOutlet var emailTextField: UITextField!
     @IBOutlet var passwordTextField: UITextField!
     
     
-    
-    
     @IBAction func segmentAction(_ sender: UISegmentedControl) {
+        
+        let titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
+        segmentController.setTitleTextAttributes(titleTextAttributes, for:.normal)
         
         switch segmentController.selectedSegmentIndex {
             
         case 1:
             actionButton.setTitle("Sign Up", for: .normal)
-            buttonForgotPassword.alpha = 0;
+          //  buttonForgotPassword.alpha = 0;
             titleForm.text = "Sign Up with your email and password"
         default:
             actionButton.setTitle("Sign In", for: .normal)
-            buttonForgotPassword.alpha = 1;
+          //  buttonForgotPassword.alpha = 1;
             titleForm.text = "Sign In with your email and password"
             
         }
@@ -43,7 +44,10 @@ class LoginFormViewController: UIViewController{
    
     override func viewDidLoad() {
         super.viewDidLoad()
+        emailTextField.delegate = self
+        passwordTextField.delegate = self
         actionButton.layer.cornerRadius = 18
+        RealmHandler.currUserID = nil
        
     }
     
@@ -121,7 +125,7 @@ class LoginFormViewController: UIViewController{
                         return
                     }
                     
-                    let values = ["username": "", "ID": uid, "email" : email]
+                    let values = ["ID": uid, "email" : email]
                     
                     Firestore.firestore().collection("users").addDocument(data: values){ (error) in
                         if error != nil {
@@ -139,8 +143,8 @@ class LoginFormViewController: UIViewController{
             emailTextField.text = ""
             
         } else {
-        // LOG IN
-        //print("127")
+            // LOG IN
+            //print("127")
         
             Auth.auth().signIn(withEmail: email, password: password) { (result, error) in
                 if error != nil {
@@ -150,7 +154,15 @@ class LoginFormViewController: UIViewController{
                     //print("Failed to sign user in with error:", error.localizedDescription)
                     return
                 }
+                if let currentUser = Auth.auth().currentUser {
+                    RealmHandler.currUserID = currentUser.uid
+                    RealmHandler.shared.loadfirstConfiguration()
+                    print(currentUser.uid)
+                }
+                
+                
                 print("Succesfully logged user in..")
+                
                 self.presentWelcomeViewController()
              //   print("136")
                 
@@ -167,7 +179,7 @@ class LoginFormViewController: UIViewController{
     
     func presentWelcomeViewController() {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let welcomeVC = storyboard.instantiateViewController(identifier: "WelcomeViewController")
+        let welcomeVC = storyboard.instantiateViewController(identifier: "NavController")
         
         welcomeVC.modalPresentationStyle = .fullScreen
         welcomeVC.modalTransitionStyle = .crossDissolve
@@ -213,7 +225,11 @@ class LoginFormViewController: UIViewController{
             }
              
         }
-            
+        if let currentUser = Auth.auth().currentUser {
+            RealmHandler.currUserID = currentUser.uid
+            RealmHandler.shared.loadfirstConfiguration()
+            print(currentUser.uid)
+        }
         print("User is signed in...")
         self.presentWelcomeViewController()
         
@@ -234,5 +250,15 @@ class LoginFormViewController: UIViewController{
     }
     
     
+}
+
+
+// return key on the keyboard
+extension LoginFormViewController: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        emailTextField.resignFirstResponder()
+        passwordTextField.resignFirstResponder()
+        return true
+    }
 }
     
