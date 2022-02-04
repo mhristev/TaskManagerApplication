@@ -7,7 +7,7 @@
 
 import UIKit
 import RealmSwift
-
+import UserNotifications
 
 
 /*protocol categoriesDelegate {
@@ -121,9 +121,24 @@ extension CategoryViewController: UITableViewDelegate {
     }
 
     private func handleCreateReminder() {
-        self.performSegue(withIdentifier: "showCreateReminder", sender: self)
+        
+        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .sound], completionHandler: {success, error in
+            if success {
+                // schedule test
+                self.performSegue(withIdentifier: "showCreateReminder", sender: self)
+            } else if let err = error {
+                print("error while requesting permission for notifications")
+            }
+        })
+        
+        
+        
+        
         
     }
+    
+    
+    
     
     func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let action = UIContextualAction(style: .normal,

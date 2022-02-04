@@ -211,9 +211,12 @@ class LoginFormViewController: UIViewController{
 
           let credential = GoogleAuthProvider.credential(withIDToken: idToken,
                                                          accessToken: authentication.accessToken)
-
+          
             self.googleLogin(credential: credential)
+           
         }
+        
+       
     }
     
     func googleLogin(credential: AuthCredential) {
@@ -223,15 +226,19 @@ class LoginFormViewController: UIViewController{
                 self.dialogWindow(message: err, title: "Error")
                 return
             }
-             
+            
+            print("User is signed in...")
+            if let currentUser = Auth.auth().currentUser {
+                RealmHandler.currUserID = currentUser.uid
+                RealmHandler.shared.loadfirstConfiguration()
+                print(currentUser.uid)
+            }
+            self.presentWelcomeViewController()
+            
         }
-        if let currentUser = Auth.auth().currentUser {
-            RealmHandler.currUserID = currentUser.uid
-            RealmHandler.shared.loadfirstConfiguration()
-            print(currentUser.uid)
-        }
-        print("User is signed in...")
-        self.presentWelcomeViewController()
+       
+
+       
         
     }
     
