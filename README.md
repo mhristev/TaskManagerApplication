@@ -3,7 +3,7 @@
 1. ~~Възможност за управление на записки~~ <br/>
 2. ~~Възможност за добавяне на форматиране на текст на записки~~<br/>
 3. Възможност за добавяне на снимки и ~~мета информация към запис~~<br/>
-4. Възможност за създаване и управления на напомняния<br/>
+4. ~~Възможност за създаване и управления на напомняния<br/>~~
 5. Интеграция с Firebase за достъп на данните от различни устройства<br/>
 <br />
 
@@ -13,12 +13,19 @@
 - note from attributes string -> to markdown text -> store in realm as string
 - ~~ream file name to be the logged in user id~~
 - colors
-- limit the realm databases only to 3 on one device
-- reminder field in DB (model change in notes)
-- reminder remove fav, add only date time (datepicker ui only)
+- ~~reminder field in DB (model change in notes)~~
+- ~~reminder remove fav, add only date time (datepicker ui only)~~
 - note, heart button to fav
+<<<<<<< HEAD
 - reminder logic as notification
 - force quit from note view (willDisapear)
+=======
+- ~~reminder logic as notification~~
+- ~~custom cell for reminder~~
+- ~~signIn -> remove all pending notifications~~
+- ~~signOut -> sync the notifications with the DB~~
+- ~~force quit from note view (willDisapear)~~
+>>>>>>> ec01ff27f856837f7d462606d8dda32193008517
 - ~~fix protocols~~ 
 - ~~add to folder~~ 
 - ~~check for filled boxes, while creating category~~ 
