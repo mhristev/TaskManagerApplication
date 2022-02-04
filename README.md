@@ -18,8 +18,8 @@
 - note, heart button to fav
 - ~~reminder logic as notification~~
 - ~~custom cell for reminder~~
-- ~~signIn -> remove all pending notifications
-- ~~signOut -> sync the notifications with the DB
+- ~~signIn -> remove all pending notifications~~
+- ~~signOut -> sync the notifications with the DB~~
 - ~~force quit from note view (willDisapear)~~
 - ~~fix protocols~~ 
 - ~~add to folder~~ 
