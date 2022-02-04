@@ -28,15 +28,15 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
        
         
         if let currentUser = Auth.auth().currentUser {
+            //RealmHandler.currUserID = currentUser.uid
+            RealmHandler.shared.loadfirstConfiguration(andSetUserID: currentUser.uid)
             let welcomeVC = storyboard.instantiateViewController(identifier: "NavController") as! UINavigationController
-            RealmHandler.currUserID = currentUser.uid
-            print(currentUser.uid)
-            RealmHandler.shared.loadfirstConfiguration()
+
             self.window?.rootViewController = welcomeVC
             self.window?.makeKeyAndVisible()
         } else {
             let loginVC = storyboard.instantiateViewController(withIdentifier: "LoginFormViewController") as! LoginFormViewController
-            RealmHandler.currUserID = nil
+           // RealmHandler.currUserID = nil
             
             self.window?.rootViewController = loginVC
             print("HEAASA")

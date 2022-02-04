@@ -19,6 +19,8 @@ class CategoryViewController: UIViewController {
     var newNoteDelegate: noteActionDelegate!
     
     var categoryDelegate: categoryActionDelegate!
+    
+    var test = false
 
     var notes: Array<Note> = []
     
@@ -120,21 +122,27 @@ extension CategoryViewController: UITableViewDelegate {
        
     }
 
-    private func handleCreateReminder() {
+    private func handleCreateReminder(indexPath: IndexPath) {
         
         UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .sound], completionHandler: {success, error in
-            if success {
-                // schedule test
-                self.performSegue(withIdentifier: "showCreateReminder", sender: self)
-            } else if let err = error {
+           if let err = error {
                 print("error while requesting permission for notifications")
+                return
             }
         })
         
+        let destinationVC = storyboard?.instantiateViewController(withIdentifier: "CreateReminderViewController") as! CreateReminderViewController
+        self.newNoteDelegate = destinationVC
+
+        guard let note = RealmHandler.shared.getNoteWith(ID: notes[notes.count - (1 + indexPath.row)].getID(), inRealmObject: self.realm) else {
+            return
+       }
+        //print(note.id)
+        newNoteDelegate.didCreateReminderOn(note: note)
         
+        present(destinationVC, animated: true, completion: nil)
         
-        
-        
+      //  self.performSegue(withIdentifier: "showCreateReminder", sender: self)
     }
     
     
@@ -155,7 +163,7 @@ extension CategoryViewController: UITableViewDelegate {
         // Reminder action
         let reminder = UIContextualAction(style: .normal,
                                          title: "Reminder") { [weak self] (action, view, completionHandler) in
-                                            self?.handleCreateReminder()
+                                            self?.handleCreateReminder(indexPath: indexPath)
                                             completionHandler(true)
         }
         reminder.backgroundColor = .systemGreen
@@ -242,6 +250,10 @@ extension CategoryViewController: categoryActionDelegate {
 
 
 extension CategoryViewController: noteActionDelegate {
+    func didCreateReminderOn(note: Note) {
+        return
+    }
+    
     func didUpdateNoteCategory(notes: Array<Note>) {
         
         self.notes = notes

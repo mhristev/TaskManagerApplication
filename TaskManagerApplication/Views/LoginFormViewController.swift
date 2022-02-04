@@ -47,7 +47,7 @@ class LoginFormViewController: UIViewController{
         emailTextField.delegate = self
         passwordTextField.delegate = self
         actionButton.layer.cornerRadius = 18
-        RealmHandler.currUserID = nil
+      //  RealmHandler.currUserID = nil
        
     }
     
@@ -155,8 +155,8 @@ class LoginFormViewController: UIViewController{
                     return
                 }
                 if let currentUser = Auth.auth().currentUser {
-                    RealmHandler.currUserID = currentUser.uid
-                    RealmHandler.shared.loadfirstConfiguration()
+                   // RealmHandler.currUserID = currentUser.uid
+                    RealmHandler.shared.loadfirstConfiguration(andSetUserID: currentUser.uid)
                     print(currentUser.uid)
                 }
                 
@@ -229,8 +229,8 @@ class LoginFormViewController: UIViewController{
             
             print("User is signed in...")
             if let currentUser = Auth.auth().currentUser {
-                RealmHandler.currUserID = currentUser.uid
-                RealmHandler.shared.loadfirstConfiguration()
+              //  RealmHandler.currUserID = currentUser.uid
+                RealmHandler.shared.loadfirstConfiguration(andSetUserID: currentUser.uid)
                 print(currentUser.uid)
             }
             self.presentWelcomeViewController()

@@ -17,6 +17,7 @@ class Note: Object {
     @objc dynamic var favourite: Bool = false
     @objc dynamic var category: Category? = nil
     @objc dynamic var attrStringData: Data?
+    @objc dynamic var reminderDate: NSDate?
     
     
     convenience init(title: String, attrText: NSAttributedString, favourite: Bool, category: Category?) {
@@ -28,6 +29,7 @@ class Note: Object {
         self.revisions = 1
         self.favourite = favourite
         self.category = category
+        self.reminderDate = nil
     }
     
     func archiveAttrString(attrString: NSAttributedString) throws -> Data? {
