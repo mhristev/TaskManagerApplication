@@ -30,8 +30,8 @@ class OverviewChildHomeController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         //tableView.register(CategoryTableViewCell.nib(), forCellReuseIdentifier: CategoryTableViewCell.identifier)
-        
-        
+        print(RealmHandler.configurationHelper())
+        print(realm.objects(Category.self))
         categories = RealmHandler.shared.getAllCategories(inRealmObject: realm)
         print(categories)
         
@@ -150,7 +150,7 @@ extension OverviewChildHomeController: UITableViewDelegate {
 
 extension OverviewChildHomeController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        
+      //  categories = RealmHandler.shared.getAllCategories(inRealmObject: realm)
         return categories.count - 1
     }
     

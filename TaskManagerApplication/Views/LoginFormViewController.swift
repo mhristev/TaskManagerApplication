@@ -47,7 +47,7 @@ class LoginFormViewController: UIViewController{
         emailTextField.delegate = self
         passwordTextField.delegate = self
         actionButton.layer.cornerRadius = 18
-        RealmHandler.currUserID = nil
+      //  RealmHandler.currUserID = nil
        
     }
     
@@ -155,8 +155,8 @@ class LoginFormViewController: UIViewController{
                     return
                 }
                 if let currentUser = Auth.auth().currentUser {
-                    RealmHandler.currUserID = currentUser.uid
-                    RealmHandler.shared.loadfirstConfiguration()
+                   // RealmHandler.currUserID = currentUser.uid
+                    RealmHandler.shared.loadfirstConfiguration(andSetUserID: currentUser.uid)
                     print(currentUser.uid)
                 }
                 
@@ -211,9 +211,12 @@ class LoginFormViewController: UIViewController{
 
           let credential = GoogleAuthProvider.credential(withIDToken: idToken,
                                                          accessToken: authentication.accessToken)
-
+          
             self.googleLogin(credential: credential)
+           
         }
+        
+       
     }
     
     func googleLogin(credential: AuthCredential) {
@@ -223,15 +226,19 @@ class LoginFormViewController: UIViewController{
                 self.dialogWindow(message: err, title: "Error")
                 return
             }
-             
+            
+            print("User is signed in...")
+            if let currentUser = Auth.auth().currentUser {
+              //  RealmHandler.currUserID = currentUser.uid
+                RealmHandler.shared.loadfirstConfiguration(andSetUserID: currentUser.uid)
+                print(currentUser.uid)
+            }
+            self.presentWelcomeViewController()
+            
         }
-        if let currentUser = Auth.auth().currentUser {
-            RealmHandler.currUserID = currentUser.uid
-            RealmHandler.shared.loadfirstConfiguration()
-            print(currentUser.uid)
-        }
-        print("User is signed in...")
-        self.presentWelcomeViewController()
+       
+
+       
         
     }
     

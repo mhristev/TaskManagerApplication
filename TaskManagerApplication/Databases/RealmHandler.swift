@@ -11,46 +11,63 @@ enum RealmError: Error {
 
 import Foundation
 import RealmSwift
+import Firebase
 
 class RealmHandler {
     static let shared = RealmHandler()
     static var currUserID: String?
     
+    
    // private let categories = try! Realm()
    // private let notes = try! Realm()
     
     
-    func loadfirstConfiguration() {
-        guard let uuid = RealmHandler.currUserID else {
-            return
-        }
-        print(RealmHandler.currUserID)
+    func loadfirstConfiguration(andSetUserID: String) {
+        self.setCurrentUser(ID: andSetUserID)
+        
+//        print(self.currUserID)
         //let categories = try! Realm(configuration: RealmHandler.configurationHelper(), queue: nil)
         let realm = try! Realm(configuration: RealmHandler.configurationHelper(), queue: nil)
         
-        if realm.objects(Category.self).isEmpty {
+        if realm.isEmpty {
             do {
                 try createCategoryWith(name: "Quick Notes", color: "#1E63FF", icon: "folder.fill", inRealmObject: realm)
             } catch {
                 print(error.localizedDescription)
             }
         }
+        
+       
+    }
+    
+    func setCurrentUser(ID: String) {
+        RealmHandler.currUserID = ID
     }
     
     static func configurationHelper() -> Realm.Configuration {
         var config = Realm.Configuration()
-        if let uuid = RealmHandler.shared.getCurrUserID() {
-            config.fileURL = config.fileURL!.deletingLastPathComponent().appendingPathComponent("\(uuid).realm")
+    
+      //  if let user = Auth.auth().currentUser {
+        
+        guard let uid = RealmHandler.currUserID else {
+            return config
         }
+            
+        config.fileURL = config.fileURL!.deletingLastPathComponent().appendingPathComponent("\(uid).realm")
+
+        //}
+
         
         return config
     }
     
 
     
-    func getCurrUserID() -> String? {
-        return RealmHandler.currUserID
-    }
+//    func getCurrUserID() -> String? {
+//        return self.currUserID
+//    }
+    
+    
     
     
     func doesExistCategoryWith(name: String, inRealmObject: Realm) -> Bool {
@@ -88,8 +105,8 @@ class RealmHandler {
     
     func getAllCategories(inRealmObject: Realm) -> Array<Category> {
         
-            //let realm = try! Realm(configuration: RealmHandler.configurationHelper(), queue: nil)
-        print(inRealmObject.objects(Category.self))
+       // let realm = try! Realm(configuration: RealmHandler.configurationHelper(), queue: nil)
+        //print(inRealmObject.objects(Category.self))
         return Array(inRealmObject.objects(Category.self))
     }
     
@@ -125,6 +142,38 @@ class RealmHandler {
     
     func updateNoteWith(ID: String, title: String, attrText: NSAttributedString, favourite: Bool, inRealmObject: Realm) {
         if let note = inRealmObject.objects(Note.self).filter("id == %@", ID).first {
+           
+            
+            if (note.getTitle() != title) {
+                if let date = note.reminderDate {
+                    let center = UNUserNotificationCenter.current()
+                    center.removePendingNotificationRequests(withIdentifiers: [ID])
+                    
+                    let content = UNMutableNotificationContent()
+                
+                    content.title = title
+                    content.sound = .default
+                    content.body = "You have a new reminder for \(title)"
+                    
+                    let targetDate = date as Date
+                   // let targetDate = Date().addingTimeInterval(60)
+                    
+                    
+                    let trigger = UNCalendarNotificationTrigger(dateMatching: Calendar.current.dateComponents([.day, .month, .year], from: targetDate), repeats: false)
+                    
+                    
+                    
+                    let request = UNNotificationRequest(identifier: ID, content: content, trigger: trigger)
+                    
+                    
+                    UNUserNotificationCenter.current().add(request, withCompletionHandler: { error in
+                        if error != nil {
+                            print("something went wrong")
+                        }
+                    })
+                 
+                }
+            }
             
             try! inRealmObject.write() {
                 note.attrStringData = try! note.archiveAttrString(attrString: attrText)
@@ -133,6 +182,7 @@ class RealmHandler {
                 note.updatedAt = NSDate()
                 note.revisions += 1
             }
+            
         }
     }
     
@@ -159,6 +209,48 @@ class RealmHandler {
             try! inRealmObject.write() {
                 note.category = inCategory
             }
+        }
+    }
+    
+    func createReminderForNote(withID: String, andDate: NSDate, inRealmObject: Realm) {
+        print(inRealmObject.configuration.fileURL!.path)
+        if let note = inRealmObject.objects(Note.self).filter("id == %@", withID).first {
+            try! inRealmObject.write() {
+                note.reminderDate = andDate
+            }
+        }
+    }
+    
+    func getAllReminders(inRealmObject: Realm) -> Array<Note> {
+        cleanOldReminders(inRealmObject: inRealmObject)
+        return Array(inRealmObject.objects(Note.self).filter("reminderDate != null"))
+    }
+    
+    
+    func cleanOldReminders(inRealmObject: Realm) {
+        let today = Calendar.current.date(byAdding: .day, value: -1, to: Date())!
+        
+            for oldReminder in inRealmObject.objects(Note.self).filter("reminderDate != null") {
+                if today > (oldReminder.reminderDate! as Date) {
+                    try! inRealmObject.write() {
+                        oldReminder.reminderDate = nil
+                    }
+                }
+            }
+        
+
+    }
+    
+    func removeReminderForNote(withID: String, inRealmObject: Realm) {
+        if let note = inRealmObject.objects(Note.self).filter("id == %@", withID).first {
+            try! inRealmObject.write() {
+                note.reminderDate = nil
+            }
+            
+            let center = UNUserNotificationCenter.current()
+            
+            center.removePendingNotificationRequests(withIdentifiers: [note.getID()])
+            
         }
     }
     

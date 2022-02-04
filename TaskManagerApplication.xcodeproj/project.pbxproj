@@ -49,6 +49,7 @@
 		024EDD102764C8FB00B73D98 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 024EDD0F2764C8FB00B73D98 /* FirebaseStorage */; };
 		024EDD122764C8FB00B73D98 /* FirebaseStorageCombine-Community in Frameworks */ = {isa = PBXBuildFile; productRef = 024EDD112764C8FB00B73D98 /* FirebaseStorageCombine-Community */; };
 		024EDD142764C8FB00B73D98 /* FirebaseStorageSwift-Beta in Frameworks */ = {isa = PBXBuildFile; productRef = 024EDD132764C8FB00B73D98 /* FirebaseStorageSwift-Beta */; };
+		025D7F1327ADCFC10094701F /* ReminderTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 025D7F1227ADCFC10094701F /* ReminderTableViewCell.swift */; };
 		026E229C27690C83001B0ACD /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 026E229B27690C83001B0ACD /* HomeViewController.swift */; };
 		027DEF48279D75CF0062AA08 /* CreateCategoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 027DEF47279D75CF0062AA08 /* CreateCategoryViewController.swift */; };
 		029847CC27A170970046B90F /* Note.swift in Sources */ = {isa = PBXBuildFile; fileRef = 029847CB27A170970046B90F /* Note.swift */; };
@@ -77,6 +78,7 @@
 		024EDCD62764C8FB00B73D98 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		024EDCD82764C8FB00B73D98 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		024EDCDE2764C8FB00B73D98 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		025D7F1227ADCFC10094701F /* ReminderTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReminderTableViewCell.swift; sourceTree = "<group>"; };
 		026E229B27690C83001B0ACD /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		027DEF47279D75CF0062AA08 /* CreateCategoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateCategoryViewController.swift; sourceTree = "<group>"; };
 		029847CB27A170970046B90F /* Note.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Note.swift; sourceTree = "<group>"; };
@@ -129,6 +131,7 @@
 			isa = PBXGroup;
 			children = (
 				02065E3E27A6B0FA009184BC /* CategoryTableViewCell.swift */,
+				025D7F1227ADCFC10094701F /* ReminderTableViewCell.swift */,
 			);
 			path = TableViewCells;
 			sourceTree = "<group>";
@@ -320,6 +323,7 @@
 			files = (
 				0239B7492795F06A00CCEC2D /* RemindersChildHomeController.swift in Sources */,
 				020572182793607B0001D702 /* CategoryViewController.swift in Sources */,
+				025D7F1327ADCFC10094701F /* ReminderTableViewCell.swift in Sources */,
 				024EDCCB2764C8F900B73D98 /* AppDelegate.swift in Sources */,
 				02C0202527957C2800AEA028 /* OverviewChildHomeController.swift in Sources */,
 				026E229C27690C83001B0ACD /* HomeViewController.swift in Sources */,

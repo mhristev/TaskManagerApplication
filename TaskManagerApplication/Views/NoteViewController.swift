@@ -142,31 +142,18 @@ class NoteViewController: UIViewController {
     
     
     
-    
-    override func willMove(toParent parent: UIViewController?) {
+    override func viewDidDisappear(_ animated: Bool) {
+        let title = textView.text.trimmingCharacters(in: .whitespacesAndNewlines).components(separatedBy: .newlines).first ?? ""
+        let text = textView.attributedText
         
         
-        super.willMove(toParent: parent)
-      
-        
-        if (parent == nil) {
-            
-            
-            let title = textView.text.trimmingCharacters(in: .whitespacesAndNewlines).components(separatedBy: .newlines).first ?? ""
-            let text = textView.attributedText
-            
-            
-            if currNoteID != nil {
-                if text?.string == "" {
-                    RealmHandler.shared.deleteNoteWith(ID: currNoteID!, inRealmObject: realm)
-                }else {
-                    RealmHandler.shared.updateNoteWith(ID: currNoteID!, title: title, attrText: text ?? NSAttributedString(""), favourite: false, inRealmObject: realm)
-                  
-                }
+        if currNoteID != nil {
+            if text?.string == "" {
+                RealmHandler.shared.deleteNoteWith(ID: currNoteID!, inRealmObject: realm)
+            }else {
+                RealmHandler.shared.updateNoteWith(ID: currNoteID!, title: title, attrText: text ?? NSAttributedString(""), favourite: false, inRealmObject: realm)
+              
             }
-            
-            
-            print("Note to category view")
         }
     }
 
@@ -185,6 +172,10 @@ class NoteViewController: UIViewController {
 
 
 extension NoteViewController: noteActionDelegate {
+    func didCreateReminderOn(note: Note) {
+        return
+    }
+    
     func didUpdateNoteCategory(notes: Array<Note>) {
         return
     }

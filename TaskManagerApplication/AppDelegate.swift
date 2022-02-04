@@ -15,10 +15,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate{
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         FirebaseApp.configure()
-        //print("APPPPPP PRINTTTT")
+        print("APPPPPP PRINTTTT")
         //test()
         
         // Override point for customization after application launch.
+        configureUserNotifications()
         return true
     }
     
@@ -46,7 +47,23 @@ class AppDelegate: UIResponder, UIApplicationDelegate{
       -> Bool {
       return GIDSignIn.sharedInstance.handle(url)
     }
+    
+    private func configureUserNotifications() {
+      UNUserNotificationCenter.current().delegate = self
+    }
 
 
+
+}
+
+// MARK: - UNUserNotificationCenterDelegate https://www.raywenderlich.com/21458686-local-notifications-getting-started
+extension AppDelegate: UNUserNotificationCenterDelegate {
+  func userNotificationCenter(
+    _ center: UNUserNotificationCenter,
+    willPresent notification: UNNotification,
+    withCompletionHandler completionHandler: (UNNotificationPresentationOptions) -> Void
+  ) {
+    completionHandler(.banner)
+  }
 }
 
