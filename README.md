@@ -13,11 +13,14 @@
 - note from attributes string -> to markdown text -> store in realm as string
 - ~~ream file name to be the logged in user id~~
 - colors
-- reminder field in DB (model change in notes)
-- reminder remove fav, add only date time (datepicker ui only)
+- ~~reminder field in DB (model change in notes)~~
+- ~~reminder remove fav, add only date time (datepicker ui only)~~
 - note, heart button to fav
-- reminder logic as notification
-- force quit from note view (willDisapear)
+- ~~reminder logic as notification~~
+- ~~custom cell for reminder~~
+- ~~signIn -> remove all pending notifications
+- ~~signOut -> sync the notifications with the DB
+- ~~force quit from note view (willDisapear)~~
 - ~~fix protocols~~ 
 - ~~add to folder~~ 
 - ~~check for filled boxes, while creating category~~ 
