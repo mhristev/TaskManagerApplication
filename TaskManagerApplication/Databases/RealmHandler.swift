@@ -140,45 +140,20 @@ class RealmHandler {
     
     }
     
-    func updateNoteWith(ID: String, title: String, attrText: NSAttributedString, favourite: Bool, inRealmObject: Realm) {
+    func updateNoteWith(ID: String, title: String, attrText: NSAttributedString, inRealmObject: Realm) {
         if let note = inRealmObject.objects(Note.self).filter("id == %@", ID).first {
            
             
-            if (note.getTitle() != title) {
+            if (note.title != title) {
                 if let date = note.reminderDate {
-                    let center = UNUserNotificationCenter.current()
-                    center.removePendingNotificationRequests(withIdentifiers: [ID])
-                    
-                    let content = UNMutableNotificationContent()
-                
-                    content.title = title
-                    content.sound = .default
-                    content.body = "You have a new reminder for \(title)"
-                    
-                    let targetDate = date as Date
-                   // let targetDate = Date().addingTimeInterval(60)
-                    
-                    
-                    let trigger = UNCalendarNotificationTrigger(dateMatching: Calendar.current.dateComponents([.day, .month, .year], from: targetDate), repeats: false)
-                    
-                    
-                    
-                    let request = UNNotificationRequest(identifier: ID, content: content, trigger: trigger)
-                    
-                    
-                    UNUserNotificationCenter.current().add(request, withCompletionHandler: { error in
-                        if error != nil {
-                            print("something went wrong")
-                        }
-                    })
-                 
+                    NotificationHelper.removeNotificationWithID(ID: ID)
+                    NotificationHelper.createNewNotificationWith(title: title, date: date as Date, ID: ID)
                 }
             }
             
             try! inRealmObject.write() {
                 note.attrStringData = try! note.archiveAttrString(attrString: attrText)
                 note.title = title
-                note.favourite = favourite
                 note.updatedAt = NSDate()
                 note.revisions += 1
             }
@@ -205,7 +180,7 @@ class RealmHandler {
     }
     
     func update(note: Note, inCategory: Category, inRealmObject: Realm) {
-        if let note = inRealmObject.objects(Note.self).filter("id == %@", note.id).first {
+        if let note = inRealmObject.objects(Note.self).filter("id == %@", note.getID()).first {
             try! inRealmObject.write() {
                 note.category = inCategory
             }
@@ -250,6 +225,21 @@ class RealmHandler {
             let center = UNUserNotificationCenter.current()
             
             center.removePendingNotificationRequests(withIdentifiers: [note.getID()])
+            
+        }
+    }
+    
+    func updateFavouriteForNote(ID: String, inRealmObject: Realm) {
+        if let note = inRealmObject.objects(Note.self).filter("id == %@", ID).first {
+            if note.favourite {
+                try! inRealmObject.write() {
+                    note.favourite = false
+                }
+            } else {
+                try! inRealmObject.write() {
+                    note.favourite = true
+                }
+            }
             
         }
     }

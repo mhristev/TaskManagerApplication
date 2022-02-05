@@ -27,35 +27,17 @@ class CreateReminderViewController: UIViewController {
     }
     
     @IBAction func createReminder(_ sender: UIButton) {
-        print(datePickerView.date)
-        let content = UNMutableNotificationContent()
+   //     print(datePickerView.date)
+       
         guard let note = currNote else {
             return
         }
         
-        content.title = note.getTitle()
-        content.sound = .default
-        content.body = "You have a new reminder for \(note.getTitle())"
-        
-//        let targetDate = Date().addingTimeInterval(10)
-        let targetDate = datePickerView.date
-        
-        
-        
-        let trigger = UNCalendarNotificationTrigger(dateMatching: Calendar.current.dateComponents([.day, .month, .year], from: targetDate), repeats: false)
-        
-        
-        
-        let request = UNNotificationRequest(identifier: note.getID(), content: content, trigger: trigger)
-        
-        
-        UNUserNotificationCenter.current().add(request, withCompletionHandler: { error in
-            if error != nil {
-                print("something went wrong")
-            }
-        })
+        NotificationHelper.createNewNotificationWith(title: note.title, date: datePickerView.date, ID: note.getID())
         
         RealmHandler.shared.createReminderForNote(withID: note.getID(), andDate: datePickerView.date as NSDate, inRealmObject: realm)
+        
+       
         
         let myalert = UIAlertController(title: "Success", message: "You have successfuly created a reminder.", preferredStyle: .alert)
         

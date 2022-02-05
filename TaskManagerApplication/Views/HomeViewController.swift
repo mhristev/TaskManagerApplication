@@ -29,7 +29,7 @@ class HomeViewController: UIViewController {
         switch segmentRemindersOverview.selectedSegmentIndex {
             
         case 1:
-            remindersChildController?.test()
+            remindersChildController?.updateReminders()
             remindersView.isHidden = false
             
             overviewView.isHidden = true
@@ -51,35 +51,7 @@ class HomeViewController: UIViewController {
         prepareChildren()
         
         let reminders = RealmHandler.shared.getAllReminders(inRealmObject: realm)
-        for reminder in reminders {
-            let content = UNMutableNotificationContent()
-        
-            
-            content.title = reminder.title
-            content.sound = .default
-            content.body = "You have a new reminder for \(reminder.title)"
-            
-            guard let date = reminder.reminderDate else {
-                return
-            }
-            
-            let targetDate = date as Date
-            //let targetDate = Date().addingTimeInterval(60)
-            
-            
-            let trigger = UNCalendarNotificationTrigger(dateMatching: Calendar.current.dateComponents([.day, .month, .year], from: targetDate), repeats: false)
-            
-            
-            
-            let request = UNNotificationRequest(identifier: reminder.getID(), content: content, trigger: trigger)
-            
-            
-            UNUserNotificationCenter.current().add(request, withCompletionHandler: { error in
-                if error != nil {
-                    print("something went wrong")
-                }
-            })
-        }
+        NotificationHelper.createPendingNotificationsIn(reminders: reminders)
         
         
         // Do any additional setup after loading the view.
@@ -96,7 +68,7 @@ class HomeViewController: UIViewController {
             return
        }
         //print(note.id)
-        newNoteDelegate.didCreateNoteWith(ID: note.id)
+        newNoteDelegate.didCreateNoteWith(ID: note.getID())
         
         self.navigationController?.pushViewController(destinationVC, animated: true)
     }
@@ -104,12 +76,9 @@ class HomeViewController: UIViewController {
     
     
     @IBAction func signOutClicked(_ sender: UIButton) {
-        let center = UNUserNotificationCenter.current()
+    
         let reminders = RealmHandler.shared.getAllReminders(inRealmObject: realm)
-        for reminder in reminders {
-            center.removePendingNotificationRequests(withIdentifiers: [reminder.getID()])
-        }
-        //center.removePendingNotificationRequests(withIdentifiers: <#T##[String]#>)
+        NotificationHelper.removeAllPendingNotificationsIn(reminders: reminders)
         showCreateAccount()
         
     }

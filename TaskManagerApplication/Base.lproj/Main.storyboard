@@ -263,14 +263,13 @@
                                 </button>
                             </barButtonItem>
                             <barButtonItem style="plain" id="UuL-2q-qj1">
-                                <button key="customView" opaque="NO" contentMode="scaleToFill" restorationIdentifier="heart" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" id="pg7-pX-dBN">
+                                <button key="customView" opaque="NO" contentMode="scaleToFill" restorationIdentifier="heart" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="pg7-pX-dBN">
                                     <rect key="frame" x="279" y="0.5" width="53.5" height="43"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     <state key="normal" title="Button"/>
-                                    <buttonConfiguration key="configuration" style="plain">
-                                        <imageReference key="image" image="heart" catalog="system" symbolScale="default" renderingMode="template"/>
-                                        <preferredSymbolConfiguration key="preferredSymbolConfigurationForImage" configurationType="pointSize" pointSize="24"/>
+                                    <buttonConfiguration key="configuration" style="plain" image="heart" catalog="system">
+                                        <color key="baseForegroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     </buttonConfiguration>
                                     <connections>
                                         <action selector="addToFavourite:" destination="hvl-tY-16o" eventType="touchUpInside" id="BeR-0E-Q28"/>

@@ -24,6 +24,9 @@ class NoteViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        
+        
         textView.allowsEditingTextAttributes = true
       //  textView.delegate = self
 
@@ -34,10 +37,11 @@ class NoteViewController: UIViewController {
             }
             textView.attributedText = try? note.unarchiveAttrString()
             
+            configureFavourite()
+            
+            
             let f = DateFormatter()
             f.dateFormat = "yyy-MM-dd HH:mm:ss"
-            
-           
             
             metaInformation.text = "created at: \(f.string(from: note.createdAt as Date))\nupdated at: \(f.string(from: note.updatedAt as Date)) \nrevisions: \(note.revisions)\n"
 //            self.textView.font = UIFont(name: self.textView.font!.fontName, size: self.fontSize)
@@ -59,13 +63,36 @@ class NoteViewController: UIViewController {
         // Do any additional setup after loading the view.
     }
     
-    @IBAction func addToFavourite(_ sender: UIButton) {
+    func configureFavourite() {
         
-       // print(sender.imageView)
-       // let title = sender.accessibilityLabel!
-        if (sender.currentImage!.isEqual(UIImage(named: "heart"))) {
-            sender.setImage( UIImage(named: "heart.fill"), for: .normal)
+        guard let id = currNoteID else {
+            return
         }
+        
+        guard let note = RealmHandler.shared.getNoteWith(ID: id, inRealmObject: realm) else {
+            return
+        }
+        
+        
+        if note.favourite {
+            favouriteButton.setImage(UIImage(systemName: "heart.fill"), for: .normal)
+        } else {
+            favouriteButton.setImage(UIImage(systemName: "heart"), for: .normal)
+        }
+    }
+    
+    
+    
+    @IBAction func addToFavourite(_ sender: UIButton) {
+        guard let uid = currNoteID else {
+            return
+        }
+        
+        RealmHandler.shared.updateFavouriteForNote(ID: uid, inRealmObject: realm)
+        //self.loadView()
+        let feedback = UINotificationFeedbackGenerator()
+        feedback.notificationOccurred(.success)
+        self.configureFavourite()
     }
     
     
@@ -148,10 +175,11 @@ class NoteViewController: UIViewController {
         
         
         if currNoteID != nil {
+            
             if text?.string == "" {
                 RealmHandler.shared.deleteNoteWith(ID: currNoteID!, inRealmObject: realm)
             }else {
-                RealmHandler.shared.updateNoteWith(ID: currNoteID!, title: title, attrText: text ?? NSAttributedString(""), favourite: false, inRealmObject: realm)
+                RealmHandler.shared.updateNoteWith(ID: currNoteID!, title: title, attrText: text ?? NSAttributedString(""), inRealmObject: realm)
               
             }
         }

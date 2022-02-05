@@ -37,12 +37,10 @@ class RemindersChildHomeController: UIViewController {
     */
     
     override func viewDidAppear(_ animated: Bool) {
-        print("MINAVAM OT TUK")
-        reminders = RealmHandler.shared.getAllReminders(inRealmObject: realm)
-        tableView.reloadData()
+        self.updateReminders()
     }
     
-    func test() {
+    func updateReminders() {
         reminders = RealmHandler.shared.getAllReminders(inRealmObject: realm)
         tableView.reloadData()
     }
@@ -54,13 +52,11 @@ extension RemindersChildHomeController: UITableViewDelegate {
   
 
     private func handleMoveToTrash(indexPath: IndexPath) {
+    
+        RealmHandler.shared.removeReminderForNote(withID: reminders[reminders.count - (1+indexPath.row)].getID(), inRealmObject: realm)
+        NotificationHelper.removeNotificationWithID(ID: reminders[reminders.count - (1+indexPath.row)].getID())
+        self.updateReminders()
         
-//        RealmHandler.shared.deleteCategoryWith(ID: categories[categories.count - (1 + indexPath.row)].getID(), inRealmObject: realm)
-//        categories = RealmHandler.shared.getAllCategories(inRealmObject: realm)
-//        print(categories)
-//        tableView.beginUpdates()
-//        tableView.deleteRows(at: [indexPath], with: .fade)
-//        tableView.endUpdates()
         print("Moved to trash")
        
     }
@@ -94,7 +90,7 @@ extension RemindersChildHomeController: UITableViewDelegate {
      func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
       
         let trash = UIContextualAction(style: .destructive,
-                                       title: "Delete") { [weak self] (action, view, completionHandler) in
+                                       title: "Remove Reminder") { [weak self] (action, view, completionHandler) in
                                         self?.handleMoveToTrash(indexPath: indexPath)
                                         completionHandler(true)
         }
@@ -130,7 +126,7 @@ extension RemindersChildHomeController: UITableViewDataSource {
         
         let p = f.string(from: reminders[reminders.count - (1+indexPath.row)].reminderDate! as Date)
         
-        cell.configureWith(title: reminders[reminders.count - (1 + indexPath.row)].getTitle(), imageName: "", date: p)
+        cell.configureWith(title: reminders[reminders.count - (1 + indexPath.row)].title, imageName: "", date: p)
         
         
         return cell

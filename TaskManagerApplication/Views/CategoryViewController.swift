@@ -54,7 +54,7 @@ class CategoryViewController: UIViewController {
             return
         }
 
-        newNoteDelegate.didCreateNoteWith(ID: note.id)
+        newNoteDelegate.didCreateNoteWith(ID: note.getID())
         
         self.navigationController?.pushViewController(destinationVC, animated: true)
     }
@@ -195,11 +195,11 @@ extension CategoryViewController: UITableViewDelegate {
         let destinationVC = storyboard?.instantiateViewController(withIdentifier: "NoteViewController") as! NoteViewController
         newNoteDelegate = destinationVC
         
-        guard let note = RealmHandler.shared.getNoteWith(name: notes[notes.count - (1 + indexPath.row)].getTitle(), inRealmObject: realm) else {
+        guard let note = RealmHandler.shared.getNoteWith(name: notes[notes.count - (1 + indexPath.row)].title, inRealmObject: realm) else {
             return
         }
         //print(note.id)
-        newNoteDelegate.didCreateNoteWith(ID: note.id)
+        newNoteDelegate.didCreateNoteWith(ID: note.getID())
         
         self.navigationController?.pushViewController(destinationVC, animated: true)
         //self.performSegue(withIdentifier: "clickNoteToView", sender: self)
@@ -218,7 +218,7 @@ extension CategoryViewController: UITableViewDataSource {
         let cell = NotesInCategoryTableView.dequeueReusableCell(withIdentifier: "noteCell", for: indexPath)
         print(notes)
         
-        cell.textLabel?.text = notes[notes.count - (1 + indexPath.row)].getTitle() 
+        cell.textLabel?.text = notes[notes.count - (1 + indexPath.row)].title
         return cell
     }
     

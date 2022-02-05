@@ -9,7 +9,7 @@ import Foundation
 import RealmSwift
 
 class Note: Object {
-    @objc dynamic var id = UUID().uuidString
+    @objc dynamic private var id = UUID().uuidString
     @objc dynamic var title: String = ""
     @objc dynamic var createdAt = NSDate()
     @objc dynamic var updatedAt = NSDate()
@@ -20,7 +20,7 @@ class Note: Object {
     @objc dynamic var reminderDate: NSDate?
     
     
-    convenience init(title: String, attrText: NSAttributedString, favourite: Bool, category: Category?) {
+    convenience init(title: String, attrText: NSAttributedString, favourite: Bool, category: Category) {
         self.init()
         self.title = title
         self.attrStringData = try? archiveAttrString(attrString: attrText)
@@ -31,6 +31,43 @@ class Note: Object {
         self.category = category
         self.reminderDate = nil
     }
+    
+    
+    func getID() -> String {
+        return self.id
+    }
+    
+//    func getTitle() -> String {
+//        return self.title
+//    }
+//
+//    func getCreatedAt() -> NSDate {
+//        return self.createdAt
+//    }
+//
+//    func getUpdatedAt() -> NSDate {
+//        return self.updatedAt
+//    }
+//
+//    func getRevisions() -> Int {
+//        return self.revisions
+//    }
+//    
+//    func getFavourite() -> Bool {
+//        return self.favourite
+//    }
+//
+//    func getCategory() -> Category {
+//        return self.category
+//    }
+//
+//    func getAttrStringData() -> Data? {
+//        return self.attrStringData
+//    }
+//    func getReminderDate() -> NSDate? {
+//        return self.reminderDate
+//    }
+
     
     func archiveAttrString(attrString: NSAttributedString) throws -> Data? {
         return try? NSKeyedArchiver.archivedData(withRootObject: attrString, requiringSecureCoding: false)
@@ -50,11 +87,5 @@ class Note: Object {
     }
     
     
-    func getID() -> String {
-        return self.id
-    }
-    
-    func getTitle() -> String{
-        return self.title
-    }
+   
 }
