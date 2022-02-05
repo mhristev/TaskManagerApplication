@@ -92,6 +92,12 @@ class RealmHandler {
         if let category = inRealmObject.objects(Category.self).filter("id == %@", ID).first {
             let notesInCategory = getAllNotesInCategoryWith(name: category.getName(), inRealmObject: inRealmObject)
             
+            for note in notesInCategory {
+                if note.reminderDate != nil {
+                    NotificationHelper.removeNotificationWithID(ID: note.getID())
+                }
+            }
+            
             try! inRealmObject.write() {
                 inRealmObject.delete(notesInCategory)
             }
@@ -173,6 +179,13 @@ class RealmHandler {
     
     func deleteNoteWith(ID: String, inRealmObject: Realm) {
         if let note = inRealmObject.objects(Note.self).filter("id == %@", ID).first {
+            
+            
+            if note.reminderDate != nil {
+                NotificationHelper.removeNotificationWithID(ID: note.getID())
+            }
+            
+            
             try! inRealmObject.write() {
                 inRealmObject.delete(note)
             }
@@ -216,16 +229,12 @@ class RealmHandler {
 
     }
     
-    func removeReminderForNote(withID: String, inRealmObject: Realm) {
+    func removeReminderAndNotificationForNote(withID: String, inRealmObject: Realm) {
         if let note = inRealmObject.objects(Note.self).filter("id == %@", withID).first {
             try! inRealmObject.write() {
                 note.reminderDate = nil
             }
-            
-            let center = UNUserNotificationCenter.current()
-            
-            center.removePendingNotificationRequests(withIdentifiers: [note.getID()])
-            
+            NotificationHelper.removeNotificationWithID(ID: withID)
         }
     }
     

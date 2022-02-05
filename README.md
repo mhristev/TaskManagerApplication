@@ -8,14 +8,17 @@
 <br />
 
 ## TODO: <br />
+- note from attributes string -> to markdown text -> store in realm as string
+- colors
+- ~~notificationHelper~~
+- ~~delete Note -> delete reminder in the notification center~~
+- ~~delete category -> delete all set notifications for the notes in it~~
 - ~~helper method to init realm db by userId~~
 - ~~data method to accept realm db instance~~
-- note from attributes string -> to markdown text -> store in realm as string
 - ~~ream file name to be the logged in user id~~
-- colors
 - ~~reminder field in DB (model change in notes)~~
 - ~~reminder remove fav, add only date time (datepicker ui only)~~
-- note, heart button to fav
+- ~~note, heart button to fav~~
 - ~~reminder logic as notification~~
 - ~~custom cell for reminder~~
 - ~~signIn -> remove all pending notifications~~

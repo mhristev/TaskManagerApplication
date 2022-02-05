@@ -24,8 +24,7 @@ class LoginFormViewController: UIViewController{
     
     @IBAction func segmentAction(_ sender: UISegmentedControl) {
         
-        let titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
-        segmentController.setTitleTextAttributes(titleTextAttributes, for:.normal)
+       
         
         switch segmentController.selectedSegmentIndex {
             
@@ -44,6 +43,8 @@ class LoginFormViewController: UIViewController{
    
     override func viewDidLoad() {
         super.viewDidLoad()
+        let titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
+        segmentController.setTitleTextAttributes(titleTextAttributes, for:.normal)
         emailTextField.delegate = self
         passwordTextField.delegate = self
         actionButton.layer.cornerRadius = 18

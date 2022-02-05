@@ -53,8 +53,8 @@ extension RemindersChildHomeController: UITableViewDelegate {
 
     private func handleMoveToTrash(indexPath: IndexPath) {
     
-        RealmHandler.shared.removeReminderForNote(withID: reminders[reminders.count - (1+indexPath.row)].getID(), inRealmObject: realm)
-        NotificationHelper.removeNotificationWithID(ID: reminders[reminders.count - (1+indexPath.row)].getID())
+        RealmHandler.shared.removeReminderAndNotificationForNote(withID: reminders[reminders.count - (1+indexPath.row)].getID(), inRealmObject: realm)
+        
         self.updateReminders()
         
         print("Moved to trash")
