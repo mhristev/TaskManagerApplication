@@ -58,6 +58,7 @@
 		02C0202527957C2800AEA028 /* OverviewChildHomeController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02C0202427957C2700AEA028 /* OverviewChildHomeController.swift */; };
 		02C5BA7E279F06E70091DDD4 /* Category.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02C5BA7D279F06E70091DDD4 /* Category.swift */; };
 		02C5BA81279F26630091DDD4 /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 02C5BA80279F26630091DDD4 /* RealmSwift */; };
+		02C9F59F27AFD8E600431F88 /* HtmlConvertHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02C9F59E27AFD8E600431F88 /* HtmlConvertHelper.swift */; };
 		02FD8ECB27AEB1DD00656254 /* NotificationHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02FD8ECA27AEB1DD00656254 /* NotificationHelper.swift */; };
 /* End PBXBuildFile section */
 
@@ -87,6 +88,7 @@
 		0298891727A93F8E0083E959 /* CreateReminderViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateReminderViewController.swift; sourceTree = "<group>"; };
 		02C0202427957C2700AEA028 /* OverviewChildHomeController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverviewChildHomeController.swift; sourceTree = "<group>"; };
 		02C5BA7D279F06E70091DDD4 /* Category.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Category.swift; sourceTree = "<group>"; };
+		02C9F59E27AFD8E600431F88 /* HtmlConvertHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HtmlConvertHelper.swift; sourceTree = "<group>"; };
 		02FD8ECA27AEB1DD00656254 /* NotificationHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationHelper.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -138,14 +140,15 @@
 			path = TableViewCells;
 			sourceTree = "<group>";
 		};
-		0215036027AB0A2800086D5D /* Protocols */ = {
+		0215036027AB0A2800086D5D /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
 				0215036127AB0A5E00086D5D /* CategoryActionDelegate.swift */,
 				0215036327AB0B0C00086D5D /* NoteActionDelegate.swift */,
 				02FD8ECA27AEB1DD00656254 /* NotificationHelper.swift */,
+				02C9F59E27AFD8E600431F88 /* HtmlConvertHelper.swift */,
 			);
-			path = Protocols;
+			path = Helpers;
 			sourceTree = "<group>";
 		};
 		024EDCBE2764C8F900B73D98 = {
@@ -167,7 +170,7 @@
 		024EDCC92764C8F900B73D98 /* TaskManagerApplication */ = {
 			isa = PBXGroup;
 			children = (
-				0215036027AB0A2800086D5D /* Protocols */,
+				0215036027AB0A2800086D5D /* Helpers */,
 				02065E3D27A6B0DF009184BC /* TableViewCells */,
 				029847CD27A171B80046B90F /* Databases */,
 				02C5BA7C279F06CE0091DDD4 /* Models */,
@@ -338,6 +341,7 @@
 				027DEF48279D75CF0062AA08 /* CreateCategoryViewController.swift in Sources */,
 				0213407827662E1D002C2EBB /* LoginFormViewController.swift in Sources */,
 				02029EA1279E02FD00A29A07 /* NoteViewController.swift in Sources */,
+				02C9F59F27AFD8E600431F88 /* HtmlConvertHelper.swift in Sources */,
 				024EDCCD2764C8F900B73D98 /* SceneDelegate.swift in Sources */,
 				02065E3A27A6A31E009184BC /* AddToCategoryViewController.swift in Sources */,
 				0215036427AB0B0C00086D5D /* NoteActionDelegate.swift in Sources */,

@@ -11,19 +11,19 @@ import RealmSwift
 class Note: Object {
     @objc dynamic private var id = UUID().uuidString
     @objc dynamic var title: String = ""
+    @objc dynamic var textHtmlString: String = ""
     @objc dynamic var createdAt = NSDate()
     @objc dynamic var updatedAt = NSDate()
     @objc dynamic var revisions: Int = 0
     @objc dynamic var favourite: Bool = false
     @objc dynamic var category: Category? = nil
-    @objc dynamic var attrStringData: Data?
     @objc dynamic var reminderDate: NSDate?
     
     
-    convenience init(title: String, attrText: NSAttributedString, favourite: Bool, category: Category) {
+    convenience init(title: String, htmlText: String, favourite: Bool, category: Category) {
         self.init()
         self.title = title
-        self.attrStringData = try? archiveAttrString(attrString: attrText)
+        self.textHtmlString = htmlText
         self.createdAt = NSDate()
         self.updatedAt = createdAt
         self.revisions = 1
@@ -68,15 +68,15 @@ class Note: Object {
 //        return self.reminderDate
 //    }
 
-    
+    /*
     func archiveAttrString(attrString: NSAttributedString) throws -> Data? {
         return try? NSKeyedArchiver.archivedData(withRootObject: attrString, requiringSecureCoding: false)
     }
-    
-    func unarchiveAttrString() throws -> NSAttributedString? {
-        return try? NSKeyedUnarchiver.unarchivedObject(ofClass: NSAttributedString.self, from: self.attrStringData!)
+    */
+    func html2AttrString() -> NSAttributedString? {
+        return self.textHtmlString.html2AttributedString
     }
-    
+    /*
     func returnAttrDataAsString() -> String {
             if self.attrStringData != nil {
                 let a = try? self.unarchiveAttrString()
@@ -84,8 +84,26 @@ class Note: Object {
             }
         return ""
         
-    }
+    }*/
     
     
    
+}
+
+extension StringProtocol {
+    var html2AttributedString: NSAttributedString? {
+        Data(utf8).html2AttributedString
+    }
+}
+
+
+extension Data {
+    var html2AttributedString: NSAttributedString? {
+        do {
+            return try NSAttributedString(data: self, options: [.documentType: NSAttributedString.DocumentType.html, .characterEncoding: String.Encoding.utf8.rawValue], documentAttributes: nil)
+        } catch {
+            print("error:", error)
+            return  nil
+        }
+    }
 }

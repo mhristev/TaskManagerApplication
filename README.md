@@ -8,7 +8,7 @@
 <br />
 
 ## TODO: <br />
-- note from attributes string -> to markdown text -> store in realm as string
+- ~~note from attributes string -> to html text -> store in realm as string~~
 - colors
 - ~~notificationHelper~~
 - ~~delete Note -> delete reminder in the notification center~~

@@ -139,8 +139,13 @@ class RealmHandler {
         print(inRealmObject.configuration.fileURL!.path)
         
         if let foundCategory = inRealmObject.objects(Category.self).filter("name == %@", categoryName).first {
+            
+            guard let htmlString = text.toHtmlString() else {
+                return
+            }
+            
             try! inRealmObject.write() {
-                inRealmObject.add(Note(title: title, attrText: text, favourite: favourite, category: foundCategory))
+                inRealmObject.add(Note(title: title, htmlText: htmlString, favourite: favourite, category: foundCategory))
             }
         }
     
@@ -157,8 +162,12 @@ class RealmHandler {
                 }
             }
             
+            guard let htmlString = attrText.toHtmlString() else {
+                return
+            }
+            
             try! inRealmObject.write() {
-                note.attrStringData = try! note.archiveAttrString(attrString: attrText)
+                note.textHtmlString = htmlString
                 note.title = title
                 note.updatedAt = NSDate()
                 note.revisions += 1
@@ -200,12 +209,13 @@ class RealmHandler {
         }
     }
     
-    func createReminderForNote(withID: String, andDate: NSDate, inRealmObject: Realm) {
+    func createReminderAndNotificationForNote(withID: String, andDate: Date, inRealmObject: Realm) {
         print(inRealmObject.configuration.fileURL!.path)
         if let note = inRealmObject.objects(Note.self).filter("id == %@", withID).first {
             try! inRealmObject.write() {
-                note.reminderDate = andDate
+                note.reminderDate = andDate as NSDate
             }
+            NotificationHelper.createNewNotificationWith(title: note.title, date: andDate, ID: note.getID())
         }
     }
     
@@ -252,6 +262,11 @@ class RealmHandler {
             
         }
     }
+    
+    
+    
+    
+    
     
 }
 

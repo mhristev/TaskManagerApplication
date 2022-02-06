@@ -48,7 +48,11 @@ class HomeViewController: UIViewController {
         
         
         super.viewDidLoad()
+        
         prepareChildren()
+        
+        let titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
+        segmentRemindersOverview.setTitleTextAttributes(titleTextAttributes, for:.normal)
         
         let reminders = RealmHandler.shared.getAllReminders(inRealmObject: realm)
         NotificationHelper.createPendingNotificationsIn(reminders: reminders)
@@ -56,6 +60,8 @@ class HomeViewController: UIViewController {
         
         // Do any additional setup after loading the view.
     }
+    
+    
     
     
     @IBAction func quickNoteAction(_ sender: Any) {

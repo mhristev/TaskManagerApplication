@@ -38,7 +38,7 @@ class CreateCategoryViewController: UIViewController {
             for button in colorButtons {
                 if (hexStringFromColor(color: button.backgroundColor!) == editCategory?.color) {
                     button.layer.borderWidth = 2
-                    button.layer.borderColor = UIColor(red: 255, green: 255, blue: 255, alpha: 1).cgColor
+                    button.layer.borderColor = UIColor(named: "colorSelector")?.cgColor
                     break
                 }
             }
@@ -46,6 +46,7 @@ class CreateCategoryViewController: UIViewController {
             for icon in iconButtons {
                 if (icon.restorationIdentifier == editCategory?.icon) {
                     icon.tintColor = .blue
+                    icon.layer.borderColor = UIColor(named: "iconSelectorColor")?.cgColor
                     icon.layer.borderWidth = 2
                     break
                 }
@@ -58,18 +59,21 @@ class CreateCategoryViewController: UIViewController {
     @IBAction func colorSelected(_ sender: UIButton) {
         colorButtons.forEach({$0.layer.borderWidth = 0})
         sender.layer.borderWidth = 2
-        sender.layer.borderColor = UIColor(red: 255, green: 255, blue: 255, alpha: 1).cgColor
+        sender.layer.borderColor = UIColor(named: "colorSelector")?.cgColor
         
     }
     
     @IBAction func iconSelected(_ sender: UIButton) {
+        
+        
         for button in iconButtons {
-            button.tintColor = .white
+            button.tintColor = UIColor.label
             button.layer.borderWidth = 0
         }
         
         //iconButtons.forEach({$0.tintColor = .white })
         sender.tintColor = .blue
+        sender.layer.borderColor = UIColor(named: "iconSelectorColor")?.cgColor
         sender.layer.borderWidth = 2
        // sender.layer.borderColor = UIColor(red: 255, green: 255, blue: 255, alpha: 0).cgColor
     }

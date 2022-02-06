@@ -18,7 +18,7 @@ class CreateReminderViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        datePickerView.overrideUserInterfaceStyle = .dark
+        //datePickerView.overrideUserInterfaceStyle = .dark
         
         
         //myDatePicker.overrideUserInterfaceStyle = .light
@@ -33,11 +33,51 @@ class CreateReminderViewController: UIViewController {
             return
         }
         
-        NotificationHelper.createNewNotificationWith(title: note.title, date: datePickerView.date, ID: note.getID())
         
-        RealmHandler.shared.createReminderForNote(withID: note.getID(), andDate: datePickerView.date as NSDate, inRealmObject: realm)
+        if datePickerView.date < Date() {
+            let myalert = UIAlertController(title: "Error", message: "The day has passed a long time ago, my friend", preferredStyle: .alert)
+            
+            myalert.addAction(UIAlertAction(title: "Dismiss", style: .default,
+                                          handler: nil))
+                            
+            self.present(myalert, animated: true)
+            return
+        }
         
-       
+        
+        if note.reminderDate != nil {
+            print("bbbbbbb")
+            let myalert = UIAlertController(title: "", message: "You already have a reminder for that note. Do you want to override it?", preferredStyle: .alert)
+            
+            myalert.addAction(UIAlertAction(title: "Continue", style: UIAlertAction.Style.default, handler: { _ in
+                NotificationHelper.removeNotificationWithID(ID: note.getID())
+                self.createReminder()
+                
+            }))
+            myalert.addAction(UIAlertAction(title: "Cancel", style: UIAlertAction.Style.cancel, handler: { _ in
+                self.dismiss(animated: true, completion: nil)
+            }))
+            
+            self.present(myalert, animated: true)
+        } else {
+            print("AAAAAAAA")
+            self.createReminder()
+        }
+        
+        
+        
+        
+       //    UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: ["testID"])
+        //self.dismiss(animated: true, completion: nil)
+    }
+    
+
+    func createReminder() {
+        guard let note = currNote else {
+            return
+        }
+        RealmHandler.shared.createReminderAndNotificationForNote(withID: note.getID(), andDate: datePickerView.date, inRealmObject: realm)
+        
         
         let myalert = UIAlertController(title: "Success", message: "You have successfuly created a reminder.", preferredStyle: .alert)
         
@@ -48,11 +88,7 @@ class CreateReminderViewController: UIViewController {
                         
     
         self.present(myalert, animated: true)
-       //    UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: ["testID"])
-        //self.dismiss(animated: true, completion: nil)
     }
-    
-
     /*
     // MARK: - Navigation
 

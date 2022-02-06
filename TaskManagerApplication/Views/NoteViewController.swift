@@ -27,7 +27,7 @@ class NoteViewController: UIViewController {
         
         
         
-        textView.allowsEditingTextAttributes = true
+       // textView.allowsEditingTextAttributes = true
       //  textView.delegate = self
 
         
@@ -35,8 +35,16 @@ class NoteViewController: UIViewController {
             guard let note = RealmHandler.shared.getNoteWith(ID: currNoteID!, inRealmObject: realm) else {
                 return
             }
-            textView.attributedText = try? note.unarchiveAttrString()
             
+          //  let attr = [NSAttributedString.Key.font: UIFont(name: "Chalkduster", size: 18.0)!]
+    
+            guard let newAttributedString = note.html2AttrString() else {
+                return
+            }
+            
+            
+            textView.attributedText = newAttributedString
+            textView.textColor = UIColor(named: "colorSelector")
             configureFavourite()
             
             
