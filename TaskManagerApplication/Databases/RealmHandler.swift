@@ -117,7 +117,19 @@ class RealmHandler {
     }
     
     func getAllNotesInCategoryWith(name: String, inRealmObject: Realm) -> Array<Note> {
-        return Array(inRealmObject.objects(Note.self).filter("category.name == %@", name))
+        self.clearEmtyNotes(inRealmObject: inRealmObject)
+        return Array(inRealmObject.objects(Note.self).filter("category.name == %@", name).sorted(byKeyPath: "updatedAt"))
+    }
+    
+    func clearEmtyNotes(inRealmObject: Realm) {
+        // TO DO
+        // convert htmlString to string and compare to empty string
+//        let emtyNotes = inRealmObject.objects(Note.self).filter("textHtmlString == %@", "")
+//        for note in emtyNotes {
+//            try! inRealmObject.write() {
+//                inRealmObject.delete(note)
+//            }
+//        }
     }
     
     func getCategoryWith(name: String, inRealmObject: Realm) -> Category? {
@@ -221,19 +233,39 @@ class RealmHandler {
     
     func getAllReminders(inRealmObject: Realm) -> Array<Note> {
         cleanOldReminders(inRealmObject: inRealmObject)
-        return Array(inRealmObject.objects(Note.self).filter("reminderDate != null"))
+        return Array(inRealmObject.objects(Note.self).filter("reminderDate != null").filter("reminderDate > %@", Date()))
+    }
+    
+    func getAllRemindersForThisWeek(inRealmObject: Realm) -> [Note] {
+        cleanOldReminders(inRealmObject: inRealmObject)
+        return Array(inRealmObject.objects(Note.self).filter("reminderDate != null").sorted(byKeyPath: "reminderDate"))
+    }
+    
+    func returnFavouriteReminders(inRealmObject: Realm) -> Array<Note> {
+        return Array(inRealmObject.objects(Note.self).filter("reminderDate != null && favourite = 1").sorted(byKeyPath: "reminderDate"))
     }
     
     
+    
+    
     func cleanOldReminders(inRealmObject: Realm) {
-        let today = Calendar.current.date(byAdding: .day, value: -1, to: Date())!
+            
+        let today = Date()
         
             for oldReminder in inRealmObject.objects(Note.self).filter("reminderDate != null") {
-                if today > (oldReminder.reminderDate! as Date) {
-                    try! inRealmObject.write() {
-                        oldReminder.reminderDate = nil
+                
+                guard let day = oldReminder.reminderDate else {
+                    return
+                }
+                
+                if today > day as Date {
+                    if isInCurrentWeek(date: day as Date) == false {
+                        try! inRealmObject.write() {
+                            oldReminder.reminderDate = nil
+                        }
                     }
                 }
+            
             }
         
 
@@ -264,10 +296,25 @@ class RealmHandler {
     }
     
     
-    
+    func returnFavouriteNotesInCategory(name: String, inRealmObject: Realm) -> Array<Note> {
+        let results: Results<Note> = inRealmObject.objects(Note.self)
+            .filter("category.name == %@", name).filter("favourite == 1").sorted(byKeyPath: "updatedAt", ascending: true)
+            
+        return Array(results)
+    }
     
     
     
 }
 
 
+func isInCurrentWeek(date: Date) -> Bool {
+   var startDate = Date()
+   var interval : TimeInterval = 0.0
+   let calendar = Calendar.current
+   // calendar.firstWeekday = 1 set the index of the first weekday if necessary
+   calendar.dateInterval(of: .weekOfYear, start: &startDate, interval: &interval, for: Date())
+   let endDate = calendar.date(byAdding:.second, value: Int(interval), to: startDate)!
+   return date >= startDate && date < endDate
+
+ }

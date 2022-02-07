@@ -16,13 +16,16 @@ import UserNotifications
 
 class CategoryViewController: UIViewController {
     
+    @IBOutlet var searchBar: UISearchBar!
     var newNoteDelegate: noteActionDelegate!
     
     var categoryDelegate: categoryActionDelegate!
     
-    var test = false
 
+    @IBOutlet var favSegmentControl: UISegmentedControl!
+    
     var notes: Array<Note> = []
+    var filteredNotes: [Note] = []
     
     let realm = try! Realm(configuration: RealmHandler.configurationHelper(), queue: nil)
 
@@ -35,11 +38,32 @@ class CategoryViewController: UIViewController {
        
         NotesInCategoryTableView.delegate = self
         NotesInCategoryTableView.dataSource = self
-
+        
+        searchBar.delegate = self
+        
+        
+        // dismiss the keyboard tap
+       let tap = UITapGestureRecognizer(target: self, action: #selector(UIInputViewController.dismissKeyboard))
+        tap.cancelsTouchesInView = false
+        view.addGestureRecognizer(tap)
         // Do any additional setup after loading the view.
     }
+    @objc func dismissKeyboard() {
+        //Causes the view (or one of its embedded text fields) to resign the first responder status.
+        view.endEditing(true)
+    }
     
-
+    @IBAction func filterFavourites(_ sender: UISegmentedControl) {
+        if favSegmentControl.selectedSegmentIndex  == 1 {
+                // filter favourites
+            print("hello")
+            notes = RealmHandler.shared.returnFavouriteNotesInCategory(name: self.title!, inRealmObject: realm)
+            NotesInCategoryTableView.reloadData()
+        } else {
+            updateDataInTableView()
+        }
+    }
+    
     @IBAction func createNote(_ sender: Any) {
     
         RealmHandler.shared.createNoteWith(title: "", text: NSAttributedString(""), favourite: false, categoryName: self.title!, inRealmObject: realm)
@@ -65,8 +89,13 @@ class CategoryViewController: UIViewController {
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        print("categoryView viewDidappear")
-        updateDataInTableView()
+
+        if favSegmentControl.selectedSegmentIndex == 0 {
+            updateDataInTableView()
+        } else {
+            notes = RealmHandler.shared.returnFavouriteNotesInCategory(name: self.title!, inRealmObject: realm)
+            NotesInCategoryTableView.reloadData()
+        }
     }
     
     /*
@@ -85,11 +114,12 @@ class CategoryViewController: UIViewController {
 
 
 extension CategoryViewController: UITableViewDelegate {
-    private func handleMarkAsFavourite() {
+    private func handleMarkAsFavourite(indexPath: IndexPath) {
+        RealmHandler.shared.updateFavouriteForNote(ID: notes[notes.count - (1 + indexPath.row)].getID(), inRealmObject: realm)
         print("Marked as favourite")
     }
 
-    private func handleAddToFolder(indexPath: IndexPath) {
+    private func handleChangeCategory(indexPath: IndexPath) {
         
         let destinationVC = storyboard?.instantiateViewController(withIdentifier: "AddToCategoryViewController") as! AddToCategoryViewController
         
@@ -151,7 +181,7 @@ extension CategoryViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let action = UIContextualAction(style: .normal,
                                         title: "Favourite") { [weak self] (action, view, completionHandler) in
-                                            self?.handleMarkAsFavourite()
+                                        self?.handleMarkAsFavourite(indexPath: indexPath)
                                             completionHandler(true)
         }
         action.backgroundColor = .systemBlue
@@ -178,8 +208,8 @@ extension CategoryViewController: UITableViewDelegate {
 
         // Add To Folder action
         let folder = UIContextualAction(style: .normal,
-                                       title: "Add to folder") { [weak self] (action, view, completionHandler) in
-                                        self?.handleAddToFolder(indexPath: indexPath)
+                                       title: "Change Category") { [weak self] (action, view, completionHandler) in
+                                        self?.handleChangeCategory(indexPath: indexPath)
                                         completionHandler(true)
         }
         folder.backgroundColor = .systemOrange
@@ -264,5 +294,28 @@ extension CategoryViewController: noteActionDelegate {
         return
     }
     
+    
+}
+
+
+extension CategoryViewController: UISearchBarDelegate {
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        filteredNotes = []
+        
+        if searchText == "" {
+            notes = RealmHandler.shared.getAllNotesInCategoryWith(name: self.title!, inRealmObject: realm)
+            NotesInCategoryTableView.reloadData()
+            return
+        }
+        
+        for note in notes {
+            if note.title.uppercased().contains(searchText.uppercased()) {
+                filteredNotes.append(note)
+            }
+        }
+        
+        notes = filteredNotes
+        self.NotesInCategoryTableView.reloadData()
+    }
     
 }

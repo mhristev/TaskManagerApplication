@@ -159,6 +159,7 @@ extension OverviewChildHomeController: UITableViewDataSource {
         cell.configureWith(title: categories[categories.count - (1+indexPath.row)].getName(),
                            imageName: categories[categories.count-(1+indexPath.row)].icon,
                            color: OverviewChildHomeController.hexStringToUIColor(hex: categories[categories.count-(1+indexPath.row)].getColor()))
+    
         return cell
     }
     

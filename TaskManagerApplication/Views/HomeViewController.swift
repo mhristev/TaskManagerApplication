@@ -12,6 +12,7 @@ import RealmSwift
 
 class HomeViewController: UIViewController {
     
+    @IBOutlet var welcomeLabel: UILabel!
     var newNoteDelegate: noteActionDelegate!
     
     let realm = try! Realm(configuration: RealmHandler.configurationHelper(), queue: nil)
@@ -50,9 +51,9 @@ class HomeViewController: UIViewController {
         super.viewDidLoad()
         
         prepareChildren()
-        
-        let titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
-        segmentRemindersOverview.setTitleTextAttributes(titleTextAttributes, for:.normal)
+        let myAttribute = [ NSAttributedString.Key.font: UIFont(name: "Arial-BoldMT", size: 52.0)! ]
+        let myString = NSMutableAttributedString(string: "Good,\nevening!", attributes: myAttribute )
+        welcomeLabel.attributedText = myString
         
         let reminders = RealmHandler.shared.getAllReminders(inRealmObject: realm)
         NotificationHelper.createPendingNotificationsIn(reminders: reminders)

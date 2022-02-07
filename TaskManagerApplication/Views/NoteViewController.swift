@@ -28,7 +28,7 @@ class NoteViewController: UIViewController {
         
         
        // textView.allowsEditingTextAttributes = true
-      //  textView.delegate = self
+          textView.delegate = self
 
         
         if currNoteID != nil {
@@ -132,13 +132,24 @@ class NoteViewController: UIViewController {
                             let string = NSMutableAttributedString(attributedString:
                              textView.attributedText)
                             let boldAttribute = [
-                                NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: self.fontSize)
+                                NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 40.0)
                              ]
-                              string.addAttributes(boldAttribute, range: textView.selectedRange)
-                            textView.attributedText = string
+                              string.addAttributes(boldAttribute, range: range)
+                              textView.attributedText = string
                               textView.selectedRange = range
+                              
                            
+        
+        
+        
+        
         }
+        
+        
+
+       
+       
+        
     }
     
     @IBAction func italicButton(_ sender: UIButton) {
@@ -150,7 +161,7 @@ class NoteViewController: UIViewController {
                              textView.attributedText)
             
                             let italicAttribute = [
-                                NSAttributedString.Key.font: UIFont.italicSystemFont(ofSize: self.fontSize)
+                                NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 25.0)
                              ]
                               string.addAttributes(italicAttribute, range: textView.selectedRange)
                             textView.attributedText = string
@@ -166,7 +177,7 @@ class NoteViewController: UIViewController {
                     let range = text.selectedRange
                             let string = NSMutableAttributedString(attributedString:
                              textView.attributedText)
-                    let underlineAttribute = [NSAttributedString.Key.underlineStyle: NSUnderlineStyle.thick.rawValue]
+            let underlineAttribute = [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 18.0)]
                              
                               string.addAttributes(underlineAttribute, range: textView.selectedRange)
                             textView.attributedText = string
@@ -174,7 +185,6 @@ class NoteViewController: UIViewController {
                            
         }
     }
-    
     
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -205,6 +215,14 @@ class NoteViewController: UIViewController {
 
 }
 
+
+extension NoteViewController: UITextViewDelegate {
+    
+    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+        textView.typingAttributes = [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 18)]
+        return true
+    }
+}
 
 
 extension NoteViewController: noteActionDelegate {

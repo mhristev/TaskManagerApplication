@@ -13,7 +13,10 @@ class RemindersChildHomeController: UIViewController {
     
     let realm = try! Realm(configuration: RealmHandler.configurationHelper(), queue: nil)
     
-    var reminders: Array<Note> = []
+    @IBOutlet var searchBar: UISearchBar!
+    
+    var reminders: [Note] = []
+    var filteredReminders: [Note] = []
     
     @IBOutlet var tableView: UITableView!
     
@@ -22,9 +25,18 @@ class RemindersChildHomeController: UIViewController {
         tableView.delegate = self
         tableView.dataSource = self
         reminders = RealmHandler.shared.getAllReminders(inRealmObject: realm)
+        searchBar.delegate = self
+        
+        let tap = UITapGestureRecognizer(target: self, action: #selector(UIInputViewController.dismissKeyboard))
+        tap.cancelsTouchesInView = false
+        view.addGestureRecognizer(tap)
+        
         // Do any additional setup after loading the view.
     }
-    
+    @objc func dismissKeyboard() {
+        //Causes the view (or one of its embedded text fields) to resign the first responder status.
+        view.endEditing(true)
+    }
     
     /*
     // MARK: - Navigation
@@ -124,9 +136,16 @@ extension RemindersChildHomeController: UITableViewDataSource {
         let f = DateFormatter()
         f.dateFormat = "MMM dd YYYY"
         
-        let p = f.string(from: reminders[reminders.count - (1+indexPath.row)].reminderDate! as Date)
+        let formatedDate = f.string(from: reminders[reminders.count - (1+indexPath.row)].reminderDate! as Date)
         
-        cell.configureWith(title: reminders[reminders.count - (1 + indexPath.row)].title, imageName: "", date: p)
+        var out = formatedDate
+        
+        if let categoryName = reminders[reminders.count - (1+indexPath.row)].category?.name  {
+            out = "\(formatedDate) (\(categoryName))"
+        }
+        
+        
+        cell.configureWith(title: reminders[reminders.count - (1 + indexPath.row)].title, imageName: "", date: out)
         
         
         return cell
@@ -136,3 +155,23 @@ extension RemindersChildHomeController: UITableViewDataSource {
 
 
 
+extension RemindersChildHomeController: UISearchBarDelegate {
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        filteredReminders = []
+        
+        if searchText == "" {
+            reminders = RealmHandler.shared.getAllReminders(inRealmObject: realm)
+            tableView.reloadData()
+            return
+        }
+        
+        for reminder in reminders {
+            if reminder.title.uppercased().contains(searchText.uppercased()) {
+                filteredReminders.append(reminder)
+            }
+        }
+        
+        reminders = filteredReminders
+        self.tableView.reloadData()
+    }
+}
