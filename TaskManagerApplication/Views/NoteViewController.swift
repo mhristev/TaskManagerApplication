@@ -219,7 +219,8 @@ class NoteViewController: UIViewController {
 extension NoteViewController: UITextViewDelegate {
     
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
-        textView.typingAttributes = [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 18)]
+        //textView.typingAttributes = [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 18)]
+        textView.typingAttributes = [NSAttributedString.Key.foregroundColor: UIColor(named: "colorSelector"), NSAttributedString.Key.font: UIFont.systemFont(ofSize: 18)]
         return true
     }
 }
