@@ -14,6 +14,8 @@ class CreateReminderViewController: UIViewController {
     var currNote: Note?
     let realm = try! Realm(configuration: RealmHandler.configurationHelper(), queue: nil)
     
+    var noteDelegate: noteActionDelegate!
+    
     @IBOutlet var datePickerView: UIDatePicker!
     
     override func viewDidLoad() {
@@ -83,6 +85,7 @@ class CreateReminderViewController: UIViewController {
         
         myalert.addAction(UIAlertAction(title: "Dismiss", style: .default,
                                       handler: {_ in
+            self.noteDelegate.reloadData()
             self.dismiss(animated: true, completion: nil)
         }))
                         
@@ -102,13 +105,14 @@ class CreateReminderViewController: UIViewController {
 }
 
 extension CreateReminderViewController: noteActionDelegate {
+    func reloadData() {
+        return
+    }
+    
     func didCreateNoteWith(ID: String) {
         return
     }
     
-    func didUpdateNoteCategory(notes: Array<Note>) {
-        return
-    }
     
     func didCreateReminderOn(note: Note) {
         self.currNote = note

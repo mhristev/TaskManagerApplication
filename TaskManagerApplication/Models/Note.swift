@@ -18,6 +18,7 @@ class Note: Object {
     @objc dynamic var favourite: Bool = false
     @objc dynamic var category: Category? = nil
     @objc dynamic var reminderDate: NSDate?
+    let photos = List<String>()
     
     
     convenience init(title: String, htmlText: String, favourite: Bool, category: Category) {

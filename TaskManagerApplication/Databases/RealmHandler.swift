@@ -5,10 +5,14 @@
 //  Created by Martin Hristev on 26.01.22.
 //
 
+
+
+
 enum RealmError: Error {
     case existCategory
 }
 
+import UIKit
 import Foundation
 import RealmSwift
 import Firebase
@@ -303,7 +307,54 @@ class RealmHandler {
         return Array(results)
     }
     
+    func addPhotoToNoteWith(ID: String, photoURL: String, inRealmObject: Realm) {
+        let note = inRealmObject.objects(Note.self).filter("id == %@", ID).first
+        
+        try! inRealmObject.write() {
+            note?.photos.append(photoURL)
+        }
+    }
     
+    func getAllPhotosinNoteWith(ID: String, inRealmObject: Realm) -> [String]? {
+        if let note = inRealmObject.objects(Note.self).filter("id == %@", ID).first {
+//            return Array(note.photos)
+            clearOldImagesIn(note: note, inRealmObject: inRealmObject)
+            return Array(note.photos)
+        }
+        return nil
+    }
+    
+    func clearOldImagesIn(note: Note, inRealmObject: Realm) {
+        var i = 0
+        for photo in note.photos {
+            if let url = URL(string: photo) {
+                if returnImageFor(url: url) == nil {
+                   try! inRealmObject.write() {
+                       note.photos.remove(at: i)
+                   }
+                    i -= 1
+                }
+            }
+            i += 1
+        }
+    }
+    
+    
+}
+
+
+func returnImageFor(url: URL) -> UIImage? {
+    
+    let data = try? Data(contentsOf: url)
+    if let imageData = data {
+        if let image = UIImage(data: imageData) {
+            return image
+        } else {
+            print("image not found!")
+        }
+    }
+    
+    return nil
     
 }
 

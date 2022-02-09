@@ -40,7 +40,7 @@ class CategoryViewController: UIViewController {
         NotesInCategoryTableView.dataSource = self
         
         searchBar.delegate = self
-        
+        self.NotesInCategoryTableView.register(SubtitleTableViewCell.self, forCellReuseIdentifier: "noteCell")
         
         // dismiss the keyboard tap
        let tap = UITapGestureRecognizer(target: self, action: #selector(UIInputViewController.dismissKeyboard))
@@ -54,21 +54,14 @@ class CategoryViewController: UIViewController {
     }
     
     @IBAction func filterFavourites(_ sender: UISegmentedControl) {
-        if favSegmentControl.selectedSegmentIndex  == 1 {
-                // filter favourites
-            print("hello")
-            notes = RealmHandler.shared.returnFavouriteNotesInCategory(name: self.title!, inRealmObject: realm)
-            NotesInCategoryTableView.reloadData()
-        } else {
-            updateDataInTableView()
-        }
+       reloadTableBasedOnSegment()
     }
     
     @IBAction func createNote(_ sender: Any) {
     
         RealmHandler.shared.createNoteWith(title: "", text: NSAttributedString(""), favourite: false, categoryName: self.title!, inRealmObject: realm)
         
-        updateDataInTableView()
+        reloadTableBasedOnSegment()
         
         
         let destinationVC = storyboard?.instantiateViewController(withIdentifier: "NoteViewController") as! NoteViewController
@@ -83,18 +76,25 @@ class CategoryViewController: UIViewController {
         self.navigationController?.pushViewController(destinationVC, animated: true)
     }
     
-    func updateDataInTableView() {
+    func updateDataInTableViewAll() {
         notes = RealmHandler.shared.getAllNotesInCategoryWith(name: self.title!, inRealmObject: realm)
+        NotesInCategoryTableView.reloadData()
+    }
+    func updateDataInTableViewFavourite() {
+        notes = RealmHandler.shared.returnFavouriteNotesInCategory(name: self.title!, inRealmObject: realm)
         NotesInCategoryTableView.reloadData()
     }
     
     override func viewDidAppear(_ animated: Bool) {
-
+        reloadTableBasedOnSegment()
+        
+    }
+    
+    func reloadTableBasedOnSegment() {
         if favSegmentControl.selectedSegmentIndex == 0 {
-            updateDataInTableView()
+            updateDataInTableViewAll()
         } else {
-            notes = RealmHandler.shared.returnFavouriteNotesInCategory(name: self.title!, inRealmObject: realm)
-            NotesInCategoryTableView.reloadData()
+            updateDataInTableViewFavourite()
         }
     }
     
@@ -162,7 +162,9 @@ extension CategoryViewController: UITableViewDelegate {
         })
         
         let destinationVC = storyboard?.instantiateViewController(withIdentifier: "CreateReminderViewController") as! CreateReminderViewController
+        
         self.newNoteDelegate = destinationVC
+        destinationVC.noteDelegate = self
 
         guard let note = RealmHandler.shared.getNoteWith(ID: notes[notes.count - (1 + indexPath.row)].getID(), inRealmObject: self.realm) else {
             return
@@ -236,6 +238,7 @@ extension CategoryViewController: UITableViewDelegate {
     }
     
     
+    
 }
 
 
@@ -247,8 +250,19 @@ extension CategoryViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = NotesInCategoryTableView.dequeueReusableCell(withIdentifier: "noteCell", for: indexPath)
         print(notes)
+        let f = DateFormatter()
+        f.dateFormat = "MMM dd YYYY HH:mm"
+        
+        if let date = notes[notes.count - (1+indexPath.row)].reminderDate {
+            let formatedDate = f.string(from: date as Date)
+            cell.detailTextLabel?.text = "Reminder for \(formatedDate)"
+            
+        }
+        
+        
         
         cell.textLabel?.text = notes[notes.count - (1 + indexPath.row)].title
+        
         return cell
     }
     
@@ -280,15 +294,15 @@ extension CategoryViewController: categoryActionDelegate {
 
 
 extension CategoryViewController: noteActionDelegate {
+    func reloadData() {
+        reloadTableBasedOnSegment()
+    }
+    
     func didCreateReminderOn(note: Note) {
         return
     }
     
-    func didUpdateNoteCategory(notes: Array<Note>) {
-        
-        self.notes = notes
-        self.NotesInCategoryTableView.reloadData()
-    }
+    
     
     func didCreateNoteWith(ID: String) {
         return
@@ -318,4 +332,17 @@ extension CategoryViewController: UISearchBarDelegate {
         self.NotesInCategoryTableView.reloadData()
     }
     
+}
+
+
+
+class SubtitleTableViewCell: UITableViewCell {
+
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: .subtitle, reuseIdentifier: reuseIdentifier)
+    }
+
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
 }

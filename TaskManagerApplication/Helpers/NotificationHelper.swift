@@ -40,7 +40,7 @@ class NotificationHelper {
         let targetDate = date as Date
     
         
-        let trigger = UNCalendarNotificationTrigger(dateMatching: Calendar.current.dateComponents([.day, .month, .year], from: targetDate), repeats: false)
+        let trigger = UNCalendarNotificationTrigger(dateMatching: Calendar.current.dateComponents([.minute, .hour, .day, .month, .year], from: targetDate), repeats: false)
         
         
         

@@ -314,8 +314,8 @@
             filePath = "TaskManagerApplication/Views/CategoryViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "83"
-            endingLineNumber = "83"
+            startingLineNumber = "76"
+            endingLineNumber = "76"
             landmarkName = "createNote(_:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -330,8 +330,8 @@
             filePath = "TaskManagerApplication/Views/CategoryViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "81"
-            endingLineNumber = "81"
+            startingLineNumber = "74"
+            endingLineNumber = "74"
             landmarkName = "createNote(_:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -346,10 +346,10 @@
             filePath = "TaskManagerApplication/Views/NoteViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "239"
-            endingLineNumber = "239"
-            landmarkName = "didCreateNoteWith(ID:)"
-            landmarkType = "7">
+            startingLineNumber = "255"
+            endingLineNumber = "255"
+            landmarkName = "NoteViewController"
+            landmarkType = "21">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -362,10 +362,10 @@
             filePath = "TaskManagerApplication/Views/CategoryViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "244"
-            endingLineNumber = "244"
-            landmarkName = "tableView(_:numberOfRowsInSection:)"
-            landmarkType = "7">
+            startingLineNumber = "247"
+            endingLineNumber = "247"
+            landmarkName = "CategoryViewController"
+            landmarkType = "21">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -410,8 +410,8 @@
             filePath = "TaskManagerApplication/Views/CreateCategoryViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "228"
-            endingLineNumber = "228"
+            startingLineNumber = "219"
+            endingLineNumber = "219"
             landmarkName = "didEditCategory(category:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -442,8 +442,8 @@
             filePath = "TaskManagerApplication/Databases/RealmHandler.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "197"
-            endingLineNumber = "197"
+            startingLineNumber = "201"
+            endingLineNumber = "201"
             landmarkName = "getNoteWith(ID:inRealmObject:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -474,8 +474,8 @@
             filePath = "TaskManagerApplication/Databases/RealmHandler.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "150"
-            endingLineNumber = "150"
+            startingLineNumber = "154"
+            endingLineNumber = "154"
             landmarkName = "createNoteWith(title:text:favourite:categoryName:inRealmObject:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -490,9 +490,9 @@
             filePath = "TaskManagerApplication/Views/CategoryViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "68"
-            endingLineNumber = "68"
-            landmarkName = "createNote(_:)"
+            startingLineNumber = "61"
+            endingLineNumber = "61"
+            landmarkName = "filterFavourites(_:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -554,8 +554,8 @@
             filePath = "TaskManagerApplication/Databases/RealmHandler.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "113"
-            endingLineNumber = "113"
+            startingLineNumber = "117"
+            endingLineNumber = "117"
             landmarkName = "getAllCategories(inRealmObject:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -618,8 +618,8 @@
             filePath = "TaskManagerApplication/Databases/RealmHandler.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "25"
-            endingLineNumber = "25"
+            startingLineNumber = "29"
+            endingLineNumber = "29"
             landmarkName = "loadfirstConfiguration(andSetUserID:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -634,8 +634,8 @@
             filePath = "TaskManagerApplication/Databases/RealmHandler.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "27"
-            endingLineNumber = "27"
+            startingLineNumber = "31"
+            endingLineNumber = "31"
             landmarkName = "loadfirstConfiguration(andSetUserID:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -778,8 +778,8 @@
             filePath = "TaskManagerApplication/Views/CreateReminderViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "30"
-            endingLineNumber = "30"
+            startingLineNumber = "32"
+            endingLineNumber = "32"
             landmarkName = "createReminder(_:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -826,8 +826,8 @@
             filePath = "TaskManagerApplication/Databases/RealmHandler.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "30"
-            endingLineNumber = "30"
+            startingLineNumber = "34"
+            endingLineNumber = "34"
             landmarkName = "loadfirstConfiguration(andSetUserID:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -858,8 +858,8 @@
             filePath = "TaskManagerApplication/Databases/RealmHandler.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "50"
-            endingLineNumber = "50"
+            startingLineNumber = "54"
+            endingLineNumber = "54"
             landmarkName = "configurationHelper()"
             landmarkType = "7">
          </BreakpointContent>
@@ -874,8 +874,8 @@
             filePath = "TaskManagerApplication/Databases/RealmHandler.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "225"
-            endingLineNumber = "225"
+            startingLineNumber = "229"
+            endingLineNumber = "229"
             landmarkName = "createReminderAndNotificationForNote(withID:andDate:inRealmObject:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -890,8 +890,8 @@
             filePath = "TaskManagerApplication/Views/CreateReminderViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "31"
-            endingLineNumber = "31"
+            startingLineNumber = "33"
+            endingLineNumber = "33"
             landmarkName = "createReminder(_:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -906,8 +906,8 @@
             filePath = "TaskManagerApplication/Databases/RealmHandler.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "186"
-            endingLineNumber = "186"
+            startingLineNumber = "190"
+            endingLineNumber = "190"
             landmarkName = "updateNoteWith(ID:title:attrText:inRealmObject:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -922,8 +922,8 @@
             filePath = "TaskManagerApplication/Databases/RealmHandler.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "187"
-            endingLineNumber = "187"
+            startingLineNumber = "191"
+            endingLineNumber = "191"
             landmarkName = "updateNoteWith(ID:title:attrText:inRealmObject:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -938,8 +938,8 @@
             filePath = "TaskManagerApplication/Databases/RealmHandler.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "168"
-            endingLineNumber = "168"
+            startingLineNumber = "172"
+            endingLineNumber = "172"
             landmarkName = "updateNoteWith(ID:title:attrText:inRealmObject:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -948,14 +948,14 @@
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "3DA9A434-A0E0-495B-BDFB-B7C12EAD66E2"
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "TaskManagerApplication/Databases/RealmHandler.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "170"
-            endingLineNumber = "170"
+            startingLineNumber = "174"
+            endingLineNumber = "174"
             landmarkName = "updateNoteWith(ID:title:attrText:inRealmObject:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1002,8 +1002,8 @@
             filePath = "TaskManagerApplication/Databases/RealmHandler.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "255"
-            endingLineNumber = "255"
+            startingLineNumber = "259"
+            endingLineNumber = "259"
             landmarkName = "cleanOldReminders(inRealmObject:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1018,8 +1018,8 @@
             filePath = "TaskManagerApplication/Views/NoteViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "95"
-            endingLineNumber = "95"
+            startingLineNumber = "109"
+            endingLineNumber = "109"
             landmarkName = "addToFavourite(_:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1034,8 +1034,8 @@
             filePath = "TaskManagerApplication/Views/NoteViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "100"
-            endingLineNumber = "100"
+            startingLineNumber = "114"
+            endingLineNumber = "114"
             landmarkName = "addToFavourite(_:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1050,8 +1050,8 @@
             filePath = "TaskManagerApplication/Views/NoteViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "33"
-            endingLineNumber = "33"
+            startingLineNumber = "35"
+            endingLineNumber = "35"
             landmarkName = "viewDidLoad()"
             landmarkType = "7">
          </BreakpointContent>
@@ -1066,8 +1066,8 @@
             filePath = "TaskManagerApplication/Views/NoteViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "80"
-            endingLineNumber = "80"
+            startingLineNumber = "82"
+            endingLineNumber = "82"
             landmarkName = "configureFavourite()"
             landmarkType = "7">
          </BreakpointContent>
@@ -1082,8 +1082,8 @@
             filePath = "TaskManagerApplication/Views/NoteViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "98"
-            endingLineNumber = "98"
+            startingLineNumber = "112"
+            endingLineNumber = "112"
             landmarkName = "addToFavourite(_:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1092,14 +1092,14 @@
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "DBFAA2E6-FB82-4A3D-BF66-36968A1401B9"
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "TaskManagerApplication/Views/NoteViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "48"
-            endingLineNumber = "48"
+            startingLineNumber = "50"
+            endingLineNumber = "50"
             landmarkName = "viewDidLoad()"
             landmarkType = "7">
          </BreakpointContent>
@@ -1114,8 +1114,8 @@
             filePath = "TaskManagerApplication/Views/CreateReminderViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "48"
-            endingLineNumber = "48"
+            startingLineNumber = "50"
+            endingLineNumber = "50"
             landmarkName = "createReminder(_:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1130,8 +1130,8 @@
             filePath = "TaskManagerApplication/Views/CreateReminderViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "53"
-            endingLineNumber = "53"
+            startingLineNumber = "55"
+            endingLineNumber = "55"
             landmarkName = "createReminder(_:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1146,8 +1146,8 @@
             filePath = "TaskManagerApplication/Views/CreateReminderViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "69"
-            endingLineNumber = "69"
+            startingLineNumber = "71"
+            endingLineNumber = "71"
             landmarkName = "createReminder(_:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1162,8 +1162,8 @@
             filePath = "TaskManagerApplication/Views/CreateReminderViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "37"
-            endingLineNumber = "37"
+            startingLineNumber = "39"
+            endingLineNumber = "39"
             landmarkName = "createReminder(_:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1178,8 +1178,8 @@
             filePath = "TaskManagerApplication/Views/CreateReminderViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "43"
-            endingLineNumber = "43"
+            startingLineNumber = "45"
+            endingLineNumber = "45"
             landmarkName = "createReminder(_:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1187,24 +1187,8 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "B8232220-533F-47BE-AFE5-F3591D295D08"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "TaskManagerApplication/Views/CategoryViewController.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "58"
-            endingLineNumber = "58"
-            landmarkName = "filterFavourites(_:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
             uuid = "5B09C8BC-08EE-4F25-B8BD-E168EE643F62"
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "TaskManagerApplication/Views/CategoryViewController.swift"
@@ -1226,8 +1210,8 @@
             filePath = "TaskManagerApplication/Databases/RealmHandler.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "268"
-            endingLineNumber = "268"
+            startingLineNumber = "272"
+            endingLineNumber = "272"
             landmarkName = "cleanOldReminders(inRealmObject:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1242,8 +1226,8 @@
             filePath = "TaskManagerApplication/Databases/RealmHandler.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "236"
-            endingLineNumber = "236"
+            startingLineNumber = "240"
+            endingLineNumber = "240"
             landmarkName = "getAllReminders(inRealmObject:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1258,8 +1242,8 @@
             filePath = "TaskManagerApplication/Databases/RealmHandler.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "261"
-            endingLineNumber = "261"
+            startingLineNumber = "265"
+            endingLineNumber = "265"
             landmarkName = "cleanOldReminders(inRealmObject:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1342,6 +1326,242 @@
             endingLineNumber = "16"
             landmarkName = "WeeklyProgressViewController"
             landmarkType = "3">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "D08367E5-6CCB-48AE-AB4A-EF5B139A44BD"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "TaskManagerApplication/Views/CategoryViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "256"
+            endingLineNumber = "256"
+            landmarkName = "tableView(_:cellForRowAt:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "F0C92F0B-518C-42A6-BFD9-D20A6D8ECF0D"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "TaskManagerApplication/Views/CategoryViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "88"
+            endingLineNumber = "88"
+            landmarkName = "updateDataInTableViewAll()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "C642597C-4235-408D-9592-5E332F6BF030"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "TaskManagerApplication/Views/CategoryViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "298"
+            endingLineNumber = "298"
+            landmarkName = "didSelectCategoryWith(name:notes:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "94B03031-4943-43B1-AA77-1A3C1B0DCAE5"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "TaskManagerApplication/Views/GalleryViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "55"
+            endingLineNumber = "55"
+            landmarkName = "openCamera()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "F9CC5784-17C6-4E1C-A30C-D277E8F18639"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "TaskManagerApplication/Views/GalleryViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "118"
+            endingLineNumber = "118"
+            landmarkName = "imagePickerController(_:didFinishPickingMediaWithInfo:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "CE3DF401-F900-4288-9C67-D3515B5F9009"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "TaskManagerApplication/Views/GalleryViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "44"
+            endingLineNumber = "44"
+            landmarkName = "viewDidLoad()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "BC63121E-9F57-4EC9-853E-1E436EA52BE2"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "TaskManagerApplication/Views/GalleryViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "184"
+            endingLineNumber = "184"
+            landmarkName = "displayAndSaveImageFromCamera(image:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "AF1506AC-9FAC-46F8-AD59-4494288B7E3E"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "TaskManagerApplication/Views/GalleryViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "117"
+            endingLineNumber = "117"
+            landmarkName = "imagePickerController(_:didFinishPickingMediaWithInfo:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "CAD9762A-B42C-4F29-84EF-75A4937DD8BA"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "TaskManagerApplication/Views/GalleryViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "20"
+            endingLineNumber = "20"
+            landmarkName = "GalleryViewController"
+            landmarkType = "3">
+            <Locations>
+               <Location
+                  uuid = "CAD9762A-B42C-4F29-84EF-75A4937DD8BA - 50a9c142ec553fa0"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "TaskManagerApplication.GalleryViewController.photos.getter : Swift.Array&lt;Swift.String&gt;"
+                  moduleName = "TaskManagerApplication"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/mhristev/Desktop/TaskManagerApplication/TaskManagerApplication/Views/GalleryViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "20"
+                  endingLineNumber = "20"
+                  offsetFromSymbolStart = "88">
+               </Location>
+               <Location
+                  uuid = "CAD9762A-B42C-4F29-84EF-75A4937DD8BA - 221a7a138897cbdc"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "TaskManagerApplication.GalleryViewController.photos.setter : Swift.Array&lt;Swift.String&gt;"
+                  moduleName = "TaskManagerApplication"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/mhristev/Desktop/TaskManagerApplication/TaskManagerApplication/Views/GalleryViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "20"
+                  endingLineNumber = "20"
+                  offsetFromSymbolStart = "108">
+               </Location>
+               <Location
+                  uuid = "CAD9762A-B42C-4F29-84EF-75A4937DD8BA - 9c89cb533308f743"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "TaskManagerApplication.GalleryViewController.photos.modify : Swift.Array&lt;Swift.String&gt;"
+                  moduleName = "TaskManagerApplication"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/mhristev/Desktop/TaskManagerApplication/TaskManagerApplication/Views/GalleryViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "0"
+                  endingLineNumber = "0"
+                  offsetFromSymbolStart = "20">
+               </Location>
+               <Location
+                  uuid = "CAD9762A-B42C-4F29-84EF-75A4937DD8BA - 3ff616c0213a768"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "TaskManagerApplication.GalleryViewController.photos.modify : Swift.Array&lt;Swift.String&gt; with unmangled suffix &quot;.resume.0&quot;"
+                  moduleName = "TaskManagerApplication"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/mhristev/Desktop/TaskManagerApplication/TaskManagerApplication/Views/GalleryViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "20"
+                  endingLineNumber = "20"
+                  offsetFromSymbolStart = "16">
+               </Location>
+               <Location
+                  uuid = "CAD9762A-B42C-4F29-84EF-75A4937DD8BA - 453bfd79ec8c78e8"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "TaskManagerApplication.GalleryViewController.init(nibName: Swift.Optional&lt;Swift.String&gt;, bundle: Swift.Optional&lt;__C.NSBundle&gt;) -&gt; TaskManagerApplication.GalleryViewController"
+                  moduleName = "TaskManagerApplication"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/mhristev/Desktop/TaskManagerApplication/TaskManagerApplication/Views/GalleryViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "20"
+                  endingLineNumber = "20"
+                  offsetFromSymbolStart = "296">
+               </Location>
+               <Location
+                  uuid = "CAD9762A-B42C-4F29-84EF-75A4937DD8BA - 63503ff15bc306b1"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "TaskManagerApplication.GalleryViewController.init(coder: __C.NSCoder) -&gt; Swift.Optional&lt;TaskManagerApplication.GalleryViewController&gt;"
+                  moduleName = "TaskManagerApplication"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/mhristev/Desktop/TaskManagerApplication/TaskManagerApplication/Views/GalleryViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "20"
+                  endingLineNumber = "20"
+                  offsetFromSymbolStart = "272">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

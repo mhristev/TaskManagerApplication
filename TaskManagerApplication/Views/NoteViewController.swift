@@ -20,6 +20,8 @@ class NoteViewController: UIViewController {
     var currNoteID: String?
     //let notes = try! Realm()
     
+    var noteDelegate: noteActionDelegate!
+    
     @IBOutlet var metaInformation: UILabel!
     
     override func viewDidLoad() {
@@ -89,6 +91,18 @@ class NoteViewController: UIViewController {
         }
     }
     
+    @IBAction func goToGallery(_ sender: UIButton) {
+        let destinationVC = storyboard?.instantiateViewController(withIdentifier: "GalleryViewController") as! GalleryViewController
+        noteDelegate = destinationVC
+        
+        guard let id = currNoteID else {
+            return
+        }
+     
+        noteDelegate.didCreateNoteWith(ID: id)
+        //destinationVC.title = "\(categories[categories.count - (1 + indexPath.row)])"
+    
+        self.navigationController?.pushViewController(destinationVC, animated: true)    }
     
     
     @IBAction func addToFavourite(_ sender: UIButton) {
@@ -227,13 +241,15 @@ extension NoteViewController: UITextViewDelegate {
 
 
 extension NoteViewController: noteActionDelegate {
+    func reloadData() {
+        return
+    }
+    
     func didCreateReminderOn(note: Note) {
         return
     }
     
-    func didUpdateNoteCategory(notes: Array<Note>) {
-        return
-    }
+
     
     func didCreateNoteWith(ID: String) {
         self.currNoteID = ID

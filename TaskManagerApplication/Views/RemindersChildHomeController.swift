@@ -134,7 +134,7 @@ extension RemindersChildHomeController: UITableViewDataSource {
         
         
         let f = DateFormatter()
-        f.dateFormat = "MMM dd YYYY"
+        f.dateFormat = "MMM dd YYYY HH:mm"
         
         let formatedDate = f.string(from: reminders[reminders.count - (1+indexPath.row)].reminderDate! as Date)
         

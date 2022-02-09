@@ -70,7 +70,7 @@ extension AddToCategoryViewController: UITableViewDelegate {
             RealmHandler.shared.update(note: currNote, inCategory: newCategory, inRealmObject: realm)
         }
         
-        noteDelegate.didUpdateNoteCategory(notes: RealmHandler.shared.getAllNotesInCategoryWith(name: currCategory.getName(), inRealmObject: realm))
+        noteDelegate.reloadData()
         
         dismiss(animated: true, completion: nil)
     }

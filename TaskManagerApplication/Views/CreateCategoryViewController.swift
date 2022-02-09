@@ -114,13 +114,6 @@ class CreateCategoryViewController: UIViewController {
         }
         
         
-        guard let navController = presentingViewController as? UINavigationController else {
-            return
-        }
-        
-        guard let vc = navController.viewControllers.first as? HomeViewController else {
-            return
-        }
         
         guard let name = nameOfCategory.text else {
             return
@@ -136,8 +129,6 @@ class CreateCategoryViewController: UIViewController {
         }
         
         if (editCategory == nil) {
-            //RealmHandler.shared.createCategoryWith(title: name, color: color, icon: icon)
-            //var categories = RealmHandler.shared.getAllCategories()
             var category = Category(name: name, color: color, icon: icon)
             categoryDelegate.didCreateCategory(category: category)
         } else {
