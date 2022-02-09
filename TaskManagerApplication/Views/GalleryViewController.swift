@@ -12,13 +12,14 @@ import RealmSwift
 class GalleryViewController: UIViewController {
     @IBOutlet var addButton: UIButton!
     
-    @IBOutlet var photoCollection: UICollectionView!
+    //@IBOutlet var photoCollection: UICollectionView!
     let imagePicker = UIImagePickerController()
     
     var currNoteID: String = ""
     
     var photos: [String] = []
     
+    @IBOutlet var tableView: UITableView!
     let realm = try! Realm(configuration: RealmHandler.configurationHelper(), queue: nil)
     
     override func viewDidLoad() {
@@ -26,13 +27,10 @@ class GalleryViewController: UIViewController {
         addButton.menu = demoMenu
         addButton.showsMenuAsPrimaryAction = true
         imagePicker.delegate = self
-        photoCollection.delegate = self
-        photoCollection.dataSource = self
+        tableView.delegate = self
+        tableView.dataSource = self
         
-        let width = (view.frame.width - 20)
-        let layout = photoCollection.collectionViewLayout as! UICollectionViewFlowLayout
-        layout.itemSize = CGSize(width: width
-                                 , height: width)
+      
         
         if let fetchPhotos = RealmHandler.shared.getAllPhotosinNoteWith(ID: currNoteID, inRealmObject: realm) {
             photos = fetchPhotos
@@ -160,10 +158,12 @@ extension GalleryViewController {
         } else {
             photos = []
         }
-        photoCollection.reloadData()
+        tableView.reloadData()
     }
     
-
+    func deletePhoto() {
+        print("Deleted")
+    }
     
     func displayAndSaveImageFromCamera(image: UIImage) {
         let imageID = UUID().uuidString
@@ -209,13 +209,13 @@ extension GalleryViewController: noteActionDelegate {
     
 }
 
-extension GalleryViewController: UICollectionViewDelegate, UICollectionViewDataSource {
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+extension GalleryViewController: UITableViewDelegate, UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return photos.count
     }
     
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = photoCollection.dequeueReusableCell(withReuseIdentifier: "collectionCell", for: indexPath) as! PhotosCollectionViewCell
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: PhotoTableViewCell.identifier, for: indexPath) as! PhotoTableViewCell
         
         
         if let url = URL(string: photos[photos.count - (1 + indexPath.row)]) {
@@ -228,8 +228,16 @@ extension GalleryViewController: UICollectionViewDelegate, UICollectionViewDataS
         
         return cell
     }
-    
-    
-    
+    func tableView(_ tableView: UITableView, contextMenuConfigurationForRowAt indexPath: IndexPath, point: CGPoint) -> UIContextMenuConfiguration? {
+        let configuration = UIContextMenuConfiguration(identifier: nil, previewProvider: nil) { actions -> UIMenu? in
+            let action = UIAction(title: "Delete", image: nil,attributes: .destructive, handler: { (_) in
+                self.deletePhoto()   // Put button handler here
+            })
+            
+        
+            return UIMenu( image: nil, identifier: nil, options: [], children: [action])
+            }
+            return configuration
+    }
     
 }
