@@ -126,7 +126,7 @@ extension GalleryViewController: UIImagePickerControllerDelegate, UINavigationCo
         dismiss(animated: true)
         
     }
-                                           
+    
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         dismiss(animated: true)
     }
@@ -136,7 +136,7 @@ extension GalleryViewController: UIImagePickerControllerDelegate, UINavigationCo
 extension GalleryViewController {
     
     func returnImageFor(url: URL) -> UIImage? {
-
+        
         let data = try? Data(contentsOf: url)
         if let imageData = data {
             if let image = UIImage(data: imageData) {
@@ -173,8 +173,9 @@ extension GalleryViewController {
         let fileName = imageID + ".png"
         // create the destination file url to save your image
         let fileURL = documentsDirectory.appendingPathComponent(fileName)
+        
         // get your UIImage jpeg data representation and check if the destination file url already exists
-        if let data = image.jpegData(compressionQuality:  1.0),
+        if let data = image.pngData(),
           !FileManager.default.fileExists(atPath: fileURL.path) {
             do {
                 // writes the image data to disk

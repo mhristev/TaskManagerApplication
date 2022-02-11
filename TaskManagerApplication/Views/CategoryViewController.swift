@@ -77,7 +77,7 @@ class CategoryViewController: UIViewController {
     }
     
     func updateDataInTableViewAll() {
-        notes = RealmHandler.shared.getAllNotesInCategoryWith(name: self.title!, inRealmObject: realm)
+        notes = RealmHandler.shared.getAllNotesInCategoryWith(name: self.title!, inRealmObject: realm)//.sortedByUpdatedAt()
         NotesInCategoryTableView.reloadData()
     }
     func updateDataInTableViewFavourite() {
@@ -87,7 +87,6 @@ class CategoryViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         reloadTableBasedOnSegment()
-        
     }
     
     func reloadTableBasedOnSegment() {
@@ -143,7 +142,7 @@ extension CategoryViewController: UITableViewDelegate {
     private func handleMoveToTrash(indexPath: IndexPath) {
         //NotesInCategoryTableView.beginUpdates()
         RealmHandler.shared.deleteNoteWith(ID: notes[notes.count - (1 + indexPath.row)].getID(), inRealmObject: realm)
-        notes = RealmHandler.shared.getAllNotesInCategoryWith(name: self.title!, inRealmObject: realm) 
+        notes = RealmHandler.shared.getAllNotesInCategoryWith(name: self.title!, inRealmObject: realm)//.testSortByUpdatedAt()//.sortedByUpdatedAt()
         NotesInCategoryTableView.beginUpdates()
         NotesInCategoryTableView.deleteRows(at: [indexPath], with: .fade)
         NotesInCategoryTableView.endUpdates()
@@ -250,17 +249,18 @@ extension CategoryViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = NotesInCategoryTableView.dequeueReusableCell(withIdentifier: "noteCell", for: indexPath)
         print(notes)
-        let f = DateFormatter()
-        f.dateFormat = "MMM dd YYYY HH:mm"
         
-        if let date = notes[notes.count - (1+indexPath.row)].reminderDate {
-            let formatedDate = f.string(from: date as Date)
-            cell.detailTextLabel?.text = "Reminder for \(formatedDate)"
-            
+        if let reminder = notes[notes.count - (1+indexPath.row)].reminderDate {
+            if let date = reminder.toDate() {
+                if Date() < date {
+                    cell.detailTextLabel?.text = "Reminder for \(reminder)"
+                    cell.textLabel?.text = notes[notes.count - (1 + indexPath.row)].title
+                    return cell
+                }
+            }
         }
         
-        
-        
+        cell.detailTextLabel?.text = nil
         cell.textLabel?.text = notes[notes.count - (1 + indexPath.row)].title
         
         return cell
@@ -317,7 +317,7 @@ extension CategoryViewController: UISearchBarDelegate {
         filteredNotes = []
         
         if searchText == "" {
-            notes = RealmHandler.shared.getAllNotesInCategoryWith(name: self.title!, inRealmObject: realm)
+            notes = RealmHandler.shared.getAllNotesInCategoryWith(name: self.title!, inRealmObject: realm)//.testSortByUpdatedAt()//.sortedByUpdatedAt()
             NotesInCategoryTableView.reloadData()
             return
         }

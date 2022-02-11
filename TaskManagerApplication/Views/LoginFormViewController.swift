@@ -127,20 +127,30 @@ class LoginFormViewController: UIViewController{
                     
                     let values = ["ID": uid, "email" : email]
                     
-                    Firestore.firestore().collection("users").addDocument(data: values){ (error) in
-                        if error != nil {
-                            guard let err = error?.localizedDescription else { return }
-                            self.dialogWindow(message: err, title: "Error")
-                            //print("fail to update")
-                            return
-                        }
-                    }
+                    Firestore.firestore().collection("users").document(uid).setData(values)
+                   
+                    
+                
+                    
+                    
+                    
+//                    if let fetchData = Firestore.firestore().collection("users").getDoc   document()["categories"] {
+//                        for cat in fetchData {
+//                            guard let validCategory = cat as? Dictionary<String, Any> else {continue}
+//                            print(validCategory["name"])
+//                            print(validCategory["icon"])
+//                            print(validCategory["color"])
+//                        }
+//                    }
+                    
+                  
                 }
             }
             
             self.dialogWindow(message: "Your account has been created successfully!", title: "Success")
             passwordTextField.text = ""
             emailTextField.text = ""
+            
             
         } else {
             // LOG IN
@@ -232,6 +242,13 @@ class LoginFormViewController: UIViewController{
               //  RealmHandler.currUserID = currentUser.uid
                 RealmHandler.shared.loadfirstConfiguration(andSetUserID: currentUser.uid)
                 print(currentUser.uid)
+                guard let user: GIDGoogleUser = GIDSignIn.sharedInstance.currentUser else {
+                    return
+                }
+                
+                let values = ["ID": currentUser.uid, "email" : user.profile?.email]
+                
+                Firestore.firestore().collection("users").document(currentUser.uid).setData(values as [String : Any])
             }
             self.presentWelcomeViewController()
             

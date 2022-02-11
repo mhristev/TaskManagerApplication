@@ -79,6 +79,7 @@ extension OverviewChildHomeController: UITableViewDelegate {
         tableView.beginUpdates()
         tableView.deleteRows(at: [indexPath], with: .fade)
         tableView.endUpdates()
+        
         print("Moved to trash")
        
     }
@@ -237,6 +238,7 @@ extension OverviewChildHomeController: categoryActionDelegate {
     func didCreateCategory(category: Category) {
         do {
             try RealmHandler.shared.createCategoryWith(name: category.name, color: category.color, icon: category.icon, inRealmObject: realm)
+            FirestoreHandler.fetchAllCategories()
         } catch {
             print("creating didcreatecategory error")
         }

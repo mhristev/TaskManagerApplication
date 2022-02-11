@@ -46,25 +46,30 @@ class CreateReminderViewController: UIViewController {
             return
         }
         
+        if let date = note.reminderDate?.toDate() {
+            
         
-        if note.reminderDate != nil {
-            print("bbbbbbb")
-            let myalert = UIAlertController(title: "", message: "You already have a reminder for that note. Do you want to override it?", preferredStyle: .alert)
-            
-            myalert.addAction(UIAlertAction(title: "Continue", style: UIAlertAction.Style.default, handler: { _ in
-                NotificationHelper.removeNotificationWithID(ID: note.getID())
-                self.createReminder()
+        
+            if date > Date() {
+               
+                let myalert = UIAlertController(title: "", message: "You already have a reminder for that note. Do you want to override it?", preferredStyle: .alert)
                 
-            }))
-            myalert.addAction(UIAlertAction(title: "Cancel", style: UIAlertAction.Style.cancel, handler: { _ in
-                self.dismiss(animated: true, completion: nil)
-            }))
+                myalert.addAction(UIAlertAction(title: "Continue", style: UIAlertAction.Style.default, handler: { _ in
+                    NotificationHelper.removeNotificationWithID(ID: note.getID())
+                    self.createReminder()
+                    
+                }))
+                myalert.addAction(UIAlertAction(title: "Cancel", style: UIAlertAction.Style.cancel, handler: { _ in
+                    self.dismiss(animated: true, completion: nil)
+                }))
+                
+                self.present(myalert, animated: true)
+            }
             
-            self.present(myalert, animated: true)
-        } else {
-            print("AAAAAAAA")
-            self.createReminder()
         }
+       
+            self.createReminder()
+        
         
         
         
@@ -78,7 +83,7 @@ class CreateReminderViewController: UIViewController {
         guard let note = currNote else {
             return
         }
-        RealmHandler.shared.createReminderAndNotificationForNote(withID: note.getID(), andDate: datePickerView.date, inRealmObject: realm)
+        RealmHandler.shared.createReminderAndNotificationForNote(withID: note.getID(), andDate: datePickerView.date.formatedToStringDate(), inRealmObject: realm)
         
         
         let myalert = UIAlertController(title: "Success", message: "You have successfuly created a reminder.", preferredStyle: .alert)

@@ -58,7 +58,66 @@ class HomeViewController: UIViewController {
         let reminders = RealmHandler.shared.getAllReminders(inRealmObject: realm)
         NotificationHelper.createPendingNotificationsIn(reminders: reminders)
         
+        //let firebase = FirebaseHandler()
+        //firebase.createCategoryForCurrentUser(category: Category(name: "12", color: "2", icon: "3"))
         
+        
+//        let docRef = Firestore.firestore()
+//                    .collection("users")
+//                    .document(Auth.auth().currentUser!.uid)
+//                    .collection("categoryID")
+//
+//
+//
+//        docRef.getDocument { (document, error) in
+//            guard let document = document, document.exists else {
+//                print("Document does not exist")
+//                return
+//            }
+//            let dataDescription = document.data()
+//            //print(dataDescription?["categories"] ?? "")
+//
+//
+//            do {
+//
+//            let data = try JSONSerialization.data(withJSONObject: dataDescription?["categories"], options: .prettyPrinted)
+//
+//
+//                let category = try JSONDecoder().decode(Array<Category>.self, from: data)
+//            print("----------")
+//                print(category)
+//            } catch {
+//                print(error)
+//            }
+//            //print(dataDescription?["firstname"] ?? "")
+//        }
+//
+//        docRef.getDocument { document, error in
+//                    guard error == nil else {
+//                        //completionHandler(FirebaseError.database(error), nil)
+//                        return
+//                    }
+//
+//                    guard let json = document?.data() else {
+//                        //completionHandler(FirebaseError.unknown, nil)
+//                        return
+//                    }
+//
+//                    do {
+//                        let data = try JSONSerialization.data(withJSONObject: json, options: .prettyPrinted)
+//                        //print(json)
+//                        //let user = try JSONDecoder().decode(User.self, from: data)
+//                       // self.currentUser = user
+//
+//                       // self.delegatesCollection.forEach { delegate in
+//                       //     delegate.databaseManagerDidUserChange(sender: self)
+//                       // }
+//
+//                        //completionHandler(nil, user)
+//                    } catch {
+//                        //completionHandler(FirebaseError.database(error), nil)
+//                    }
+//                }
         // Do any additional setup after loading the view.
     }
     

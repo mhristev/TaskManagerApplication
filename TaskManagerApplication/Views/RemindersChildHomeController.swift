@@ -133,15 +133,10 @@ extension RemindersChildHomeController: UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: ReminderTableViewCell.identifier, for: indexPath) as! ReminderTableViewCell
         
         
-        let f = DateFormatter()
-        f.dateFormat = "MMM dd YYYY HH:mm"
-        
-        let formatedDate = f.string(from: reminders[reminders.count - (1+indexPath.row)].reminderDate! as Date)
-        
-        var out = formatedDate
+        var out = reminders[reminders.count - (1+indexPath.row)].reminderDate!
         
         if let categoryName = reminders[reminders.count - (1+indexPath.row)].category?.name  {
-            out = "\(formatedDate) (\(categoryName))"
+            out = "\(out) (\(categoryName))"
         }
         
         

@@ -49,11 +49,9 @@ class NoteViewController: UIViewController {
             textView.textColor = UIColor(named: "colorSelector")
             configureFavourite()
             
+   
             
-            let f = DateFormatter()
-            f.dateFormat = "yyy-MM-dd HH:mm:ss"
-            
-            metaInformation.text = "created at: \(f.string(from: note.createdAt as Date))\nupdated at: \(f.string(from: note.updatedAt as Date)) \nrevisions: \(note.revisions)\n"
+            metaInformation.text = "created at: \(note.createdAt)\nupdated at: \(note.updatedAt) \nrevisions: \(note.revisions)\n"
 //            self.textView.font = UIFont(name: self.textView.font!.fontName, size: self.fontSize)
         }
         

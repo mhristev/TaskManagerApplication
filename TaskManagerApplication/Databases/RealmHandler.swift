@@ -15,23 +15,61 @@ enum RealmError: Error {
 import UIKit
 import Foundation
 import RealmSwift
-import Firebase
 
 class RealmHandler {
     static let shared = RealmHandler()
     static var currUserID: String?
     
     
-   // private let categories = try! Realm()
-   // private let notes = try! Realm()
+    init() {}
     
+    
+    func registerUserWith(id: String) {
+        let userTable = try! Realm()
+        
+        if let user = userTable.objects(User.self).filter("id == %@", id).first {
+            if userTable.objects(User.self).count < 4 {
+                try! userTable.write() {
+                    user.updateLastSeen()
+                }
+            }
+        } else {
+            if userTable.objects(User.self).count > 2 {
+                if let oldUser = userTable.objects(User.self).sorted(byKeyPath: "lastSeenAt").first {
+                    self.deleteConfigurationForUser(id: oldUser.getID())
+                    try! userTable.write() {
+                        userTable.delete(oldUser)
+
+                    }
+                    
+                }
+            }
+            try! userTable.write() {
+                userTable.add(User(id: id))
+            }
+        }
+        
+      
+        
+    }
+    
+    func deleteConfigurationForUser(id: String) {
+        var config = Realm.Configuration()
+        config.fileURL = config.fileURL!.deletingLastPathComponent().appendingPathComponent("\(id).realm")
+        do {
+            try FileManager.default.removeItem(at: config.fileURL!)
+        } catch {
+            print("help")
+        }
+    }
     
     func loadfirstConfiguration(andSetUserID: String) {
         self.setCurrentUser(ID: andSetUserID)
+        self.registerUserWith(id: andSetUserID)
+
         
-//        print(self.currUserID)
-        //let categories = try! Realm(configuration: RealmHandler.configurationHelper(), queue: nil)
         let realm = try! Realm(configuration: RealmHandler.configurationHelper(), queue: nil)
+        
         
         if realm.isEmpty {
             do {
@@ -86,10 +124,15 @@ class RealmHandler {
             throw RealmError.existCategory
         }
         
+        let category = Category(name: name, color: color, icon: icon)
+        FirestoreHandler.upload(category: category)
         
         try! inRealmObject.write() {
-            inRealmObject.add(Category(name: name, color: color, icon: icon))
+            inRealmObject.add(category)
         }
+        
+        
+        
     }
     
     func deleteCategoryWith(ID: String, inRealmObject: Realm) {
@@ -105,24 +148,25 @@ class RealmHandler {
             try! inRealmObject.write() {
                 inRealmObject.delete(notesInCategory)
             }
-           
+            
+            FirestoreHandler.delete(category: category)
+            
             try! inRealmObject.write() {
                 inRealmObject.delete(category)
             }
+            
+            
      
         }
     }
     
     func getAllCategories(inRealmObject: Realm) -> Array<Category> {
-        
-       // let realm = try! Realm(configuration: RealmHandler.configurationHelper(), queue: nil)
-        //print(inRealmObject.objects(Category.self))
         return Array(inRealmObject.objects(Category.self))
     }
     
     func getAllNotesInCategoryWith(name: String, inRealmObject: Realm) -> Array<Note> {
         self.clearEmtyNotes(inRealmObject: inRealmObject)
-        return Array(inRealmObject.objects(Note.self).filter("category.name == %@", name).sorted(byKeyPath: "updatedAt"))
+        return Array(inRealmObject.objects(Note.self).filter("category.name == %@", name)).sortedByUpdatedAt()
     }
     
     func clearEmtyNotes(inRealmObject: Realm) {
@@ -174,7 +218,7 @@ class RealmHandler {
             if (note.title != title) {
                 if let date = note.reminderDate {
                     NotificationHelper.removeNotificationWithID(ID: ID)
-                    NotificationHelper.createNewNotificationWith(title: title, date: date as Date, ID: ID)
+                    NotificationHelper.createNewNotificationWith(title: title, date: date, ID: ID)
                 }
             }
             
@@ -185,11 +229,16 @@ class RealmHandler {
             try! inRealmObject.write() {
                 note.textHtmlString = htmlString
                 note.title = title
-                note.updatedAt = NSDate()
+                note.updatedAt = Date().formatedToStringDate()
                 note.revisions += 1
             }
             
+            
+            FirestoreHandler.upload(note: note)
+            
         }
+        
+       
     }
     
 
@@ -210,6 +259,7 @@ class RealmHandler {
                 NotificationHelper.removeNotificationWithID(ID: note.getID())
             }
             
+            FirestoreHandler.delete(note: note)
             
             try! inRealmObject.write() {
                 inRealmObject.delete(note)
@@ -225,11 +275,11 @@ class RealmHandler {
         }
     }
     
-    func createReminderAndNotificationForNote(withID: String, andDate: Date, inRealmObject: Realm) {
+    func createReminderAndNotificationForNote(withID: String, andDate: String, inRealmObject: Realm) {
         print(inRealmObject.configuration.fileURL!.path)
         if let note = inRealmObject.objects(Note.self).filter("id == %@", withID).first {
             try! inRealmObject.write() {
-                note.reminderDate = andDate as NSDate
+                note.reminderDate = andDate 
             }
             NotificationHelper.createNewNotificationWith(title: note.title, date: andDate, ID: note.getID())
         }
@@ -237,16 +287,16 @@ class RealmHandler {
     
     func getAllReminders(inRealmObject: Realm) -> Array<Note> {
         cleanOldReminders(inRealmObject: inRealmObject)
-        return Array(inRealmObject.objects(Note.self).filter("reminderDate != null").filter("reminderDate > %@", Date()))
+        return Array(inRealmObject.objects(Note.self).filter("reminderDate != null")).returnDatesAfterToday()
     }
     
     func getAllRemindersForThisWeek(inRealmObject: Realm) -> [Note] {
         cleanOldReminders(inRealmObject: inRealmObject)
-        return Array(inRealmObject.objects(Note.self).filter("reminderDate != null").sorted(byKeyPath: "reminderDate"))
+        return Array(inRealmObject.objects(Note.self).filter("reminderDate != null")).onlyThisWeek()
     }
     
     func returnFavouriteReminders(inRealmObject: Realm) -> Array<Note> {
-        return Array(inRealmObject.objects(Note.self).filter("reminderDate != null && favourite = 1").sorted(byKeyPath: "reminderDate"))
+        return Array(inRealmObject.objects(Note.self).filter("reminderDate != null && favourite = 1")).sortedByRemindersDate()//.sortedByRemindersDate()
     }
     
     
@@ -262,8 +312,12 @@ class RealmHandler {
                     return
                 }
                 
-                if today > day as Date {
-                    if isInCurrentWeek(date: day as Date) == false {
+                guard let convertDate = day.toDate() else {
+                    return
+                }
+                
+                if today > convertDate {
+                    if isInCurrentWeek(date: convertDate) == false {
                         try! inRealmObject.write() {
                             oldReminder.reminderDate = nil
                         }
@@ -302,9 +356,9 @@ class RealmHandler {
     
     func returnFavouriteNotesInCategory(name: String, inRealmObject: Realm) -> Array<Note> {
         let results: Results<Note> = inRealmObject.objects(Note.self)
-            .filter("category.name == %@", name).filter("favourite == 1").sorted(byKeyPath: "updatedAt", ascending: true)
+            .filter("category.name == %@", name).filter("favourite == 1")
             
-        return Array(results)
+        return Array(results).sortedByUpdatedAt()//.sortedByUpdatedAt()
     }
     
     func addPhotoToNoteWith(ID: String, photoURL: String, inRealmObject: Realm) {
@@ -369,3 +423,68 @@ func isInCurrentWeek(date: Date) -> Bool {
    return date >= startDate && date < endDate
 
  }
+
+
+extension DateFormatter {
+    func getDefaultDateFormatter() -> DateFormatter {
+        //self.locale = Locale(identifier: "en_US_POSIX")
+        //self.timeZone = TimeZone(abbreviation: "UTC")
+        self.dateFormat = "dd MMM yyyy, HH:mm:ss"
+        return self
+    }
+}
+
+extension Date {
+    func formatedToStringDate() -> String {
+        let dateFormatter = DateFormatter().getDefaultDateFormatter()
+        return dateFormatter.string(from: self)
+    }
+}
+
+
+
+extension Array where Element: Note {
+    
+    func onlyThisWeek() -> [Note] {
+        var result: [Note] = []
+        
+        self.forEach {
+            guard let date = $0.reminderDate?.toDate() else {
+                return
+            }
+            if isInCurrentWeek(date: date) {
+                result.append($0)
+            }
+        }
+        return result
+    }
+  
+    
+    func sortedByUpdatedAt() -> [Note] {
+        return self.sorted {
+            $0.updatedAt.toDate()! < $1.updatedAt.toDate()!
+        }
+    }
+    
+    func sortedByRemindersDate() -> [Note] {
+        return self.sorted {
+            $0.reminderDate!.toDate()! < $1.reminderDate!.toDate()!
+        }
+    }
+    
+    func returnDatesAfterToday() -> [Note] {
+        var result: [Note] = []
+        
+        self.forEach {
+            guard let date = $0.reminderDate?.toDate() else {
+                return
+            }
+            
+            if date > Date() {
+                result.append($0)
+            }
+        }
+        return result
+    }
+    
+}

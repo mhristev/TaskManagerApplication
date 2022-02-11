@@ -16,6 +16,7 @@ class WeeklyProgressViewController: UIViewController {
     @IBOutlet var favSegment: UISegmentedControl!
     override func viewDidLoad() {
         super.viewDidLoad()
+        FirestoreHandler.fetchAllNotes()
         tableView.dataSource = self
        tableView.delegate = self
         reminders = RealmHandler.shared.getAllRemindersForThisWeek(inRealmObject: realm)
@@ -59,23 +60,23 @@ extension WeeklyProgressViewController: UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: ReminderTableViewCell.identifier, for: indexPath) as! ReminderTableViewCell
         
         
-        let f = DateFormatter()
-        f.dateFormat = "MMM dd YYYY"
-        
-        let formatedDate = f.string(from: reminders[reminders.count - (1+indexPath.row)].reminderDate! as Date)
-        
-        var out = formatedDate
+        var out = reminders[reminders.count - (1+indexPath.row)].reminderDate!
         
         if let categoryName = reminders[reminders.count - (1+indexPath.row)].category?.name  {
-            out = "\(formatedDate) (\(categoryName))"
+            out = "\(out) (\(categoryName))"
         }
         
         
         cell.configureWith(title: reminders[reminders.count - (1 + indexPath.row)].title, imageName: "", date: out)
         
-        let today = Date()
+     
         
-        if today > (reminders[reminders.count - (1+indexPath.row)].reminderDate! as Date) {
+        guard let convertedDate = reminders[reminders.count - (1+indexPath.row)].reminderDate!.toDate() else {
+            return cell
+        }
+        
+        
+        if Date() > (convertedDate) {
             cell.isUserInteractionEnabled = false
             cell.titleLabel.isEnabled = false
             cell.dateLabel.isEnabled = false

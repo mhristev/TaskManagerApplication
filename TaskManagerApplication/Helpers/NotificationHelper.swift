@@ -24,12 +24,12 @@ class NotificationHelper {
                 return
             }
             
-            NotificationHelper.createNewNotificationWith(title: reminder.title, date: date as Date, ID: reminder.getID())
+            NotificationHelper.createNewNotificationWith(title: reminder.title, date: date, ID: reminder.getID())
             
         }
     }
     
-    static func createNewNotificationWith(title: String, date: Date, ID: String) {
+    static func createNewNotificationWith(title: String, date: String, ID: String) {
         
         let content = UNMutableNotificationContent()
     
@@ -37,7 +37,9 @@ class NotificationHelper {
         content.sound = .default
         content.body = "You have a new reminder for \(title)"
         
-        let targetDate = date as Date
+        guard let targetDate = date.toDate() else {
+            return
+        }
     
         
         let trigger = UNCalendarNotificationTrigger(dateMatching: Calendar.current.dateComponents([.minute, .hour, .day, .month, .year], from: targetDate), repeats: false)
