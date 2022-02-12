@@ -11,44 +11,37 @@ import FirebaseAuth
 import GoogleSignIn
 
 class LoginFormViewController: UIViewController{
-
+    
     @IBOutlet var segmentController: UISegmentedControl!
     @IBOutlet var actionButton: UIButton!
     @IBOutlet var titleForm: UILabel!
-    
-   // @IBOutlet var buttonForgotPassword: UIButton!
     
     @IBOutlet var emailTextField: UITextField!
     @IBOutlet var passwordTextField: UITextField!
     
     
     @IBAction func segmentAction(_ sender: UISegmentedControl) {
-        
-        let titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
-        segmentController.setTitleTextAttributes(titleTextAttributes, for:.normal)
-        
+    
         switch segmentController.selectedSegmentIndex {
             
         case 1:
             actionButton.setTitle("Sign Up", for: .normal)
-          //  buttonForgotPassword.alpha = 0;
             titleForm.text = "Sign Up with your email and password"
         default:
             actionButton.setTitle("Sign In", for: .normal)
-          //  buttonForgotPassword.alpha = 1;
             titleForm.text = "Sign In with your email and password"
             
         }
         
     }
-   
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         emailTextField.delegate = self
         passwordTextField.delegate = self
         actionButton.layer.cornerRadius = 18
-      //  RealmHandler.currUserID = nil
-       
+        
     }
     
     
@@ -74,12 +67,12 @@ class LoginFormViewController: UIViewController{
             self.dialogWindow(message: "Please type a stronger password with at least one big letter, one number and is at least 8 characters long", title: "Error")
             return false
         }
-            
+        
     }
     
     func isValidEmail(email: String) -> Bool {
         let emailRegex = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}"
-
+        
         let emailPred = NSPredicate(format:"SELF MATCHES %@", emailRegex)
         
         if (emailPred.evaluate(with: email)) {
@@ -89,7 +82,7 @@ class LoginFormViewController: UIViewController{
             return false
         }
     }
-
+    
     
     @IBAction func signButtonTapped(_ sender: UIButton) {
         
@@ -102,7 +95,7 @@ class LoginFormViewController: UIViewController{
         }
         
         
-
+        
         if segmentController.selectedSegmentIndex == 1 {
             
             let validation = fieldValidation(email: email, password: password);
@@ -110,14 +103,14 @@ class LoginFormViewController: UIViewController{
             if validation == false {
                 return
             }
-          // Registration
-        
+            // Registration
+            
             Auth.auth().createUser(withEmail: email, password: password) { (result, err) in
                 
                 if err != nil {
                     guard let error = err?.localizedDescription else { return }
                     self.dialogWindow(message: error, title: "Error")
-                  //  print("error creating user \(String(describing: err))")
+                    //  print("error creating user \(String(describing: err))")
                     return
                 } else {
                     
@@ -127,54 +120,41 @@ class LoginFormViewController: UIViewController{
                     
                     let values = ["ID": uid, "email" : email]
                     
-                    Firestore.firestore().collection("users").addDocument(data: values){ (error) in
-                        if error != nil {
-                            guard let err = error?.localizedDescription else { return }
-                            self.dialogWindow(message: err, title: "Error")
-                            //print("fail to update")
-                            return
-                        }
-                    }
+                    Firestore.firestore().collection("users").document(uid).setData(values)
+                    
+                    self.dialogWindow(message: "Your account has been created successfully!", title: "Success")
                 }
+                
             }
             
-            self.dialogWindow(message: "Your account has been created successfully!", title: "Success")
+            //self.dialogWindow(message: "Your account has been created successfully!", title: "Success")
             passwordTextField.text = ""
             emailTextField.text = ""
             
+            
         } else {
-            // LOG IN
-            //print("127")
-        
+            
             Auth.auth().signIn(withEmail: email, password: password) { (result, error) in
                 if error != nil {
                     guard let err = error?.localizedDescription else { return }
                     self.dialogWindow(message: err, title: "Error")
-               //     print("131")
-                    //print("Failed to sign user in with error:", error.localizedDescription)
+                    
                     return
                 }
                 if let currentUser = Auth.auth().currentUser {
-                   // RealmHandler.currUserID = currentUser.uid
                     RealmHandler.shared.loadfirstConfiguration(andSetUserID: currentUser.uid)
-                    print(currentUser.uid)
                 }
                 
                 
                 print("Succesfully logged user in..")
                 
                 self.presentWelcomeViewController()
-             //   print("136")
                 
             }
         }
-       // print("139")
         
         
     }
-    
-    
-    
     
     
     func presentWelcomeViewController() {
@@ -191,32 +171,32 @@ class LoginFormViewController: UIViewController{
     
     @IBAction func googleLoginButton(_ sender: UIButton) {
         guard let clientID = FirebaseApp.app()?.options.clientID else { return }
-
+        
         let config = GIDConfiguration(clientID: clientID)
-
+        
         GIDSignIn.sharedInstance.signIn(with: config, presenting: self) { user, error in
-
+            
             if error != nil {
                 guard let err = error?.localizedDescription else { return }
                 self.dialogWindow(message: err, title: "Error")
                 return
             }
-
-          guard
-            let authentication = user?.authentication,
-            let idToken = authentication.idToken
-          else {
-            return
-          }
-
-          let credential = GoogleAuthProvider.credential(withIDToken: idToken,
-                                                         accessToken: authentication.accessToken)
-          
+            
+            guard
+                let authentication = user?.authentication,
+                let idToken = authentication.idToken
+            else {
+                return
+            }
+            
+            let credential = GoogleAuthProvider.credential(withIDToken: idToken,
+                                                           accessToken: authentication.accessToken)
+            
             self.googleLogin(credential: credential)
-           
+            
         }
         
-       
+        
     }
     
     func googleLogin(credential: AuthCredential) {
@@ -229,31 +209,37 @@ class LoginFormViewController: UIViewController{
             
             print("User is signed in...")
             if let currentUser = Auth.auth().currentUser {
-              //  RealmHandler.currUserID = currentUser.uid
                 RealmHandler.shared.loadfirstConfiguration(andSetUserID: currentUser.uid)
                 print(currentUser.uid)
+                guard let user: GIDGoogleUser = GIDSignIn.sharedInstance.currentUser else {
+                    return
+                }
+                
+                let values = ["ID": currentUser.uid, "email" : user.profile?.email]
+                
+                Firestore.firestore().collection("users").document(currentUser.uid).setData(values as [String : Any], merge: true)
             }
             self.presentWelcomeViewController()
             
         }
-       
-
-       
+        
+        
+        
         
     }
     
     
     func dialogWindow(message: String, title: String) {
-    
+        
         let myalert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         
         myalert.addAction(UIAlertAction(title: "Dismiss", style: .default,
-                                      handler: {_ in
+                                        handler: {_ in
         }))
-                        
-    
+        
+        
         present(myalert, animated: true)
-            
+        
     }
     
     
@@ -268,4 +254,4 @@ extension LoginFormViewController: UITextFieldDelegate {
         return true
     }
 }
-    
+

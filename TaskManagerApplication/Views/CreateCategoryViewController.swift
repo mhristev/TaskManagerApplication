@@ -11,7 +11,7 @@ import RealmSwift
 
 
 class CreateCategoryViewController: UIViewController {
-
+    
     var categoryDelegate: categoryActionDelegate!
     let realm = try! Realm(configuration: RealmHandler.configurationHelper(), queue: nil)
     var editCategory: Category? = nil
@@ -30,7 +30,7 @@ class CreateCategoryViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-       
+        
         if (editCategory != nil) {
             titleViewController.text = "Edit Category"
             nameOfCategory.text = editCategory?.getName()
@@ -38,7 +38,7 @@ class CreateCategoryViewController: UIViewController {
             for button in colorButtons {
                 if (hexStringFromColor(color: button.backgroundColor!) == editCategory?.color) {
                     button.layer.borderWidth = 2
-                    button.layer.borderColor = UIColor(red: 255, green: 255, blue: 255, alpha: 1).cgColor
+                    button.layer.borderColor = UIColor(named: "colorSelector")?.cgColor
                     break
                 }
             }
@@ -46,6 +46,7 @@ class CreateCategoryViewController: UIViewController {
             for icon in iconButtons {
                 if (icon.restorationIdentifier == editCategory?.icon) {
                     icon.tintColor = .blue
+                    icon.layer.borderColor = UIColor(named: "iconSelectorColor")?.cgColor
                     icon.layer.borderWidth = 2
                     break
                 }
@@ -58,20 +59,23 @@ class CreateCategoryViewController: UIViewController {
     @IBAction func colorSelected(_ sender: UIButton) {
         colorButtons.forEach({$0.layer.borderWidth = 0})
         sender.layer.borderWidth = 2
-        sender.layer.borderColor = UIColor(red: 255, green: 255, blue: 255, alpha: 1).cgColor
+        sender.layer.borderColor = UIColor(named: "colorSelector")?.cgColor
         
     }
     
     @IBAction func iconSelected(_ sender: UIButton) {
+        
+        
         for button in iconButtons {
-            button.tintColor = .white
+            button.tintColor = UIColor.label
             button.layer.borderWidth = 0
         }
         
-        //iconButtons.forEach({$0.tintColor = .white })
+        
         sender.tintColor = .blue
+        sender.layer.borderColor = UIColor(named: "iconSelectorColor")?.cgColor
         sender.layer.borderWidth = 2
-       // sender.layer.borderColor = UIColor(red: 255, green: 255, blue: 255, alpha: 0).cgColor
+        
     }
     
     
@@ -100,23 +104,16 @@ class CreateCategoryViewController: UIViewController {
                 }
                 
                 
-               
+                
                 
                 color = hexStringFromColor(color: buttonColor)
                 
                 
-            
+                
             }
         }
         
         
-        guard let navController = presentingViewController as? UINavigationController else {
-            return
-        }
-        
-        guard let vc = navController.viewControllers.first as? HomeViewController else {
-            return
-        }
         
         guard let name = nameOfCategory.text else {
             return
@@ -132,13 +129,11 @@ class CreateCategoryViewController: UIViewController {
         }
         
         if (editCategory == nil) {
-            //RealmHandler.shared.createCategoryWith(title: name, color: color, icon: icon)
-            //var categories = RealmHandler.shared.getAllCategories()
-            var category = Category(name: name, color: color, icon: icon)
+            let category = Category(name: name, color: color, icon: icon)
             categoryDelegate.didCreateCategory(category: category)
         } else {
             RealmHandler.shared.updateCategoryWith(ID: editCategory!.id, name: name, icon: icon, color: color, inRealmObject: realm)
-            var categories = RealmHandler.shared.getAllCategories(inRealmObject: realm)
+            let categories = RealmHandler.shared.getAllCategories(inRealmObject: realm)
             categoryDelegate.didEditCategory(categories: categories)
         }
         
@@ -147,30 +142,19 @@ class CreateCategoryViewController: UIViewController {
     }
     
     func dialogWindow(message: String, title: String) {
-    
+        
         let myalert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         
         myalert.addAction(UIAlertAction(title: "Dismiss", style: .default,
-                                      handler: {_ in
+                                        handler: {_ in
         }))
-                        
-    
+        
+        
         present(myalert, animated: true)
-            
+        
     }
     
-   
     
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }
 
 extension CreateCategoryViewController{
@@ -179,26 +163,26 @@ extension CreateCategoryViewController{
         let r: CGFloat = components?[0] ?? 0.0
         let g: CGFloat = components?[1] ?? 0.0
         let b: CGFloat = components?[2] ?? 0.0
-
+        
         let hexString = String.init(format: "#%02lX%02lX%02lX", lroundf(Float(r * 255)), lroundf(Float(g * 255)), lroundf(Float(b * 255)))
         print(hexString)
         return hexString
-     }
-
+    }
+    
     
 }
 
 extension UIColor {
     func toHexString() -> String {
-            var r:CGFloat = 0
-            var g:CGFloat = 0
-            var b:CGFloat = 0
-            var a:CGFloat = 0
-            getRed(&r, green: &g, blue: &b, alpha: &a)
-            let rgb:Int = (Int)(r*255)<<16 | (Int)(g*255)<<8 | (Int)(b*255)<<0
-
-            return String(format:"#%06x", rgb)
-        }
+        var r:CGFloat = 0
+        var g:CGFloat = 0
+        var b:CGFloat = 0
+        var a:CGFloat = 0
+        getRed(&r, green: &g, blue: &b, alpha: &a)
+        let rgb:Int = (Int)(r*255)<<16 | (Int)(g*255)<<8 | (Int)(b*255)<<0
+        
+        return String(format:"#%06x", rgb)
+    }
 }
 
 
@@ -220,11 +204,6 @@ extension CreateCategoryViewController: categoryActionDelegate {
     }
     
     func didEditCategory(category: Category) {
-        //print(titleViewController.text)
         self.editCategory = category
-        
-       // nameOfCategory.text = category.title
-       // titleViewController.text = "Edit Category"
-       // buttonCreate.setTitle("Edit", for: .normal)
     }
 }

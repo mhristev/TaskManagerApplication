@@ -15,7 +15,7 @@ class ReminderTableViewCell: UITableViewCell {
     @IBOutlet var dateLabel: UILabel!
     static let identifier = "ReminderCell"
     
-    public func configureWith(title: String, imageName: String, date: String) {
+    public func configureWith(title: String, date: String) {
         titleLabel.text = title
         dateLabel.text = date
     }

@@ -22,13 +22,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
     func authenticate() {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
-       
-        //let userID : String = (Auth.auth().currentUser?.uid)!
-          //  print("Current user ID is " + userID)
-       
         
         if let currentUser = Auth.auth().currentUser {
-            //RealmHandler.currUserID = currentUser.uid
             RealmHandler.shared.loadfirstConfiguration(andSetUserID: currentUser.uid)
             let welcomeVC = storyboard.instantiateViewController(identifier: "NavController") as! UINavigationController
 
@@ -36,10 +31,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             self.window?.makeKeyAndVisible()
         } else {
             let loginVC = storyboard.instantiateViewController(withIdentifier: "LoginFormViewController") as! LoginFormViewController
-           // RealmHandler.currUserID = nil
             
             self.window?.rootViewController = loginVC
-            print("HEAASA")
             self.window?.makeKeyAndVisible()
         }
     }

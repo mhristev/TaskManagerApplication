@@ -9,6 +9,7 @@ import Foundation
 
 protocol noteActionDelegate {
     func didCreateNoteWith(ID: String)
-    func didUpdateNoteCategory(notes: Array<Note>)
     func didCreateReminderOn(note: Note)
+    func reloadData()
+    
 }

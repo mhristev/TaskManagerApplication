@@ -20,24 +20,14 @@ class AddToCategoryViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         tableView.dataSource = self
         tableView.delegate = self
         
         // Do any additional setup after loading the view.
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
+    
 }
 
 extension AddToCategoryViewController: UITableViewDataSource {
@@ -56,7 +46,7 @@ extension AddToCategoryViewController: UITableViewDataSource {
             cell.titleLabel.isEnabled = false
         }
         
-
+        
         
         return cell
     }
@@ -70,7 +60,7 @@ extension AddToCategoryViewController: UITableViewDelegate {
             RealmHandler.shared.update(note: currNote, inCategory: newCategory, inRealmObject: realm)
         }
         
-        noteDelegate.didUpdateNoteCategory(notes: RealmHandler.shared.getAllNotesInCategoryWith(name: currCategory.getName(), inRealmObject: realm))
+        noteDelegate.reloadData()
         
         dismiss(animated: true, completion: nil)
     }

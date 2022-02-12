@@ -15,10 +15,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate{
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         FirebaseApp.configure()
-        print("APPPPPP PRINTTTT")
-        //test()
-        
-        // Override point for customization after application launch.
         configureUserNotifications()
         return true
     }
