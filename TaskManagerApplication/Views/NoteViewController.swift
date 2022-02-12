@@ -18,7 +18,7 @@ class NoteViewController: UIViewController {
     @IBOutlet var textView: UITextView!
     
     var currNoteID: String?
-    //let notes = try! Realm()
+    
     
     var noteDelegate: noteActionDelegate!
     
@@ -27,19 +27,16 @@ class NoteViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        textView.delegate = self
         
-        
-       // textView.allowsEditingTextAttributes = true
-          textView.delegate = self
-
         
         if currNoteID != nil {
             guard let note = RealmHandler.shared.getNoteWith(ID: currNoteID!, inRealmObject: realm) else {
                 return
             }
             
-          //  let attr = [NSAttributedString.Key.font: UIFont(name: "Chalkduster", size: 18.0)!]
-    
+            
+            
             guard let newAttributedString = note.html2AttrString() else {
                 return
             }
@@ -49,10 +46,10 @@ class NoteViewController: UIViewController {
             textView.textColor = UIColor(named: "colorSelector")
             configureFavourite()
             
-   
+            
             
             metaInformation.text = "created at: \(note.createdAt)\nupdated at: \(note.updatedAt) \nrevisions: \(note.revisions)\n"
-//            self.textView.font = UIFont(name: self.textView.font!.fontName, size: self.fontSize)
+            //            self.textView.font = UIFont(name: self.textView.font!.fontName, size: self.fontSize)
         }
         
         textView.inputAccessoryView = toolbarView
@@ -67,7 +64,7 @@ class NoteViewController: UIViewController {
         
         
         
-
+        
         // Do any additional setup after loading the view.
     }
     
@@ -96,10 +93,10 @@ class NoteViewController: UIViewController {
         guard let id = currNoteID else {
             return
         }
-     
+        
         noteDelegate.didCreateNoteWith(ID: id)
         //destinationVC.title = "\(categories[categories.count - (1 + indexPath.row)])"
-    
+        
         self.navigationController?.pushViewController(destinationVC, animated: true)    }
     
     
@@ -118,18 +115,18 @@ class NoteViewController: UIViewController {
     
     @objc func adjustForKeyboard(notification: Notification) {
         guard let keyboardValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue else { return }
-
+        
         let keyboardScreenEndFrame = keyboardValue.cgRectValue
         let keyboardViewEndFrame = view.convert(keyboardScreenEndFrame, from: view.window)
-
+        
         if notification.name == UIResponder.keyboardWillHideNotification {
             textView.contentInset = .zero
         } else {
             textView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: keyboardViewEndFrame.height - view.safeAreaInsets.bottom, right: 0)
         }
-
+        
         textView.scrollIndicatorInsets = textView.contentInset
-
+        
         let selectedRange = textView.selectedRange
         textView.scrollRangeToVisible(selectedRange)
     }
@@ -140,61 +137,61 @@ class NoteViewController: UIViewController {
     @IBAction func boldButton(_ sender: UIButton) {
         
         if let text = textView {
-                    let range = text.selectedRange
-                            let string = NSMutableAttributedString(attributedString:
-                             textView.attributedText)
-                            let boldAttribute = [
-                                NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 40.0)
-                             ]
-                              string.addAttributes(boldAttribute, range: range)
-                              textView.attributedText = string
-                              textView.selectedRange = range
-                              
-                           
-        
-        
-        
-        
+            let range = text.selectedRange
+            let string = NSMutableAttributedString(attributedString:
+                                                    textView.attributedText)
+            let boldAttribute = [
+                NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 40.0)
+            ]
+            string.addAttributes(boldAttribute, range: range)
+            textView.attributedText = string
+            textView.selectedRange = range
+            
+            
+            
+            
+            
+            
         }
         
         
-
-       
-       
+        
+        
+        
         
     }
     
     @IBAction func italicButton(_ sender: UIButton) {
         
         if let text = textView {
-                    let range = text.selectedRange
-
-                            let string = NSMutableAttributedString(attributedString:
-                             textView.attributedText)
+            let range = text.selectedRange
             
-                            let italicAttribute = [
-                                NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 25.0)
-                             ]
-                              string.addAttributes(italicAttribute, range: textView.selectedRange)
-                            textView.attributedText = string
-                              textView.selectedRange = range
-                           
+            let string = NSMutableAttributedString(attributedString:
+                                                    textView.attributedText)
+            
+            let italicAttribute = [
+                NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 25.0)
+            ]
+            string.addAttributes(italicAttribute, range: textView.selectedRange)
+            textView.attributedText = string
+            textView.selectedRange = range
+            
         }
-            
+        
     }
     
     @IBAction func underlineButton(_ sender: UIButton) {
         
         if let text = textView {
-                    let range = text.selectedRange
-                            let string = NSMutableAttributedString(attributedString:
-                             textView.attributedText)
+            let range = text.selectedRange
+            let string = NSMutableAttributedString(attributedString:
+                                                    textView.attributedText)
             let underlineAttribute = [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 18.0)]
-                             
-                              string.addAttributes(underlineAttribute, range: textView.selectedRange)
-                            textView.attributedText = string
-                              textView.selectedRange = range
-                           
+            
+            string.addAttributes(underlineAttribute, range: textView.selectedRange)
+            textView.attributedText = string
+            textView.selectedRange = range
+            
         }
     }
     
@@ -210,21 +207,21 @@ class NoteViewController: UIViewController {
                 RealmHandler.shared.deleteNoteWith(ID: currNoteID!, inRealmObject: realm)
             }else {
                 RealmHandler.shared.updateNoteWith(ID: currNoteID!, title: title, attrText: text ?? NSAttributedString(""), inRealmObject: realm)
-              
+                
             }
         }
     }
-
+    
     /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
+     // MARK: - Navigation
+     
+     // In a storyboard-based application, you will often want to do a little preparation before navigation
+     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+     // Get the new view controller using segue.destination.
+     // Pass the selected object to the new view controller.
+     }
+     */
+    
 }
 
 
@@ -247,23 +244,10 @@ extension NoteViewController: noteActionDelegate {
         return
     }
     
-
+    
     
     func didCreateNoteWith(ID: String) {
         self.currNoteID = ID
     }
 }
 
-/*
-extension NoteViewController: UITextViewDelegate {
-    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
-      
-        if (text == "\n") {
-            
-           // self.textView.font = UIFont(name: self.textView.font!.fontName, size: 18)
-            return false
-        }
-        return true
-    }
-}
-*/

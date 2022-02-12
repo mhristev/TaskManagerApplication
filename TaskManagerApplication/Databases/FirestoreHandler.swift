@@ -11,26 +11,21 @@ import FirebaseAuth
 import FirebaseFirestore
 
 class FirestoreHandler {
-
+    
     static func upload(category: Category) {
         if let user = Auth.auth().currentUser {
             do {
                 let categoryData = try JSONEncoder().encode(category)
                 let json = try JSONSerialization.jsonObject(with: categoryData, options: [])
-            
-                guard var dictionary = json as? [String: Any] else {
-                    assertionFailure("Couldn't cast json to dictionary.")
+                
+                guard let dictionary = json as? [String: Any] else {
                     return
                 }
                 
                 let categoryAsValue = FieldValue.arrayUnion([dictionary])
                 
-                Firestore.firestore().collection("users").document(user.uid).updateData(["categories": categoryAsValue])
+                Firestore.firestore().collection("users").document(user.uid).setData(["categories": categoryAsValue], merge:true)
                 
-//                dictionary["color"] = "mishka"
-//                
-//                Firestore.firestore().collection("users").document(user.uid).updateData(["categories[0]": categoryAsValue])
-            
             } catch {
                 print(error)
             }
@@ -39,23 +34,20 @@ class FirestoreHandler {
     
     static func upload(note: Note) {
         if let user = Auth.auth().currentUser {
+            let wrapper = note.toWrapper()
             do {
                 
-                //var cat = note.category?.getID()
+                let noteData = try JSONEncoder().encode(wrapper)
+                let json = try JSONSerialization.jsonObject(with: noteData, options: [])
                 
-                let categoryData = try JSONEncoder().encode(note)
-                let json = try JSONSerialization.jsonObject(with: categoryData, options: [])
-            
-                guard var dictionary = json as? [String: Any] else {
-                    assertionFailure("Couldn't cast json to dictionary.")
+                guard let dictionary = json as? [String: Any] else {
                     return
                 }
-               // dictionary["category"] = cat
                 
-                let categoryAsValue = FieldValue.arrayUnion([dictionary])
+                let noteAsValue = FieldValue.arrayUnion([dictionary])
                 
-                Firestore.firestore().collection("users").document(user.uid).setData(["notes": categoryAsValue], merge: true)
-            
+                Firestore.firestore().collection("users").document(user.uid).setData(["notes": noteAsValue], merge: true)
+                
             } catch {
                 print(error)
             }
@@ -63,18 +55,18 @@ class FirestoreHandler {
     }
     
     static func delete(note: Note) {
+        
         if let user = Auth.auth().currentUser {
+            let wrapper = note.toWrapper()
             do {
-                let noteData = try JSONEncoder().encode(note)
+                let noteData = try JSONEncoder().encode(wrapper)
                 let json = try JSONSerialization.jsonObject(with: noteData, options: [])
                 
                 
-                guard var dictionary = json as? [String: Any] else {
-                    assertionFailure("Couldn't cast json to dictionary.")
+                guard let dictionary = json as? [String: Any] else {
                     return
                 }
-                //let cat = note.category?.getID()
-                //dictionary["category"] = cat
+                
                 
                 Firestore.firestore().collection("users").document(user.uid).updateData([
                     "notes": FieldValue.arrayRemove([dictionary])
@@ -88,7 +80,6 @@ class FirestoreHandler {
             } catch {
                 print("error")
             }
-            //
         }
     }
     
@@ -99,15 +90,7 @@ class FirestoreHandler {
                 let categoryData = try JSONEncoder().encode(category)
                 let json = try JSONSerialization.jsonObject(with: categoryData, options: [])
                 
-                //            let categoryData: [String: Any] = [
-                //                        "id" : category.id,
-                //                        "name" : category.name,
-                //                        "icon" : category.icon,
-                //                        "color" : category.color
-                //            ]
-                
                 guard let dictionary = json as? [String: Any] else {
-                    assertionFailure("Couldn't cast json to dictionary.")
                     return
                 }
                 
@@ -124,18 +107,19 @@ class FirestoreHandler {
             } catch {
                 print("error")
             }
-            
         }
     }
     
-    static func fetchAllCategories() {
-        // raboti
-        let docRef = Firestore.firestore()
-                    .collection("users")
-                    .document(Auth.auth().currentUser!.uid)
-
-
-
+    static func fetchAllCategories(completion: @escaping ([Category]) -> Void) {
+        
+        let db = Firestore.firestore()
+        
+        let docRef = db
+            .collection("users")
+            .document(Auth.auth().currentUser!.uid)
+        
+        
+        
         docRef.getDocument { (document, error) in
             
             guard let document = document, document.exists else {
@@ -143,30 +127,34 @@ class FirestoreHandler {
                 return
             }
             let dataDescription = document.data()
-            //print(dataDescription?["categories"] ?? "")
-
-
+            
+            if dataDescription?["categories"] == nil {
+                let noCategories: [Category] = []
+                completion(noCategories)
+                return
+            }
+            
             do {
-
-            let data = try JSONSerialization.data(withJSONObject: dataDescription?["categories"], options: .prettyPrinted)
-
-
-                let category = try JSONDecoder().decode(Array<Category>.self, from: data)
-            print("----------")
-                print(category)
+                
+                let data = try JSONSerialization.data(withJSONObject: dataDescription?["categories"] as Any, options: .prettyPrinted)
+                let categories = try JSONDecoder().decode(Array<Category>.self, from: data)
+                
+                completion(categories)
+                
             } catch {
                 print(error)
+                
             }
-            //print(dataDescription?["firstname"] ?? "")
+            
         }
+        
     }
-    static func fetchAllNotes() {
-        // raboti
+    static func fetchAllNotes(completion: @escaping ([Note]) -> [Note]) {
         let docRef = Firestore.firestore()
-                    .collection("users")
-                    .document(Auth.auth().currentUser!.uid)
-
-
+            .collection("users")
+            .document(Auth.auth().currentUser!.uid)
+        
+        
         // https://firebase.google.com/docs/firestore/query-data/queries
         docRef.getDocument { (document, error) in
             
@@ -175,21 +163,28 @@ class FirestoreHandler {
                 return
             }
             let dataDescription = document.data()
-            //print(dataDescription?["categories"] ?? "")
-
-
+            
+            
             do {
-
-            let data = try JSONSerialization.data(withJSONObject: dataDescription?["notes"], options: .prettyPrinted)
-
-
-                let category = try JSONDecoder().decode(Array<Note>.self, from: data)
-            print("----------")
-                print(category)
+                
+                let data = try JSONSerialization.data(withJSONObject: dataDescription?["notes"], options: .prettyPrinted)
+                
+                
+                let category = try JSONDecoder().decode(Array<NoteWrapper>.self, from: data)
+                completion(category.toNotes())
+                
             } catch {
                 print(error)
+                return
             }
-            //print(dataDescription?["firstname"] ?? "")
+            
+            
+            return
+            
         }
     }
+    
+    
+    
+    
 }

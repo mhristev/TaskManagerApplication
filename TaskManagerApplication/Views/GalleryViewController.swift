@@ -30,18 +30,13 @@ class GalleryViewController: UIViewController {
         tableView.delegate = self
         tableView.dataSource = self
         
-      
+        
         
         if let fetchPhotos = RealmHandler.shared.getAllPhotosinNoteWith(ID: currNoteID, inRealmObject: realm) {
             photos = fetchPhotos
         }
         
         
-        
-        
-        // let url = URL(string: RealmHandler.shared.giveMePhoto(ID: currNoteID, inRealmObject: realm) ?? "")
-        //displayAndSaveImageWith(url: url!)
-        // Do any additional setup after loading the view.
     }
     func photoPicker() {
         imagePicker.allowsEditing = false
@@ -64,49 +59,41 @@ class GalleryViewController: UIViewController {
             
             
             /*UIAction(title: "Disabled item", image: UIImage(systemName: "moon"), attributes: .disabled, handler: { (_) in
-            }),
-            UIAction(title: "Delete..", image: UIImage(systemName: "trash"), attributes: .destructive, handler: { (_) in
-            })*/
+             }),
+             UIAction(title: "Delete..", image: UIImage(systemName: "trash"), attributes: .destructive, handler: { (_) in
+             })*/
             UIAction(title: "Open Camera", image: UIImage(systemName: "sun.max"), handler: { (_) in
                 self.openCamera()
             })
         ]
     }
-
+    
     var demoMenu: UIMenu {
         return UIMenu(title: "Menu", image: nil, identifier: nil, options: [], children: menuItems)
     }
-   
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
-       //MARK: - Add image to Library
-       @objc func image(_ image: UIImage, didFinishSavingWithError error: Error?, contextInfo: UnsafeRawPointer) {
-           if let error = error {
-               // we got back an error!
-               showAlertWith(title: "Save error", message: error.localizedDescription)
-           } else {
-               
-               showAlertWith(title: "Saved!", message: "Your image has been saved to your photos.")
-           }
-       }
-        
     
-
-       func showAlertWith(title: String, message: String){
-           let ac = UIAlertController(title: title, message: message, preferredStyle: .alert)
-           ac.addAction(UIAlertAction(title: "OK", style: .default))
-           present(ac, animated: true)
-       }
-   
-
+    
+    
+    //MARK: - Add image to Library
+    @objc func image(_ image: UIImage, didFinishSavingWithError error: Error?, contextInfo: UnsafeRawPointer) {
+        if let error = error {
+            // we got back an error!
+            showAlertWith(title: "Save error", message: error.localizedDescription)
+        } else {
+            
+            showAlertWith(title: "Saved!", message: "Your image has been saved to your photos.")
+        }
+    }
+    
+    
+    
+    func showAlertWith(title: String, message: String){
+        let ac = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        ac.addAction(UIAlertAction(title: "OK", style: .default))
+        present(ac, animated: true)
+    }
+    
+    
 }
 
 extension GalleryViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
@@ -130,7 +117,7 @@ extension GalleryViewController: UIImagePickerControllerDelegate, UINavigationCo
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         dismiss(animated: true)
     }
-
+    
 }
 
 extension GalleryViewController {
@@ -167,7 +154,7 @@ extension GalleryViewController {
     
     func displayAndSaveImageFromCamera(image: UIImage) {
         let imageID = UUID().uuidString
-
+        
         let documentsDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
         // choose a name for your image
         let fileName = imageID + ".png"
@@ -176,7 +163,7 @@ extension GalleryViewController {
         
         // get your UIImage jpeg data representation and check if the destination file url already exists
         if let data = image.pngData(),
-          !FileManager.default.fileExists(atPath: fileURL.path) {
+           !FileManager.default.fileExists(atPath: fileURL.path) {
             do {
                 // writes the image data to disk
                 try data.write(to: fileURL)
@@ -198,7 +185,7 @@ extension GalleryViewController: noteActionDelegate {
         self.currNoteID = ID
     }
     
-
+    
     
     func didCreateReminderOn(note: Note) {
         return
@@ -235,10 +222,10 @@ extension GalleryViewController: UITableViewDelegate, UITableViewDataSource {
                 self.deletePhoto()   // Put button handler here
             })
             
-        
+            
             return UIMenu( image: nil, identifier: nil, options: [], children: [action])
-            }
-            return configuration
+        }
+        return configuration
     }
     
 }

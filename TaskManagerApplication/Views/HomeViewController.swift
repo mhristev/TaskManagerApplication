@@ -34,8 +34,8 @@ class HomeViewController: UIViewController {
             remindersView.isHidden = false
             
             overviewView.isHidden = true
-               
-           
+            
+            
         default:
             remindersView.isHidden = true
             overviewView.isHidden = false
@@ -44,7 +44,7 @@ class HomeViewController: UIViewController {
         
     }
     
-
+    
     override func viewDidLoad() {
         
         
@@ -58,67 +58,6 @@ class HomeViewController: UIViewController {
         let reminders = RealmHandler.shared.getAllReminders(inRealmObject: realm)
         NotificationHelper.createPendingNotificationsIn(reminders: reminders)
         
-        //let firebase = FirebaseHandler()
-        //firebase.createCategoryForCurrentUser(category: Category(name: "12", color: "2", icon: "3"))
-        
-        
-//        let docRef = Firestore.firestore()
-//                    .collection("users")
-//                    .document(Auth.auth().currentUser!.uid)
-//                    .collection("categoryID")
-//
-//
-//
-//        docRef.getDocument { (document, error) in
-//            guard let document = document, document.exists else {
-//                print("Document does not exist")
-//                return
-//            }
-//            let dataDescription = document.data()
-//            //print(dataDescription?["categories"] ?? "")
-//
-//
-//            do {
-//
-//            let data = try JSONSerialization.data(withJSONObject: dataDescription?["categories"], options: .prettyPrinted)
-//
-//
-//                let category = try JSONDecoder().decode(Array<Category>.self, from: data)
-//            print("----------")
-//                print(category)
-//            } catch {
-//                print(error)
-//            }
-//            //print(dataDescription?["firstname"] ?? "")
-//        }
-//
-//        docRef.getDocument { document, error in
-//                    guard error == nil else {
-//                        //completionHandler(FirebaseError.database(error), nil)
-//                        return
-//                    }
-//
-//                    guard let json = document?.data() else {
-//                        //completionHandler(FirebaseError.unknown, nil)
-//                        return
-//                    }
-//
-//                    do {
-//                        let data = try JSONSerialization.data(withJSONObject: json, options: .prettyPrinted)
-//                        //print(json)
-//                        //let user = try JSONDecoder().decode(User.self, from: data)
-//                       // self.currentUser = user
-//
-//                       // self.delegatesCollection.forEach { delegate in
-//                       //     delegate.databaseManagerDidUserChange(sender: self)
-//                       // }
-//
-//                        //completionHandler(nil, user)
-//                    } catch {
-//                        //completionHandler(FirebaseError.database(error), nil)
-//                    }
-//                }
-        // Do any additional setup after loading the view.
     }
     
     
@@ -129,10 +68,10 @@ class HomeViewController: UIViewController {
         
         let destinationVC = storyboard?.instantiateViewController(withIdentifier: "NoteViewController") as! NoteViewController
         newNoteDelegate = destinationVC
-
+        
         guard let note = RealmHandler.shared.getNoteWith(name: "", inRealmObject: self.realm) else {
             return
-       }
+        }
         //print(note.id)
         newNoteDelegate.didCreateNoteWith(ID: note.getID())
         
@@ -142,11 +81,7 @@ class HomeViewController: UIViewController {
     
     
     @IBAction func signOutClicked(_ sender: UIButton) {
-    
-        let reminders = RealmHandler.shared.getAllReminders(inRealmObject: realm)
-        NotificationHelper.removeAllPendingNotificationsIn(reminders: reminders)
         showCreateAccount()
-        
     }
     
     func presentLoginViewController() {
@@ -161,18 +96,19 @@ class HomeViewController: UIViewController {
     }
     
     func showCreateAccount () {
-    
-    
+        
+        
         let myalert = UIAlertController(title: "Sign Out?", message: "Do you want to sign out?", preferredStyle: .alert)
         
-    
+        
         
         
         myalert.addAction(UIAlertAction(title: "Continue", style: .default,
-                                      handler: {_ in
+                                        handler: {_ in
             do {
+                let reminders = RealmHandler.shared.getAllReminders(inRealmObject: self.realm)
+                NotificationHelper.removeAllPendingNotificationsIn(reminders: reminders)
                 try Auth.auth().signOut()
-                //RealmHandler.currUserID = nil
                 self.presentLoginViewController()
                 
                 
@@ -181,28 +117,18 @@ class HomeViewController: UIViewController {
             }
             
         }))
-                        
+        
         
         myalert.addAction(UIAlertAction(title: "Cancel", style: .default,
-                                      handler: {_ in
+                                        handler: {_ in
         }))
         
         present(myalert, animated: true)
         
-            
+        
     }
     
     
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }
 
 extension HomeViewController {
@@ -229,17 +155,6 @@ extension HomeViewController {
         remindersView.isHidden = true
         overviewView.isHidden = false
     }
-    /*
-    func removeOverview() {
-       if parent == nil {
-            return
-        }
-        
-        willMove(toParent: nil)
-        overviewView.removeFromSuperview()
-        removeFromParent()
-    }
-    */
     
 }
 

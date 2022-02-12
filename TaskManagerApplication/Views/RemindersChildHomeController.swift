@@ -38,15 +38,6 @@ class RemindersChildHomeController: UIViewController {
         view.endEditing(true)
     }
     
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
     
     override func viewDidAppear(_ animated: Bool) {
         self.updateReminders()
@@ -56,68 +47,47 @@ class RemindersChildHomeController: UIViewController {
         reminders = RealmHandler.shared.getAllReminders(inRealmObject: realm)
         tableView.reloadData()
     }
-
+    
 }
 
 extension RemindersChildHomeController: UITableViewDelegate {
     
-  
-
-    private func handleMoveToTrash(indexPath: IndexPath) {
     
+    private func handleMoveToTrash(indexPath: IndexPath) {
+        
         RealmHandler.shared.removeReminderAndNotificationForNote(withID: reminders[reminders.count - (1+indexPath.row)].getID(), inRealmObject: realm)
         
         self.updateReminders()
         
         print("Moved to trash")
-       
+        
     }
     
     private func handleEdit(indexPath: IndexPath) {
-//        //categoryTitle = categories[categories.count - (1 + indexPath.row)].getTitle()
-//      // self.performSegue(withIdentifier: "editWindow", sender: self)
-//
-//        let destinationVC = storyboard?.instantiateViewController(withIdentifier: "CreateCategoryViewController") as! CreateCategoryViewController
-//
-//            //self.selectionDelegate = destinationVC
-//       // destinationVC.viewDidLoad()
-//        selectionDelegate = destinationVC
-//
-//        guard let category = RealmHandler.shared.getCategoryWith(name: categories[categories.count - (1 + indexPath.row)].getName(), inRealmObject: realm) else {
-//            return
-//        }
-//
-//
-//        selectionDelegate.didEditCategory(category: category)
-//        //destinationVC.vc = self
-//
-//        destinationVC.categoryDelegate = self
-//       // self.navigationController?.pushViewController(destinationVC, animated: true)
-//        present(destinationVC, animated: true, completion: nil)
         print("Edit")
     }
-
-  
     
-     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-      
+    
+    
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        
         let trash = UIContextualAction(style: .destructive,
                                        title: "Remove Reminder") { [weak self] (action, view, completionHandler) in
-                                        self?.handleMoveToTrash(indexPath: indexPath)
-                                        completionHandler(true)
+            self?.handleMoveToTrash(indexPath: indexPath)
+            completionHandler(true)
         }
         trash.backgroundColor = .systemRed
         
         let edit = UIContextualAction(style: .normal,
-                                       title: "Edit") { [weak self] (action, view, completionHandler) in
-                                        self?.handleEdit(indexPath: indexPath)
-                                        completionHandler(true)
+                                      title: "Edit") { [weak self] (action, view, completionHandler) in
+            self?.handleEdit(indexPath: indexPath)
+            completionHandler(true)
         }
         edit.backgroundColor = .brown
-
-
+        
+        
         let configuration = UISwipeActionsConfiguration(actions: [trash, edit])
-
+        
         return configuration
     }
 }
@@ -125,7 +95,7 @@ extension RemindersChildHomeController: UITableViewDelegate {
 
 extension RemindersChildHomeController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-      
+        
         return reminders.count
     }
     
@@ -139,8 +109,7 @@ extension RemindersChildHomeController: UITableViewDataSource {
             out = "\(out) (\(categoryName))"
         }
         
-        
-        cell.configureWith(title: reminders[reminders.count - (1 + indexPath.row)].title, imageName: "", date: out)
+        cell.configureWith(title: reminders[reminders.count - (1 + indexPath.row)].title, date: out)
         
         
         return cell

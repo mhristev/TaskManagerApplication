@@ -10,7 +10,7 @@ import RealmSwift
 import FirebaseFirestoreSwift
 
 class Category: Object, Codable {
-    @objc dynamic var id = UUID().uuidString
+    @objc dynamic var id: String = ""
     @objc dynamic var name: String = ""
     @objc dynamic var color: String = ""
     @objc dynamic var icon: String = ""
@@ -24,6 +24,15 @@ class Category: Object, Codable {
     
     convenience init(name: String, color: String, icon: String) {
         self.init()
+        self.id = UUID().uuidString
+        self.name = name
+        self.color = color
+        self.icon = icon
+    }
+    
+    convenience init(id: String, name: String, color: String, icon: String) {
+        self.init()
+        self.id = id
         self.name = name
         self.color = color
         self.icon = icon

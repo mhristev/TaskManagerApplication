@@ -24,13 +24,13 @@ class CreateReminderViewController: UIViewController {
         
         
         //myDatePicker.overrideUserInterfaceStyle = .light
-
+        
         // Do any additional setup after loading the view.
     }
     
     @IBAction func createReminder(_ sender: UIButton) {
-   //     print(datePickerView.date)
-       
+        //     print(datePickerView.date)
+        
         guard let note = currNote else {
             return
         }
@@ -40,18 +40,18 @@ class CreateReminderViewController: UIViewController {
             let myalert = UIAlertController(title: "Error", message: "The day has passed a long time ago, my friend", preferredStyle: .alert)
             
             myalert.addAction(UIAlertAction(title: "Dismiss", style: .default,
-                                          handler: nil))
-                            
+                                            handler: nil))
+            
             self.present(myalert, animated: true)
             return
         }
         
         if let date = note.reminderDate?.toDate() {
             
-        
-        
+            
+            
             if date > Date() {
-               
+                
                 let myalert = UIAlertController(title: "", message: "You already have a reminder for that note. Do you want to override it?", preferredStyle: .alert)
                 
                 myalert.addAction(UIAlertAction(title: "Continue", style: UIAlertAction.Style.default, handler: { _ in
@@ -67,18 +67,12 @@ class CreateReminderViewController: UIViewController {
             }
             
         }
-       
-            self.createReminder()
         
+        self.createReminder()
         
-        
-        
-        
-       //    UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: ["testID"])
-        //self.dismiss(animated: true, completion: nil)
     }
     
-
+    
     func createReminder() {
         guard let note = currNote else {
             return
@@ -89,24 +83,24 @@ class CreateReminderViewController: UIViewController {
         let myalert = UIAlertController(title: "Success", message: "You have successfuly created a reminder.", preferredStyle: .alert)
         
         myalert.addAction(UIAlertAction(title: "Dismiss", style: .default,
-                                      handler: {_ in
+                                        handler: {_ in
             self.noteDelegate.reloadData()
             self.dismiss(animated: true, completion: nil)
         }))
-                        
-    
+        
+        
         self.present(myalert, animated: true)
     }
     /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
+     // MARK: - Navigation
+     
+     // In a storyboard-based application, you will often want to do a little preparation before navigation
+     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+     // Get the new view controller using segue.destination.
+     // Pass the selected object to the new view controller.
+     }
+     */
+    
 }
 
 extension CreateReminderViewController: noteActionDelegate {

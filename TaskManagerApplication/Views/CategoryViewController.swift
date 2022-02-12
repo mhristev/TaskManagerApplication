@@ -10,10 +10,6 @@ import RealmSwift
 import UserNotifications
 
 
-/*protocol categoriesDelegate {
-    func addToCategory()
-}*/
-
 class CategoryViewController: UIViewController {
     
     @IBOutlet var searchBar: UISearchBar!
@@ -21,21 +17,21 @@ class CategoryViewController: UIViewController {
     
     var categoryDelegate: categoryActionDelegate!
     
-
+    
     @IBOutlet var favSegmentControl: UISegmentedControl!
     
     var notes: Array<Note> = []
     var filteredNotes: [Note] = []
     
     let realm = try! Realm(configuration: RealmHandler.configurationHelper(), queue: nil)
-
+    
     
     @IBOutlet var NotesInCategoryTableView: UITableView!
     @IBOutlet var titleCategory: UINavigationItem!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-       
+        
         NotesInCategoryTableView.delegate = self
         NotesInCategoryTableView.dataSource = self
         
@@ -43,7 +39,7 @@ class CategoryViewController: UIViewController {
         self.NotesInCategoryTableView.register(SubtitleTableViewCell.self, forCellReuseIdentifier: "noteCell")
         
         // dismiss the keyboard tap
-       let tap = UITapGestureRecognizer(target: self, action: #selector(UIInputViewController.dismissKeyboard))
+        let tap = UITapGestureRecognizer(target: self, action: #selector(UIInputViewController.dismissKeyboard))
         tap.cancelsTouchesInView = false
         view.addGestureRecognizer(tap)
         // Do any additional setup after loading the view.
@@ -54,30 +50,29 @@ class CategoryViewController: UIViewController {
     }
     
     @IBAction func filterFavourites(_ sender: UISegmentedControl) {
-       reloadTableBasedOnSegment()
+        reloadTableBasedOnSegment()
     }
     
     @IBAction func createNote(_ sender: Any) {
-    
+        
         RealmHandler.shared.createNoteWith(title: "", text: NSAttributedString(""), favourite: false, categoryName: self.title!, inRealmObject: realm)
         
         reloadTableBasedOnSegment()
         
-        
         let destinationVC = storyboard?.instantiateViewController(withIdentifier: "NoteViewController") as! NoteViewController
         newNoteDelegate = destinationVC
-
+        
         guard let note = RealmHandler.shared.getNoteWith(name: "", inRealmObject: realm) else {
             return
         }
-
+        
         newNoteDelegate.didCreateNoteWith(ID: note.getID())
         
         self.navigationController?.pushViewController(destinationVC, animated: true)
     }
     
     func updateDataInTableViewAll() {
-        notes = RealmHandler.shared.getAllNotesInCategoryWith(name: self.title!, inRealmObject: realm)//.sortedByUpdatedAt()
+        notes = RealmHandler.shared.getAllNotesInCategoryWith(name: self.title!, inRealmObject: realm)
         NotesInCategoryTableView.reloadData()
     }
     func updateDataInTableViewFavourite() {
@@ -97,16 +92,7 @@ class CategoryViewController: UIViewController {
         }
     }
     
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
+    
 }
 
 
@@ -117,7 +103,7 @@ extension CategoryViewController: UITableViewDelegate {
         RealmHandler.shared.updateFavouriteForNote(ID: notes[notes.count - (1 + indexPath.row)].getID(), inRealmObject: realm)
         print("Marked as favourite")
     }
-
+    
     private func handleChangeCategory(indexPath: IndexPath) {
         
         let destinationVC = storyboard?.instantiateViewController(withIdentifier: "AddToCategoryViewController") as! AddToCategoryViewController
@@ -135,26 +121,28 @@ extension CategoryViewController: UITableViewDelegate {
         categoryDelegate.didChangeCategory(currCategory: category, currNote: note)
         
         destinationVC.noteDelegate = self
-      
+        
         present(destinationVC, animated: true, completion: nil)
     }
-
+    
     private func handleMoveToTrash(indexPath: IndexPath) {
-        //NotesInCategoryTableView.beginUpdates()
+        
         RealmHandler.shared.deleteNoteWith(ID: notes[notes.count - (1 + indexPath.row)].getID(), inRealmObject: realm)
-        notes = RealmHandler.shared.getAllNotesInCategoryWith(name: self.title!, inRealmObject: realm)//.testSortByUpdatedAt()//.sortedByUpdatedAt()
+        
+        notes = RealmHandler.shared.getAllNotesInCategoryWith(name: self.title!, inRealmObject: realm)
+        
         NotesInCategoryTableView.beginUpdates()
         NotesInCategoryTableView.deleteRows(at: [indexPath], with: .fade)
         NotesInCategoryTableView.endUpdates()
         
         print("Moved to trash")
-       
+        
     }
-
+    
     private func handleCreateReminder(indexPath: IndexPath) {
         
         UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .sound], completionHandler: {success, error in
-           if let err = error {
+            if let err = error {
                 print("error while requesting permission for notifications")
                 return
             }
@@ -164,16 +152,15 @@ extension CategoryViewController: UITableViewDelegate {
         
         self.newNoteDelegate = destinationVC
         destinationVC.noteDelegate = self
-
+        
         guard let note = RealmHandler.shared.getNoteWith(ID: notes[notes.count - (1 + indexPath.row)].getID(), inRealmObject: self.realm) else {
             return
-       }
-        //print(note.id)
+        }
+
         newNoteDelegate.didCreateReminderOn(note: note)
         
         present(destinationVC, animated: true, completion: nil)
         
-      //  self.performSegue(withIdentifier: "showCreateReminder", sender: self)
     }
     
     
@@ -182,8 +169,8 @@ extension CategoryViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let action = UIContextualAction(style: .normal,
                                         title: "Favourite") { [weak self] (action, view, completionHandler) in
-                                        self?.handleMarkAsFavourite(indexPath: indexPath)
-                                            completionHandler(true)
+            self?.handleMarkAsFavourite(indexPath: indexPath)
+            completionHandler(true)
         }
         action.backgroundColor = .systemBlue
         
@@ -193,30 +180,30 @@ extension CategoryViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         // Reminder action
         let reminder = UIContextualAction(style: .normal,
-                                         title: "Reminder") { [weak self] (action, view, completionHandler) in
-                                            self?.handleCreateReminder(indexPath: indexPath)
-                                            completionHandler(true)
+                                          title: "Reminder") { [weak self] (action, view, completionHandler) in
+            self?.handleCreateReminder(indexPath: indexPath)
+            completionHandler(true)
         }
         reminder.backgroundColor = .systemGreen
-
+        
         // Trash action
         let trash = UIContextualAction(style: .destructive,
                                        title: "Delete") { [weak self] (action, view, completionHandler) in
-                                        self?.handleMoveToTrash(indexPath: indexPath)
-                                        completionHandler(true)
+            self?.handleMoveToTrash(indexPath: indexPath)
+            completionHandler(true)
         }
         trash.backgroundColor = .systemRed
-
+        
         // Add To Folder action
         let folder = UIContextualAction(style: .normal,
-                                       title: "Change Category") { [weak self] (action, view, completionHandler) in
-                                        self?.handleChangeCategory(indexPath: indexPath)
-                                        completionHandler(true)
+                                        title: "Change Category") { [weak self] (action, view, completionHandler) in
+            self?.handleChangeCategory(indexPath: indexPath)
+            completionHandler(true)
         }
         folder.backgroundColor = .systemOrange
-
+        
         let configuration = UISwipeActionsConfiguration(actions: [trash, reminder, folder])
-
+        
         return configuration
     }
     
@@ -229,14 +216,11 @@ extension CategoryViewController: UITableViewDelegate {
         guard let note = RealmHandler.shared.getNoteWith(ID: notes[notes.count - (1 + indexPath.row)].getID(), inRealmObject: realm) else {
             return
         }
-        //print(note.id)
         newNoteDelegate.didCreateNoteWith(ID: note.getID())
         
         self.navigationController?.pushViewController(destinationVC, animated: true)
-        //self.performSegue(withIdentifier: "clickNoteToView", sender: self)
+        
     }
-    
-    
     
 }
 
@@ -337,11 +321,11 @@ extension CategoryViewController: UISearchBarDelegate {
 
 
 class SubtitleTableViewCell: UITableViewCell {
-
+    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: .subtitle, reuseIdentifier: reuseIdentifier)
     }
-
+    
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }

@@ -16,12 +16,11 @@ class WeeklyProgressViewController: UIViewController {
     @IBOutlet var favSegment: UISegmentedControl!
     override func viewDidLoad() {
         super.viewDidLoad()
-        FirestoreHandler.fetchAllNotes()
+        
         tableView.dataSource = self
-       tableView.delegate = self
+        tableView.delegate = self
         reminders = RealmHandler.shared.getAllRemindersForThisWeek(inRealmObject: realm)
         
-        // Do any additional setup after loading the view.
     }
     
     @IBAction func favouriteFilter(_ sender: UISegmentedControl) {
@@ -35,16 +34,7 @@ class WeeklyProgressViewController: UIViewController {
         }
     }
     
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
+    
 }
 
 extension WeeklyProgressViewController: UITableViewDelegate {
@@ -67,9 +57,9 @@ extension WeeklyProgressViewController: UITableViewDataSource {
         }
         
         
-        cell.configureWith(title: reminders[reminders.count - (1 + indexPath.row)].title, imageName: "", date: out)
+        cell.configureWith(title: reminders[reminders.count - (1 + indexPath.row)].title, date: out)
         
-     
+        
         
         guard let convertedDate = reminders[reminders.count - (1+indexPath.row)].reminderDate!.toDate() else {
             return cell
