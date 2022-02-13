@@ -9,6 +9,8 @@ import Foundation
 import Firebase
 import FirebaseAuth
 import FirebaseFirestore
+import FirebaseStorage
+import UIKit
 
 class FirestoreHandler {
     
@@ -186,7 +188,92 @@ class FirestoreHandler {
         }
     }
     
+    static func uploadMedia(url: String, completion: @escaping (_ url: String?) -> Void) {
+
+        guard let localFile = URL(string: url) else {
+            return
+        }
+//        guard let imageData = img.pngData() else {
+//            return
+//        }
+//
+        guard let currentUser = Auth.auth().currentUser else {
+            return
+        }
+
+        let userURL = "\(currentUser.uid)/\(UUID().uuidString)"
+
+        let storageRef = Storage.storage().reference().child(userURL)
+//
+//
+//        // Upload the file to the path "images/rivers.jpg"
+//        let uploadTask = storageRef.putData(imageData, metadata: nil, completion: { metadata, error in
+//            guard error == nil else {
+//                print("failed to upload")
+//                return
+//            }
+//
+//            storageRef.downloadURL { url, error in
+//                guard error == nil else {
+//                    print("error while trying to get the download URL!")
+//                    return
+//                }
+//                guard let downloadURL = url else {
+//                    print("failed to get the downloadURL of the image!")
+//                    return
+//                }
+//                print("----------------------------------")
+//                print(downloadURL)
+//
+//            }
+//
+//        })
+        
+
+        // Upload the file to the path "images/rivers.jpg"
+        let uploadTask = storageRef.putFile(from: localFile, metadata: nil) { metadata, error in
+            guard let metadata = metadata else {
+                // Uh-oh, an error occurred!
+                return
+            }
+            // Metadata contains file metadata such as size, content-type.
+            let size = metadata.size
+            print(size)
+            // You can also access to download URL after upload.
+            storageRef.downloadURL { (url, error) in
+                guard let downloadURL = url else {
+                    // Uh-oh, an error occurred!
+                    return
+                }
+
+                print("------------")
+                print(downloadURL)
+            }
+        }
+        
+        
+        
+        
+    }
     
     
     
+    static func downloadMedia() {
+        let url = "\(Auth.auth().currentUser!.uid)"
+        let storageReference = Storage.storage().reference().child(url)
+        
+        storageReference.listAll { (result, error) in
+          if let error = error {
+            // ...
+          }
+          for prefix in result.prefixes {
+            // The prefixes under storageReference.
+            // You may call listAll(completion:) recursively on them.
+          }
+          for item in result.items {
+            print(item)
+          }
+        }
+       
+    }
 }

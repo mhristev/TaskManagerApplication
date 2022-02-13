@@ -473,6 +473,9 @@ class RealmHandler {
             try! inRealmObject.write() {
                 inRealmObject.add(localNote)
             }
+            if let reminder = localNote.reminderDate {
+                NotificationHelper.createNewNotificationWith(title: localNote.title, date: reminder, ID: localNote.getID())
+            }
         }
     }
     
@@ -511,7 +514,12 @@ class RealmHandler {
                             } else {
                                 localNote.category = quickNotes
                             }
+                            
                             localNote.reminderDate = cloudNote.reminderDate
+                            if let reminder = localNote.reminderDate {
+                                NotificationHelper.removeNotificationWithID(ID: localNote.getID())
+                                NotificationHelper.createNewNotificationWith(title: localNote.title, date: reminder, ID: localNote.getID())
+                            }
                             // delete the current reminder and replace it with the new one
                         }
                         break
@@ -598,7 +606,7 @@ extension Array where Element : NoteWrapper {
             note.revisions = res.revisions
             note.favourite = res.favourite
             note.reminderDate = res.reminderDate
-            note.photos = res.photos
+          //  note.photos = res.photos
             
             result.append(note)
         }

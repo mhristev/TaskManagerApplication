@@ -8,6 +8,7 @@
 import UIKit
 import AVFoundation
 import RealmSwift
+import FirebaseStorage
 
 class GalleryViewController: UIViewController {
     @IBOutlet var addButton: UIButton!
@@ -24,6 +25,7 @@ class GalleryViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        FirestoreHandler.downloadMedia()
         addButton.menu = demoMenu
         addButton.showsMenuAsPrimaryAction = true
         imagePicker.delegate = self
@@ -138,6 +140,7 @@ extension GalleryViewController {
     }
     
     func saveImageToRealm(photoURL: String) {
+        
         RealmHandler.shared.addPhotoToNoteWith(ID: currNoteID, photoURL: photoURL, inRealmObject: realm)
         
         if let fetchPhotos = RealmHandler.shared.getAllPhotosinNoteWith(ID: currNoteID, inRealmObject: realm) {
@@ -145,6 +148,23 @@ extension GalleryViewController {
         } else {
             photos = []
         }
+        
+        
+        
+        guard let url = URL(string: photoURL) else {
+            return
+        }
+        
+        guard let img = returnImageFor(url: url) else {
+            return
+        }
+        
+        FirestoreHandler.uploadMedia(url: photoURL, completion: { downloadURL in
+            
+            
+        })
+        
+        
         tableView.reloadData()
     }
     

@@ -26,16 +26,15 @@ class NoteViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         textView.delegate = self
+        //textView.font = UIFont(name: "ArialMT", size: 18)
         
-        
+                
         if currNoteID != nil {
             guard let note = RealmHandler.shared.getNoteWith(ID: currNoteID!, inRealmObject: realm) else {
                 return
             }
-            
-            
             
             guard let newAttributedString = note.html2AttrString() else {
                 return
