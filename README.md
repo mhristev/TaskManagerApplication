@@ -9,10 +9,12 @@
 
 ## TODO: <br />
 - ~~time in reminder~~
+- set reminders after fetching notes with reminders from firestore
+- upload, download photos from firestore
 - explicitly set font in notes textview
 - ~~images!~~
-- Firebase
-- same db structure (manual update)
+- ~~Firebase~~
+- ~~same db structure (manual update)~~
 - ~~note from attributes string -> to html text -> store in realm as string~~
 - ~~colors~~
 - ~~notificationHelper~~
