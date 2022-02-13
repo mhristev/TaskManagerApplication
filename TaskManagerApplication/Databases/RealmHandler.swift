@@ -126,6 +126,7 @@ class RealmHandler {
                 if note.reminderDate != nil {
                     NotificationHelper.removeNotificationWithID(ID: note.getID())
                 }
+                FirestoreHandler.delete(note: note)
             }
             
             try! inRealmObject.write() {
@@ -145,19 +146,23 @@ class RealmHandler {
     }
     
     func getAllNotesInCategoryWith(name: String, inRealmObject: Realm) -> Array<Note> {
-        self.clearEmtyNotes(inRealmObject: inRealmObject)
+       // self.clearEmtyNotes(inRealmObject: inRealmObject)
         return Array(inRealmObject.objects(Note.self).filter("category.name == %@", name)).sortedByUpdatedAt()
     }
     
+    func getAllNotes(inRealmObject: Realm) -> Array<Note> {
+       // self.clearEmtyNotes(inRealmObject: inRealmObject)
+        return Array(inRealmObject.objects(Note.self))
+    }
+    
     func clearEmtyNotes(inRealmObject: Realm) {
-        // TO DO
-        // convert htmlString to string and compare to empty string
-        //        let emtyNotes = inRealmObject.objects(Note.self).filter("textHtmlString == %@", "")
-        //        for note in emtyNotes {
-        //            try! inRealmObject.write() {
-        //                inRealmObject.delete(note)
-        //            }
-        //        }
+        
+        let emtyNotes = inRealmObject.objects(Note.self).filter("title == %@", "")
+        for note in emtyNotes {
+            try! inRealmObject.write() {
+                inRealmObject.delete(note)
+            }
+        }
     }
     
     func getCategoryWith(name: String, inRealmObject: Realm) -> Category? {
@@ -189,9 +194,12 @@ class RealmHandler {
             guard let htmlString = text.toHtmlString() else {
                 return
             }
+            let note = Note(title: title, htmlText: htmlString, favourite: favourite, category: foundCategory)
+            
+            FirestoreHandler.upload(note: note)
             
             try! inRealmObject.write() {
-                inRealmObject.add(Note(title: title, htmlText: htmlString, favourite: favourite, category: foundCategory))
+                inRealmObject.add(note)
             }
         }
         
@@ -212,15 +220,16 @@ class RealmHandler {
                 return
             }
             
+            FirestoreHandler.delete(note: note)
             try! inRealmObject.write() {
                 note.textHtmlString = htmlString
                 note.title = title
                 note.updatedAt = Date().formatedToStringDate()
                 note.revisions += 1
             }
-            
-            
             FirestoreHandler.upload(note: note)
+            
+
             
         }
         
@@ -255,9 +264,11 @@ class RealmHandler {
     
     func update(note: Note, inCategory: Category, inRealmObject: Realm) {
         if let note = inRealmObject.objects(Note.self).filter("id == %@", note.getID()).first {
+            FirestoreHandler.delete(note: note)
             try! inRealmObject.write() {
                 note.category = inCategory
             }
+            FirestoreHandler.upload(note: note)
         }
     }
     
@@ -331,6 +342,7 @@ class RealmHandler {
         if let note = inRealmObject.objects(Note.self)
                                    .filter("id == %@", ID)
                                    .first {
+            FirestoreHandler.delete(note: note)
             if note.favourite {
                 try! inRealmObject.write() {
                     note.favourite = false
@@ -340,6 +352,7 @@ class RealmHandler {
                     note.favourite = true
                 }
             }
+            FirestoreHandler.upload(note: note)
             
         }
     }
@@ -362,6 +375,10 @@ class RealmHandler {
         try! inRealmObject.write() {
             note?.photos.append(photoURL)
         }
+    }
+    
+    func getQuickNotesCategory(inRealmObject: Realm) -> Category? {
+        return inRealmObject.objects(Category.self).filter("name == %@", "Quick Notes").first
     }
     
     func getAllPhotosinNoteWith(ID: String, inRealmObject: Realm) -> [String]? {
@@ -388,7 +405,7 @@ class RealmHandler {
     }
     
     
-    func createLocalFromCloud(categories: [Category], inRealmObject: Realm ) {
+    func createLocalCopiesOf(categories: [Category], inRealmObject: Realm ) {
         for category in categories {
             let cat = Category(id: category.id, name: category.name, color: category.color, icon: category.icon)
             try! inRealmObject.write() {
@@ -440,15 +457,81 @@ class RealmHandler {
                 toCreateLocally.append(cloudCat)
             }
         }
-        self.createLocalFromCloud(categories: toCreateLocally, inRealmObject: realm)
+        self.createLocalCopiesOf(categories: toCreateLocally, inRealmObject: realm)
         
-        let toPushToCloud = Array(Set(localCategories).subtracting(Set(cloudCategories)))
+      //  let toPushToCloud = Array(Set(localCategories).subtracting(Set(cloudCategories)))
         
-        for category in toPushToCloud {
+       // for category in toPushToCloud {
             //FirestoreHandler.upload(category: category)
+      //  }
+        
+        
+    }
+    func createLocalCopiesOf(notes: [Note], inRealmObject: Realm ) {
+        for note in notes {
+            let localNote = Note(id: note.getID(), title: note.title, htmlText: note.textHtmlString, createdAt: note.createdAt, updatedAt: note.updatedAt, revisions: note.revisions, favourite: note.favourite, category: note.category, reminderDate: note.reminderDate)
+            try! inRealmObject.write() {
+                inRealmObject.add(localNote)
+            }
         }
+    }
+    
+    func handleFetchedNotes(wrappers: [NoteWrapper]) {
         
+        let realm = try! Realm(configuration: RealmHandler.configurationHelper(), queue: nil)
         
+       
+        
+        let cloudNotes = wrappers.toNotes()
+        let localNotes = RealmHandler.shared.getAllNotes(inRealmObject: realm)
+        
+        // returns categories that are in the cloud but not in the local storage
+        let differenceFromLocal = Array(Set(cloudNotes).subtracting(Set(localNotes)))
+        
+        var toCreateLocally: [Note] = []
+    
+        var flag = false
+        if let quickNotes = RealmHandler.shared.getQuickNotesCategory(inRealmObject: realm) {
+            for cloudNote in differenceFromLocal {
+                for localNote in localNotes {
+                    if localNote.getID() == cloudNote.getID() {
+                        flag = true
+                        // ASK user if he wants the local or the cloud settings for the given category
+                        try! realm.write() {
+                            localNote.title = cloudNote.title
+                            localNote.textHtmlString = cloudNote.textHtmlString
+                            localNote.createdAt = cloudNote.createdAt
+                            localNote.updatedAt = cloudNote.updatedAt
+                            localNote.revisions = cloudNote.revisions
+                            localNote.favourite = cloudNote.favourite
+                            if let localCategoryID = localNote.category?.getID(), let cloudCategoryID = cloudNote.category?.getID() {
+                                if localCategoryID == cloudCategoryID {
+                                    localNote.category = cloudNote.category
+                                }
+                            } else {
+                                localNote.category = quickNotes
+                            }
+                            localNote.reminderDate = cloudNote.reminderDate
+                            // delete the current reminder and replace it with the new one
+                        }
+                        break
+                    }
+                    
+                    if localNote.category == nil {
+                        try! realm.write() {
+                            localNote.category = quickNotes
+                        }
+                    }
+        
+                }
+                if flag {
+                    flag = false
+                } else {
+                    toCreateLocally.append(cloudNote)
+                }
+            }
+        }
+        self.createLocalCopiesOf(notes: toCreateLocally, inRealmObject: realm)
     }
     
     

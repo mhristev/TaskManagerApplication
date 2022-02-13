@@ -32,10 +32,7 @@ class HomeViewController: UIViewController {
         case 1:
             remindersChildController?.updateReminders()
             remindersView.isHidden = false
-            
             overviewView.isHidden = true
-            
-            
         default:
             remindersView.isHidden = true
             overviewView.isHidden = false
@@ -72,7 +69,6 @@ class HomeViewController: UIViewController {
         guard let note = RealmHandler.shared.getNoteWith(name: "", inRealmObject: self.realm) else {
             return
         }
-        //print(note.id)
         newNoteDelegate.didCreateNoteWith(ID: note.getID())
         
         self.navigationController?.pushViewController(destinationVC, animated: true)
@@ -99,9 +95,6 @@ class HomeViewController: UIViewController {
         
         
         let myalert = UIAlertController(title: "Sign Out?", message: "Do you want to sign out?", preferredStyle: .alert)
-        
-        
-        
         
         myalert.addAction(UIAlertAction(title: "Continue", style: .default,
                                         handler: {_ in

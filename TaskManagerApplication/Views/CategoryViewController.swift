@@ -245,7 +245,7 @@ extension CategoryViewController: UITableViewDataSource {
         }
         
         cell.detailTextLabel?.text = nil
-        cell.textLabel?.text = notes[notes.count - (1 + indexPath.row)].title
+        cell.textLabel?.text = "\(notes[notes.count - (1 + indexPath.row)].title) - \(notes[notes.count - (1 + indexPath.row)].getID())"
         
         return cell
     }
