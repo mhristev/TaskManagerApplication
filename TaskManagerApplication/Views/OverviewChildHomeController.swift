@@ -40,6 +40,13 @@ class OverviewChildHomeController: UIViewController {
                     FirestoreHandler.upload(category: category)
                 }
             }
+            
+            FirestoreHandler.fetchAllNotes { noteWrappers in
+                if noteWrappers.count > 0 {
+                    RealmHandler.shared.handleFetchedNotes(wrappers: noteWrappers)
+                }
+            }
+            
         }
         
         
@@ -52,14 +59,16 @@ class OverviewChildHomeController: UIViewController {
     
     @objc func refresh(_ sender: AnyObject) {
         FirestoreHandler.fetchAllCategories { categories in
-            
             RealmHandler.shared.handleFetchedCategories(cloudCategories: categories)
-            self.categories = RealmHandler.shared.getAllCategories(inRealmObject: self.realm)
-            self.tableView.reloadData()
-            self.refreshControl.endRefreshing()
+
+            FirestoreHandler.fetchAllNotes { noteWrappers in
+                RealmHandler.shared.handleFetchedNotes(wrappers: noteWrappers)
+                
+                self.categories = RealmHandler.shared.getAllCategories(inRealmObject: self.realm)
+                self.tableView.reloadData()
+                self.refreshControl.endRefreshing()
+            }
         }
-        
-        
     }
     
     @IBAction func createCategory(_ sender: UIButton) {
@@ -68,6 +77,10 @@ class OverviewChildHomeController: UIViewController {
         destinationVC.categoryDelegate = self
         present(destinationVC, animated: true, completion: nil)
         
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        self.refreshControl.endRefreshing()
     }
     
     

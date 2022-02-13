@@ -149,7 +149,7 @@ class FirestoreHandler {
         }
         
     }
-    static func fetchAllNotes(completion: @escaping ([Note]) -> [Note]) {
+    static func fetchAllNotes(completion: @escaping ([NoteWrapper]) -> Void) {
         let docRef = Firestore.firestore()
             .collection("users")
             .document(Auth.auth().currentUser!.uid)
@@ -164,22 +164,24 @@ class FirestoreHandler {
             }
             let dataDescription = document.data()
             
+            if dataDescription?["notes"] == nil {
+                let noNotes: [NoteWrapper] = []
+                completion(noNotes)
+                return
+            }
             
             do {
                 
-                let data = try JSONSerialization.data(withJSONObject: dataDescription?["notes"], options: .prettyPrinted)
+                let data = try JSONSerialization.data(withJSONObject: dataDescription?["notes"] as Any, options: .prettyPrinted)
                 
                 
-                let category = try JSONDecoder().decode(Array<NoteWrapper>.self, from: data)
-                completion(category.toNotes())
+                let noteWrappers = try JSONDecoder().decode(Array<NoteWrapper>.self, from: data)
+                completion(noteWrappers)
                 
             } catch {
                 print(error)
                 return
             }
-            
-            
-            return
             
         }
     }

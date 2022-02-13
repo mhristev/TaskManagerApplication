@@ -55,7 +55,7 @@ class NoteWrapper: Codable {
 
 
 class Note: Object, Codable {
-    @objc dynamic private var id = UUID().uuidString
+    @objc dynamic private var id: String = ""
     @objc dynamic var title: String = ""
     @objc dynamic var textHtmlString: String = ""
     @objc dynamic var createdAt: String = ""
@@ -69,6 +69,7 @@ class Note: Object, Codable {
     
     convenience init(title: String, htmlText: String, favourite: Bool, category: Category) {
         self.init()
+        self.id = UUID().uuidString
         self.title = title
         self.textHtmlString = htmlText
         self.createdAt = Date().formatedToStringDate()
@@ -79,7 +80,18 @@ class Note: Object, Codable {
         self.reminderDate = nil
     }
     
-    
+    convenience init(id: String, title: String, htmlText: String, createdAt: String, updatedAt: String, revisions: Int, favourite: Bool, category: Category?, reminderDate: String?) {
+        self.init()
+        self.id = id
+        self.title = title
+        self.textHtmlString = htmlText
+        self.createdAt = createdAt
+        self.updatedAt = updatedAt
+        self.revisions = revisions
+        self.favourite = favourite
+        self.category = category
+        self.reminderDate = reminderDate
+    }
     
    
     
