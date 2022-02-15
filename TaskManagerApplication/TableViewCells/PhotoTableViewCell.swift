@@ -12,6 +12,7 @@ class PhotoTableViewCell: UITableViewCell {
     
     @IBOutlet var imgView: UIImageView!
     
+    @IBOutlet var status: UIView!
     
     public func configureWith(image: UIImage) {
         self.imgView.image = image

@@ -255,6 +255,7 @@ class RealmHandler {
             }
             
             FirestoreHandler.delete(note: note)
+            FirestoreHandler.deleteMediaFiles(note: note)
             
             try! inRealmObject.write() {
                 inRealmObject.delete(note)
@@ -275,10 +276,14 @@ class RealmHandler {
     func createReminderAndNotificationForNote(withID: String, andDate: String, inRealmObject: Realm) {
         print(inRealmObject.configuration.fileURL!.path)
         if let note = inRealmObject.objects(Note.self).filter("id == %@", withID).first {
+            FirestoreHandler.delete(note: note)
+            
             try! inRealmObject.write() {
                 note.reminderDate = andDate
             }
             NotificationHelper.createNewNotificationWith(title: note.title, date: andDate, ID: note.getID())
+            
+            FirestoreHandler.upload(note: note)
         }
     }
     
@@ -467,14 +472,30 @@ class RealmHandler {
         
         
     }
+    
+    func checkIfNoteExists(noteID: String, inRealmObject: Realm) -> Bool {
+        let notes = inRealmObject.objects(Note.self)
+        let IDs: [String] = []
+        for note in notes {
+            if note.getID() == noteID {
+                return true
+            }
+        }
+        
+        return false
+    }
+    
     func createLocalCopiesOf(notes: [Note], inRealmObject: Realm ) {
         for note in notes {
-            let localNote = Note(id: note.getID(), title: note.title, htmlText: note.textHtmlString, createdAt: note.createdAt, updatedAt: note.updatedAt, revisions: note.revisions, favourite: note.favourite, category: note.category, reminderDate: note.reminderDate)
-            try! inRealmObject.write() {
-                inRealmObject.add(localNote)
-            }
-            if let reminder = localNote.reminderDate {
-                NotificationHelper.createNewNotificationWith(title: localNote.title, date: reminder, ID: localNote.getID())
+            if (!self.checkIfNoteExists(noteID: note.getID(), inRealmObject: inRealmObject)) {
+                let localNote = Note(id: note.getID(), title: note.title, htmlText: note.textHtmlString, createdAt: note.createdAt, updatedAt: note.updatedAt, revisions: note.revisions, favourite: note.favourite, category: note.category, reminderDate: note.reminderDate)
+                
+                try! inRealmObject.write() {
+                    inRealmObject.add(localNote)
+                }
+                if let reminder = localNote.reminderDate {
+                    NotificationHelper.createNewNotificationWith(title: localNote.title, date: reminder, ID: localNote.getID())
+                }
             }
         }
     }
@@ -517,8 +538,8 @@ class RealmHandler {
                             
                             localNote.reminderDate = cloudNote.reminderDate
                             if let reminder = localNote.reminderDate {
-                                NotificationHelper.removeNotificationWithID(ID: localNote.getID())
-                                NotificationHelper.createNewNotificationWith(title: localNote.title, date: reminder, ID: localNote.getID())
+                                NotificationHelper.removeNotificationWithID(ID: cloudNote.getID())
+                                NotificationHelper.createNewNotificationWith(title: cloudNote.title, date: reminder, ID: cloudNote.getID())
                             }
                             // delete the current reminder and replace it with the new one
                         }
@@ -542,6 +563,117 @@ class RealmHandler {
         self.createLocalCopiesOf(notes: toCreateLocally, inRealmObject: realm)
     }
     
+    
+    func checkImage(firestoreURL: String) {
+//        let indexLastID = firestoreURL.lastIndex(of: "/") ?? firestoreURL.endIndex
+//
+//        let lastID = firestoreURL[..<indexLastID]
+//
+//        let imageID = String(lastID)
+        
+        let components = firestoreURL.components(separatedBy: "/")
+        
+        let imageID = components[components.count - 1]
+        let noteID = components[components.count - 2]
+        
+        let realm = try! Realm(configuration: RealmHandler.configurationHelper(), queue: nil)
+        
+        if let note = RealmHandler.shared.getNoteWith(ID: noteID, inRealmObject: realm) {
+            let documentsDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
+            // choose a name for your image
+            let fileName = imageID
+            // create the destination file url to save your image
+            let fileURL = documentsDirectory.appendingPathComponent(fileName)
+            
+            
+            for img in note.photos {
+                let path = img.components(separatedBy: "/")
+                if path[path.count - 1] == imageID {
+                    // the image exists for that note -> no need to download
+                    print("exists locally")
+                    return
+                }
+            }
+            
+            
+            
+            
+            
+            //let firestorePath = "\(RealmHandler.currUserID)/\(noteID)/\(imageID)"
+            
+            
+            FirestoreHandler.realDownload(pathToImgInFirestore: firestoreURL, localURL: fileURL, completion:{ url in
+                for img in note.photos {
+                    let path = img.components(separatedBy: "/")
+                    if path[path.count - 1] == imageID {
+                        // if it has been added second time to the queue
+                        print("exists locally")
+                        return
+                    }
+                }
+
+                try! realm.write() {
+                    note.photos.append(url)
+                }
+            })
+            
+//            let photos = note.photos
+//            photos.append(fileURL.absoluteString)
+            
+            
+            
+        }
+            
+            
+        
+    }
+    
+    
+    func getAllPhotosIDs() -> [String] {
+        let realm = try! Realm(configuration: RealmHandler.configurationHelper(), queue: nil)
+        
+        let notes = self.getAllNotes(inRealmObject: realm)
+        
+        var photos: [String] = []
+        
+        for note in notes {
+            for photo in note.photos {
+                let components = photo.components(separatedBy: "/")
+                photos.append(components[components.count - 1])
+            }
+        }
+        
+        return photos
+    }
+    
+    func getAllPhotosURLs() -> [String] {
+        let realm = try! Realm(configuration: RealmHandler.configurationHelper(), queue: nil)
+        let notes = self.getAllNotes(inRealmObject: realm)
+        
+        var photosURLs: [String] = []
+        
+        for note in notes {
+            for photo in note.photos {
+                photosURLs.append(photo)
+            }
+        }
+        
+        return photosURLs
+    }
+    
+    func getNoteIDforImageURL(url: String) -> String? {
+        let realm = try! Realm(configuration: RealmHandler.configurationHelper(), queue: nil)
+        let notes = self.getAllNotes(inRealmObject: realm)
+        
+        for note in notes {
+            for photoURL in note.photos {
+                if photoURL == url {
+                    return note.getID()
+                }
+            }
+        }
+        return nil
+    }
     
 }
 
