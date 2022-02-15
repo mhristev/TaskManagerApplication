@@ -8,12 +8,14 @@
 import UIKit
 import AVFoundation
 import RealmSwift
+import FirebaseStorage
 
 class GalleryViewController: UIViewController {
     @IBOutlet var addButton: UIButton!
     
     //@IBOutlet var photoCollection: UICollectionView!
     let imagePicker = UIImagePickerController()
+    
     
     var currNoteID: String = ""
     
@@ -24,6 +26,7 @@ class GalleryViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        //FirestoreHandler.downloadMedia()
         addButton.menu = demoMenu
         addButton.showsMenuAsPrimaryAction = true
         imagePicker.delegate = self
@@ -72,26 +75,7 @@ class GalleryViewController: UIViewController {
         return UIMenu(title: "Menu", image: nil, identifier: nil, options: [], children: menuItems)
     }
     
-    
-    
-    //MARK: - Add image to Library
-    @objc func image(_ image: UIImage, didFinishSavingWithError error: Error?, contextInfo: UnsafeRawPointer) {
-        if let error = error {
-            // we got back an error!
-            showAlertWith(title: "Save error", message: error.localizedDescription)
-        } else {
-            
-            showAlertWith(title: "Saved!", message: "Your image has been saved to your photos.")
-        }
-    }
-    
-    
-    
-    func showAlertWith(title: String, message: String){
-        let ac = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        ac.addAction(UIAlertAction(title: "OK", style: .default))
-        present(ac, animated: true)
-    }
+
     
     
 }
@@ -138,6 +122,7 @@ extension GalleryViewController {
     }
     
     func saveImageToRealm(photoURL: String) {
+        
         RealmHandler.shared.addPhotoToNoteWith(ID: currNoteID, photoURL: photoURL, inRealmObject: realm)
         
         if let fetchPhotos = RealmHandler.shared.getAllPhotosinNoteWith(ID: currNoteID, inRealmObject: realm) {
@@ -145,10 +130,42 @@ extension GalleryViewController {
         } else {
             photos = []
         }
+        
+        
+        FirestoreHandler.uploadMedia(url: photoURL,
+                                     noteID: currNoteID)
+        
         tableView.reloadData()
     }
     
-    func deletePhoto() {
+    func deletePhoto(indexPath: IndexPath) {
+        let documentsDirectory = FileManager.default
+        
+        guard let url = URL(string: photos[photos.count - (1 + indexPath.row)]) else {
+            return
+        }
+        do {
+            try documentsDirectory.removeItem(at: url)
+        } catch {
+            print(error)
+        }
+        
+        
+        
+
+        let imgURL = photos[photos.count - (1 + indexPath.row)]
+        
+       
+        let stack = imgURL.components(separatedBy: "/")
+        
+    
+        FirestoreHandler.deleteMedia(inNoteID: currNoteID, imgID: stack.last ?? "")
+        
+        
+        photos.remove(at: photos.count - (1 + indexPath.row))
+        tableView.reloadData()  
+        
+
         print("Deleted")
     }
     
@@ -218,12 +235,12 @@ extension GalleryViewController: UITableViewDelegate, UITableViewDataSource {
     }
     func tableView(_ tableView: UITableView, contextMenuConfigurationForRowAt indexPath: IndexPath, point: CGPoint) -> UIContextMenuConfiguration? {
         let configuration = UIContextMenuConfiguration(identifier: nil, previewProvider: nil) { actions -> UIMenu? in
-            let action = UIAction(title: "Delete", image: nil,attributes: .destructive, handler: { (_) in
-                self.deletePhoto()   // Put button handler here
+            let deleteAction = UIAction(title: "Delete", image: nil,attributes: .destructive, handler: { (_) in
+                self.deletePhoto(indexPath: indexPath)   // Put button handler here
             })
             
             
-            return UIMenu( image: nil, identifier: nil, options: [], children: [action])
+            return UIMenu( image: nil, identifier: nil, options: [], children: [deleteAction])
         }
         return configuration
     }

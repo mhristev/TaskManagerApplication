@@ -7,6 +7,7 @@
 
 import Foundation
 import RealmSwift
+import UIKit
 
 class NoteWrapper: Codable {
     var id: String = ""
@@ -18,7 +19,7 @@ class NoteWrapper: Codable {
     var favourite: Bool = false
     var categoryID: String = ""
     var reminderDate: String?
-    var photos = List<String>()
+    //var photos = List<String>()
     
     init() {}
     
@@ -32,7 +33,7 @@ class NoteWrapper: Codable {
         case favourite
         case categoryID
         case reminderDate
-        case photos
+        //case photos
     }
     
     required init(from decoder: Decoder) throws {
@@ -46,7 +47,7 @@ class NoteWrapper: Codable {
         favourite = try values.decode(Bool.self, forKey: .favourite)
         categoryID = try values.decode(String.self, forKey: .categoryID)
         reminderDate = try? values.decodeIfPresent(String.self, forKey: .reminderDate)
-        photos = try values.decode(List<String>.self, forKey: .photos)
+       // photos = try values.decode(List<String>.self, forKey: .photos)
     }
     
 
@@ -150,7 +151,7 @@ class Note: Object, Codable {
         wrapper.revisions = self.revisions
         wrapper.favourite = self.favourite
         wrapper.reminderDate = self.reminderDate
-        wrapper.photos = self.photos
+//        wrapper.photos = self.photos
         
         return wrapper
     }

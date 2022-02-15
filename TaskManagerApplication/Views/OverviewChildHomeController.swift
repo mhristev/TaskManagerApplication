@@ -45,6 +45,8 @@ class OverviewChildHomeController: UIViewController {
                 if noteWrappers.count > 0 {
                     RealmHandler.shared.handleFetchedNotes(wrappers: noteWrappers)
                 }
+                
+                FirestoreHandler.downloadMedia()
             }
             
         }
@@ -63,7 +65,8 @@ class OverviewChildHomeController: UIViewController {
 
             FirestoreHandler.fetchAllNotes { noteWrappers in
                 RealmHandler.shared.handleFetchedNotes(wrappers: noteWrappers)
-                
+                FirestoreHandler.downloadMedia()
+            
                 self.categories = RealmHandler.shared.getAllCategories(inRealmObject: self.realm)
                 self.tableView.reloadData()
                 self.refreshControl.endRefreshing()

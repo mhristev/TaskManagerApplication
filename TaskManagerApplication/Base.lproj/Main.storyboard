@@ -822,9 +822,9 @@
                                 <rect key="frame" x="20" y="269" width="374" height="627"/>
                             </containerView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RaS-Pw-zwH">
-                                <rect key="frame" x="299" y="728" width="90" height="60"/>
+                                <rect key="frame" x="329" y="728" width="60" height="60"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="60" id="8IE-SZ-DNv"/>
+                                    <constraint firstAttribute="width" constant="60" id="8IE-SZ-DNv"/>
                                     <constraint firstAttribute="height" constant="60" id="rUD-Yx-SDT"/>
                                 </constraints>
                                 <state key="normal" title="Button"/>
@@ -852,7 +852,6 @@
                             <constraint firstItem="ZXS-wP-y0s" firstAttribute="leading" secondItem="DDE-Lz-pyF" secondAttribute="leading" constant="20" id="nag-iO-spn"/>
                             <constraint firstItem="DDE-Lz-pyF" firstAttribute="trailing" secondItem="ZXS-wP-y0s" secondAttribute="trailing" constant="20" id="tQF-Sp-6y7"/>
                             <constraint firstItem="XtH-rh-70N" firstAttribute="top" secondItem="ZXS-wP-y0s" secondAttribute="bottom" constant="22.5" id="tjG-ta-sp1"/>
-                            <constraint firstItem="RaS-Pw-zwH" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="DDE-Lz-pyF" secondAttribute="leading" symbolic="YES" id="w8a-Jz-3nI"/>
                             <constraint firstAttribute="bottom" secondItem="Jdh-KI-51z" secondAttribute="bottom" id="xud-4j-puW"/>
                         </constraints>
                     </view>
@@ -902,11 +901,11 @@
                                         <rect key="frame" x="0.0" y="0.0" width="354" height="51"/>
                                         <textInputTraits key="textInputTraits"/>
                                     </searchBar>
-                                    <stackView opaque="NO" contentMode="scaleToFill" spacing="199" translatesAutoresizingMaskIntoConstraints="NO" id="Bf1-w1-dd7">
+                                    <stackView opaque="NO" contentMode="scaleToFill" spacing="999" translatesAutoresizingMaskIntoConstraints="NO" id="Bf1-w1-dd7">
                                         <rect key="frame" x="0.0" y="62" width="354" height="31"/>
                                         <subviews>
-                                            <segmentedControl opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="249" ambiguous="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="FL4-oO-ZaN">
-                                                <rect key="frame" x="0.0" y="0.0" width="110.5" height="32"/>
+                                            <segmentedControl opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="249" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="FL4-oO-ZaN">
+                                                <rect key="frame" x="0.0" y="0.0" width="354" height="32"/>
                                                 <segments>
                                                     <segment title="All"/>
                                                     <segment title="Favourites"/>
@@ -916,17 +915,6 @@
                                                     <action selector="filterFavourites:" destination="SOe-Bz-B0c" eventType="valueChanged" id="QVq-26-WLS"/>
                                                 </connections>
                                             </segmentedControl>
-                                            <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gGp-Lx-xrD">
-                                                <rect key="frame" x="309.5" y="0.0" width="44.5" height="31"/>
-                                                <color key="tintColor" systemColor="labelColor"/>
-                                                <state key="normal" title="Button"/>
-                                                <buttonConfiguration key="configuration" style="plain" image="plus" catalog="system">
-                                                    <preferredSymbolConfiguration key="preferredSymbolConfigurationForImage" configurationType="pointSize" pointSize="16" scale="large"/>
-                                                </buttonConfiguration>
-                                                <connections>
-                                                    <action selector="createNote:" destination="SOe-Bz-B0c" eventType="touchUpInside" id="oNT-7x-630"/>
-                                                </connections>
-                                            </button>
                                         </subviews>
                                     </stackView>
                                     <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="ebP-zg-eud">
@@ -948,14 +936,33 @@
                                 <constraints>
                                     <constraint firstItem="ebP-zg-eud" firstAttribute="top" secondItem="Bf1-w1-dd7" secondAttribute="bottom" constant="11" id="Eut-lL-aDQ"/>
                                     <constraint firstAttribute="bottom" secondItem="ebP-zg-eud" secondAttribute="bottom" id="sKG-7c-Noh"/>
+                                    <constraint firstAttribute="trailing" secondItem="Bf1-w1-dd7" secondAttribute="trailing" id="sKG-kN-iBY"/>
                                 </constraints>
                             </stackView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ING-Wz-y8t">
+                                <rect key="frame" x="289" y="488" width="60" height="60"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="60" id="7o7-O6-Vg7"/>
+                                    <constraint firstAttribute="height" constant="60" id="svn-m3-BQL"/>
+                                </constraints>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" image="plus.circle.fill" catalog="system">
+                                    <preferredSymbolConfiguration key="preferredSymbolConfigurationForImage" configurationType="pointSize" pointSize="56" scale="default"/>
+                                    <color key="baseForegroundColor" name="quickNote"/>
+                                </buttonConfiguration>
+                                <connections>
+                                    <action selector="createNote:" destination="SOe-Bz-B0c" eventType="touchUpInside" id="gSh-J2-Bwc"/>
+                                    <action selector="quickNoteAction:" destination="O1g-au-6nt" eventType="touchUpInside" id="aeo-O6-ga6"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="EmK-mY-WdN"/>
                         <color key="backgroundColor" name="backgoundColor"/>
                         <constraints>
                             <constraint firstItem="zMx-rB-Tzx" firstAttribute="leading" secondItem="EmK-mY-WdN" secondAttribute="leading" constant="10" id="4eJ-ud-X7d"/>
                             <constraint firstItem="zMx-rB-Tzx" firstAttribute="top" secondItem="EmK-mY-WdN" secondAttribute="top" constant="24" id="6UU-eF-Ny0"/>
+                            <constraint firstItem="EmK-mY-WdN" firstAttribute="bottom" secondItem="ING-Wz-y8t" secondAttribute="bottom" constant="25" id="7Z2-KW-GUr"/>
+                            <constraint firstItem="EmK-mY-WdN" firstAttribute="trailing" secondItem="ING-Wz-y8t" secondAttribute="trailing" constant="25" id="Zdf-73-QMW"/>
                             <constraint firstAttribute="bottom" secondItem="zMx-rB-Tzx" secondAttribute="bottom" constant="82" id="hUn-9L-Rbe"/>
                             <constraint firstItem="EmK-mY-WdN" firstAttribute="trailing" secondItem="zMx-rB-Tzx" secondAttribute="trailing" constant="10" id="xBk-zS-OGU"/>
                         </constraints>
@@ -973,7 +980,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="XKZ-BH-gvP" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="7009" y="765"/>
+            <point key="canvasLocation" x="6934.7826086956529" y="686.71875"/>
         </scene>
         <!--Add To Category View Controller-->
         <scene sceneID="KSF-c3-6YX">
