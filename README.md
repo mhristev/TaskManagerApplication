@@ -4,13 +4,13 @@
 2. ~~Възможност за добавяне на форматиране на текст на записки~~<br/>
 3. ~~Възможност за добавяне на снимки и мета информация към запис~~<br/>
 4. ~~Възможност за създаване и управления на напомняния~~<br/>
-5. Интеграция с Firebase за достъп на данните от различни устройства<br/>
+5. ~~Интеграция с Firebase за достъп на данните от различни устройства<br/>~~
 <br />
 
 ## TODO: <br />
 - ~~time in reminder~~
-- set reminders after fetching notes with reminders from firestore
-- upload, download photos from firestore
+- ~~set reminders after fetching notes with reminders from firestore~~
+- ~~upload, download photos from firestore~~
 - explicitly set font in notes textview
 - ~~images!~~
 - ~~Firebase~~
