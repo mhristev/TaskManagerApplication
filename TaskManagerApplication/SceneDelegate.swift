@@ -24,7 +24,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         
         if let currentUser = Auth.auth().currentUser {
-            RealmHandler.shared.loadfirstConfiguration(andSetUserID: currentUser.uid)
+            RealmHandler.loadfirstConfiguration(andSetUserID: currentUser.uid)
             let welcomeVC = storyboard.instantiateViewController(identifier: "NavController") as! UINavigationController
 
             self.window?.rootViewController = welcomeVC

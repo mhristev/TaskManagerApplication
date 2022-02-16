@@ -26,7 +26,6 @@ class GalleryViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        //FirestoreHandler.downloadMedia()
         addButton.menu = demoMenu
         addButton.showsMenuAsPrimaryAction = true
         imagePicker.delegate = self
@@ -35,7 +34,7 @@ class GalleryViewController: UIViewController {
         
         
         
-        if let fetchPhotos = RealmHandler.shared.getAllPhotosinNoteWith(ID: currNoteID, inRealmObject: realm) {
+        if let fetchPhotos = RealmHandler.getAllPhotosinNoteWith(ID: currNoteID, inRealmObject: realm) {
             photos = fetchPhotos
         }
         
@@ -123,9 +122,9 @@ extension GalleryViewController {
     
     func saveImageToRealm(photoURL: String) {
         
-        RealmHandler.shared.addPhotoToNoteWith(ID: currNoteID, photoURL: photoURL, inRealmObject: realm)
+        RealmHandler.addPhotoToNoteWith(ID: currNoteID, photoURL: photoURL, inRealmObject: realm)
         
-        if let fetchPhotos = RealmHandler.shared.getAllPhotosinNoteWith(ID: currNoteID, inRealmObject: realm) {
+        if let fetchPhotos = RealmHandler.getAllPhotosinNoteWith(ID: currNoteID, inRealmObject: realm) {
             photos = fetchPhotos
         } else {
             photos = []
@@ -159,7 +158,7 @@ extension GalleryViewController {
         let stack = imgURL.components(separatedBy: "/")
         
     
-        FirestoreHandler.deleteMedia(inNoteID: currNoteID, imgID: stack.last ?? "")
+        FirestoreHandler.deletePicture(inNoteID: currNoteID, imgID: stack.last ?? "")
         
         
         photos.remove(at: photos.count - (1 + indexPath.row))

@@ -56,12 +56,12 @@ class FirestoreHandler {
         }
     }
     
-    static func deleteMediaFiles(note: Note) {
+    static func deletePicturesIn(note: Note) {
         if note.photos.count > 0 {
             for photo in note.photos {
-        
+                
                 let stack = photo.components(separatedBy: "/")
-                FirestoreHandler.deleteMedia(inNoteID: note.getID(), imgID: stack[stack.count - 1])
+                FirestoreHandler.deletePicture(inNoteID: note.getID(), imgID: stack[stack.count - 1])
             }
         }
     }
@@ -78,9 +78,6 @@ class FirestoreHandler {
                 guard let dictionary = json as? [String: Any] else {
                     return
                 }
-                
-                
-               
                 
                 
                 Firestore.firestore().collection("users").document(user.uid).updateData([
@@ -126,7 +123,7 @@ class FirestoreHandler {
         }
     }
     
-    static func fetchAllCategories(completion: @escaping ([Category]) -> Void) {
+    static func fetchCategories(completion: @escaping ([Category]) -> Void) {
         
         let db = Firestore.firestore()
         
@@ -165,7 +162,7 @@ class FirestoreHandler {
         }
         
     }
-    static func fetchAllNotes(completion: @escaping ([NoteWrapper]) -> Void) {
+    static func fetchNotes(completion: @escaping ([NoteWrapper]) -> Void) {
         let docRef = Firestore.firestore()
             .collection("users")
             .document(Auth.auth().currentUser!.uid)
@@ -202,7 +199,7 @@ class FirestoreHandler {
         }
     }
     
-    static func deleteMedia(inNoteID: String, imgID: String) {
+    static func deletePicture(inNoteID: String, imgID: String) {
         
         guard let currentUser = Auth.auth().currentUser else {
             return
@@ -211,160 +208,129 @@ class FirestoreHandler {
         let url = "\(currentUser.uid)/\(inNoteID)/\(imgID)"
         
         let ref = Storage.storage().reference().child(url)
-
+        
         // Delete the file
         ref.delete { error in
-          if let error = error {
-              print("error while deleting")
-            // Uh-oh, an error occurred!
-          } else {
-              print("deleted")
-            // File deleted successfully
-          }
+            if error != nil {
+                print("error while deleting")
+            } else {
+                print("deleted")
+            }
         }
     }
     
     
     static func uploadMedia(url: String, noteID: String) {
-
+        
         guard let localFile = URL(string: url) else {
             return
         }
-//        guard let imageData = img.pngData() else {
-//            return
-//        }
-//
+        
         guard let currentUser = Auth.auth().currentUser else {
             return
         }
         
         let components = url.components(separatedBy: "/")
-
-        let cloudURL = "\(currentUser.uid)/\(noteID)/\(components[components.count - 1])"
-
-        let storageRef = Storage.storage().reference().child(cloudURL)
-//
-//
-//        // Upload the file to the path "images/rivers.jpg"
-//        let uploadTask = storageRef.putData(imageData, metadata: nil, completion: { metadata, error in
-//            guard error == nil else {
-//                print("failed to upload")
-//                return
-//            }
-//
-//            storageRef.downloadURL { url, error in
-//                guard error == nil else {
-//                    print("error while trying to get the download URL!")
-//                    return
-//                }
-//                guard let downloadURL = url else {
-//                    print("failed to get the downloadURL of the image!")
-//                    return
-//                }
-//                print("----------------------------------")
-//                print(downloadURL)
-//
-//            }
-//
-//        })
         
-
-        // Upload the file to the path "images/rivers.jpg"
-        let taskProgress =  storageRef.putFile(from: localFile, metadata: nil) { metadata, error in
-            guard let metadata = metadata else {
-                // Uh-oh, an error occurred!
-                return
-            }
+        let cloudURL = "\(currentUser.uid)/\(noteID)/\(components[components.count - 1])"
+        
+        let storageRef = Storage.storage().reference().child(cloudURL)
+        
+        //        guard let imageData = img.pngData() else {
+        //            return
+        //        }
+        //
+        //
+        //
+        //        // Upload the file to the path "images/rivers.jpg"
+        //        let uploadTask = storageRef.putData(imageData, metadata: nil, completion: { metadata, error in
+        //            guard error == nil else {
+        //                print("failed to upload")
+        //                return
+        //            }
+        //
+        //            storageRef.downloadURL { url, error in
+        //                guard error == nil else {
+        //                    print("error while trying to get the download URL!")
+        //                    return
+        //                }
+        //                guard let downloadURL = url else {
+        //                    print("failed to get the downloadURL of the image!")
+        //                    return
+        //                }
+        //                print("----------------------------------")
+        //                print(downloadURL)
+        //
+        //            }
+        //
+        //        })
+        
+        
+        let taskProgress =  storageRef.putFile(from: localFile, metadata: nil) { _, error in
+            
             guard error == nil else {
                 return
             }
-            // Metadata contains file metadata such as size, content-type.
-           // let size = metadata.size
-            
-           // print(size)
-            // You can also access to download URL after upload.
-//            storageRef.downloadURL { (url, error) in
-//                guard let downloadURL = url else {
-//                    // Uh-oh, an error occurred!
-//                    return
-//                }
-//
-//                print("------------")
-//                print(downloadURL)
-//            }
         }
         
         
         taskProgress.observe(.failure) { snapshot in
-            self.dialogWindow(message: "We couldn't upload the image to the Cloud", title: "Error")
+            self.dialogWindow(message: "We couldn't upload the image to the cloud", title: "Error")
         }
         
     }
     
     
     
-    static func downloadMedia() {
+    static func fetchPictures() {
         let url = "\(Auth.auth().currentUser!.uid)"
         let storageReference = Storage.storage().reference().child(url)
         
         storageReference.listAll { (result, error) in
-          if let error = error {
-            // ...
-              print("hello")
-          }
-          for prefix in result.prefixes {
-            // The prefixes under storageReference.
-              print(prefix)
-              prefix.listAll { result, error in
-                  guard error == nil else {
-                      return
-                  }
-                  
-                  for pngID in result.items {
-                      RealmHandler.shared.checkImage(firestoreURL: pngID.fullPath)
-                      
-                  }
-                  print("hi")
-              }
-            // You may call listAll(completion:) recursively on them.
-          }
-          for item in result.items {
-            print(item)
-          }
+            if let error = error {
+                // ...
+                print("hello")
+            }
+            for prefix in result.prefixes {
+                // The prefixes under storageReference.
+                print(prefix)
+                prefix.listAll { result, error in
+                    guard error == nil else {
+                        return
+                    }
+                    
+                    for pngID in result.items {
+                        RealmHandler.checkIfImageExistsLocally(firestoreURL: pngID.fullPath)
+                        
+                    }
+                    
+                }
+                
+            }
             
             FirestoreHandler.checkForNotUploadedMedia()
         }
-       
+        
     }
     
     
-    static func realDownload(pathToImgInFirestore: String, localURL: URL, completion: @escaping (String) -> Void) {
-        // Create a reference to the file you want to download
-        let islandRef = Storage.storage().reference().child(pathToImgInFirestore)
-
-        // Create local filesystem URL
-//        let localURL = URL(string: localURL)!
-
-        // Download to the local filesysteem
-        islandRef.write(toFile: localURL) { url, error in
-          if let error = error {
-            // Uh-oh, an error occurred!
-          } else {
-              print("---------------")
-              print(url)
-              guard let url = url else {
-                  return
-              }
-              completion(url.absoluteString)
-            // Local file URL for "images/island.jpg" is returned
-          }
+    static func downloadPicture(pathToImgInFirestore: String, localURL: URL, completion: @escaping (String) -> Void) {
+        
+        let storageRef = Storage.storage().reference().child(pathToImgInFirestore)
+        
+        storageRef.write(toFile: localURL) { url, error in
+            if error != nil {
+                print("error while downloading picture")
+            } else {
+                guard let url = url else {
+                    return
+                }
+                completion(url.absoluteString)
+            }
         }
     }
     
     
-    static func checkIfMediaUploaded() {
-       // uploadvane offline
-    }
     
     static func dialogWindow(message: String, title: String) {
         
@@ -380,48 +346,42 @@ class FirestoreHandler {
     
     static func checkForNotUploadedMedia() {
         
-        
         var cloudPhotoIDs: [String] = []
         
         let url = "\(Auth.auth().currentUser!.uid)"
         let storageReference = Storage.storage().reference().child(url)
         
         storageReference.listAll { (result, error) in
-          if let error = error {
-            // ...
-              print("hello")
-          }
-          for prefix in result.prefixes {
-            // The prefixes under storageReference.
-              print(prefix)
-              prefix.listAll { result, error in
-                  guard error == nil else {
-                      return
-                  }
-                  
-                  for pngID in result.items {
-                     // RealmHandler.shared.checkImage(firestoreURL: pngID.fullPath)
-                      let components = pngID.fullPath.components(separatedBy: "/")
-                      cloudPhotoIDs.append(components[components.count - 1])
-                  }
-                  
-              }
-            // You may call listAll(completion:) recursively on them.
-          }
-//          for item in result.items {
-//            print(item)
-//          }
-            let localPhotoIDs = RealmHandler.shared.getAllPhotosIDs()
-            // returns categories that are in the cloud but not in the local storage
+            if  error != nil {
+                print("error while trying to access storage")
+            }
+            for prefix in result.prefixes {
+                // go deap
+                prefix.listAll { result, error in
+                    guard error == nil else {
+                        return
+                    }
+                    
+                    for pngID in result.items {
+                        let components = pngID.fullPath.components(separatedBy: "/")
+                        cloudPhotoIDs.append(components[components.count - 1])
+                    }
+                    
+                }
+                // You may call listAll(completion:) recursively on them.
+            }
+            
+            let localPhotoIDs = RealmHandler.getAllPhotosIDs()
+            // returns categories that are in the local but not in the cloud storage
             let pushToCloud = Array(Set(localPhotoIDs).subtracting(Set(cloudPhotoIDs)))
             
-            let urls = RealmHandler.shared.getAllPhotosURLs()
-           
+            let urls = RealmHandler.getAllPhotosURLs()
+            
             
             for img in pushToCloud {
                 for url in urls {
                     if url.contains(img) {
-                        guard let noteID = RealmHandler.shared.getNoteIDforImageURL(url: url) else {
+                        guard let noteID = RealmHandler.getNoteIDforImageURL(url: url) else {
                             return
                         }
                         FirestoreHandler.uploadMedia(url: url, noteID: noteID)
@@ -433,5 +393,5 @@ class FirestoreHandler {
         
         
     }
-
+    
 }

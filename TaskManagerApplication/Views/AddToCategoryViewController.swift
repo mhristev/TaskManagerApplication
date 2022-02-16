@@ -56,8 +56,8 @@ extension AddToCategoryViewController: UITableViewDataSource {
 extension AddToCategoryViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         print("You tapped \(indexPath.row)")
-        if let newCategory = RealmHandler.shared.getCategoryWith(name: categories[categories.count - (1+indexPath.row)].getName(), inRealmObject: realm) {
-            RealmHandler.shared.update(note: currNote, inCategory: newCategory, inRealmObject: realm)
+        if let newCategory = RealmHandler.getCategoryWith(name: categories[categories.count - (1+indexPath.row)].getName(), inRealmObject: realm) {
+            RealmHandler.update(note: currNote, inCategory: newCategory, inRealmObject: realm)
         }
         
         noteDelegate.reloadData()
@@ -87,7 +87,7 @@ extension AddToCategoryViewController: categoryActionDelegate {
     func didChangeCategory(currCategory: Category, currNote: Note) {
         self.currCategory = currCategory
         self.currNote = currNote
-        self.categories = RealmHandler.shared.getAllCategories(inRealmObject: realm)
+        self.categories = RealmHandler.getAllCategories(inRealmObject: realm)
     }
     
     

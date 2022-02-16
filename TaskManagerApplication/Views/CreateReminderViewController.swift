@@ -77,7 +77,7 @@ class CreateReminderViewController: UIViewController {
         guard let note = currNote else {
             return
         }
-        RealmHandler.shared.createReminderAndNotificationForNote(withID: note.getID(), andDate: datePickerView.date.formatedToStringDate(), inRealmObject: realm)
+        RealmHandler.createReminderAndNotificationForNote(withID: note.getID(), andDate: datePickerView.date.formatedToStringDate(), inRealmObject: realm)
         
         
         let myalert = UIAlertController(title: "Success", message: "You have successfuly created a reminder.", preferredStyle: .alert)

@@ -24,7 +24,7 @@ class RemindersChildHomeController: UIViewController {
         super.viewDidLoad()
         tableView.delegate = self
         tableView.dataSource = self
-        reminders = RealmHandler.shared.getAllReminders(inRealmObject: realm)
+        reminders = RealmHandler.getAllReminders(inRealmObject: realm)
         searchBar.delegate = self
         
         let tap = UITapGestureRecognizer(target: self, action: #selector(UIInputViewController.dismissKeyboard))
@@ -44,7 +44,7 @@ class RemindersChildHomeController: UIViewController {
     }
     
     func updateReminders() {
-        reminders = RealmHandler.shared.getAllReminders(inRealmObject: realm)
+        reminders = RealmHandler.getAllReminders(inRealmObject: realm)
         tableView.reloadData()
     }
     
@@ -55,7 +55,7 @@ extension RemindersChildHomeController: UITableViewDelegate {
     
     private func handleMoveToTrash(indexPath: IndexPath) {
         
-        RealmHandler.shared.removeReminderAndNotificationForNote(withID: reminders[reminders.count - (1+indexPath.row)].getID(), inRealmObject: realm)
+        RealmHandler.removeReminderAndNotificationForNote(withID: reminders[reminders.count - (1+indexPath.row)].getID(), inRealmObject: realm)
         
         self.updateReminders()
         
@@ -124,7 +124,7 @@ extension RemindersChildHomeController: UISearchBarDelegate {
         filteredReminders = []
         
         if searchText == "" {
-            reminders = RealmHandler.shared.getAllReminders(inRealmObject: realm)
+            reminders = RealmHandler.getAllReminders(inRealmObject: realm)
             tableView.reloadData()
             return
         }
