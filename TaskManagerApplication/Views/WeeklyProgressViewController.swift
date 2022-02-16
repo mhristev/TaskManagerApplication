@@ -19,17 +19,17 @@ class WeeklyProgressViewController: UIViewController {
         
         tableView.dataSource = self
         tableView.delegate = self
-        reminders = RealmHandler.shared.getAllRemindersForThisWeek(inRealmObject: realm)
+        reminders = RealmHandler.getAllRemindersForThisWeek(inRealmObject: realm)
         
     }
     
     @IBAction func favouriteFilter(_ sender: UISegmentedControl) {
         
         if favSegment.selectedSegmentIndex == 0 {
-            reminders = RealmHandler.shared.getAllRemindersForThisWeek(inRealmObject: realm)
+            reminders = RealmHandler.getAllRemindersForThisWeek(inRealmObject: realm)
             tableView.reloadData()
         } else {
-            reminders = RealmHandler.shared.returnFavouriteReminders(inRealmObject: realm)
+            reminders = RealmHandler.returnFavouriteReminders(inRealmObject: realm)
             tableView.reloadData()
         }
     }

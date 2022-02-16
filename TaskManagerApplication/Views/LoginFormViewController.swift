@@ -142,7 +142,7 @@ class LoginFormViewController: UIViewController{
                     return
                 }
                 if let currentUser = Auth.auth().currentUser {
-                    RealmHandler.shared.loadfirstConfiguration(andSetUserID: currentUser.uid)
+                    RealmHandler.loadfirstConfiguration(andSetUserID: currentUser.uid)
                 }
                 
                 
@@ -209,7 +209,7 @@ class LoginFormViewController: UIViewController{
             
             print("User is signed in...")
             if let currentUser = Auth.auth().currentUser {
-                RealmHandler.shared.loadfirstConfiguration(andSetUserID: currentUser.uid)
+                RealmHandler.loadfirstConfiguration(andSetUserID: currentUser.uid)
                 print(currentUser.uid)
                 guard let user: GIDGoogleUser = GIDSignIn.sharedInstance.currentUser else {
                     return

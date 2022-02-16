@@ -9,10 +9,7 @@ import UIKit
 import RealmSwift
 
 
-protocol categorySelectionDelegate {
-    func didSelectCategoryWith(name: String, notes: Array<Note>)
-    func didEditCategory(category: Category)
-}
+
 
 class OverviewChildHomeController: UIViewController {
     
@@ -29,30 +26,30 @@ class OverviewChildHomeController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        FirestoreHandler.fetchAllCategories { categories in
+        FirestoreHandler.fetchCategories { categories in
             if categories.count > 0 {
-                RealmHandler.shared.handleFetchedCategories(cloudCategories: categories)
-                self.categories = RealmHandler.shared.getAllCategories(inRealmObject: self.realm)
+                RealmHandler.handleFetchedCategories(cloudCategories: categories)
+                self.categories = RealmHandler.getAllCategories(inRealmObject: self.realm)
                 self.tableView.reloadData()
             } else {
-                let localCategories = RealmHandler.shared.getAllCategories(inRealmObject: self.realm)
+                let localCategories = RealmHandler.getAllCategories(inRealmObject: self.realm)
                 for category in localCategories {
                     FirestoreHandler.upload(category: category)
                 }
             }
             
-            FirestoreHandler.fetchAllNotes { noteWrappers in
+            FirestoreHandler.fetchNotes { noteWrappers in
                 if noteWrappers.count > 0 {
-                    RealmHandler.shared.handleFetchedNotes(wrappers: noteWrappers)
+                    RealmHandler.handleFetchedNotes(wrappers: noteWrappers)
                 }
                 
-                FirestoreHandler.downloadMedia()
+                FirestoreHandler.fetchPictures()
             }
             
         }
         
         
-        categories = RealmHandler.shared.getAllCategories(inRealmObject: realm)
+        categories = RealmHandler.getAllCategories(inRealmObject: realm)
         refreshControl.addTarget(self, action: #selector(self.refresh(_:)), for: .valueChanged)
         tableView.addSubview(refreshControl)
         
@@ -60,14 +57,14 @@ class OverviewChildHomeController: UIViewController {
     
     
     @objc func refresh(_ sender: AnyObject) {
-        FirestoreHandler.fetchAllCategories { categories in
-            RealmHandler.shared.handleFetchedCategories(cloudCategories: categories)
+        FirestoreHandler.fetchCategories { categories in
+            RealmHandler.handleFetchedCategories(cloudCategories: categories)
 
-            FirestoreHandler.fetchAllNotes { noteWrappers in
-                RealmHandler.shared.handleFetchedNotes(wrappers: noteWrappers)
-                FirestoreHandler.downloadMedia()
+            FirestoreHandler.fetchNotes { noteWrappers in
+                RealmHandler.handleFetchedNotes(wrappers: noteWrappers)
+                FirestoreHandler.fetchPictures()
             
-                self.categories = RealmHandler.shared.getAllCategories(inRealmObject: self.realm)
+                self.categories = RealmHandler.getAllCategories(inRealmObject: self.realm)
                 self.tableView.reloadData()
                 self.refreshControl.endRefreshing()
             }
@@ -95,8 +92,8 @@ extension OverviewChildHomeController: UITableViewDelegate {
     
     private func handleMoveToTrash(indexPath: IndexPath) {
         
-        RealmHandler.shared.deleteCategoryWith(ID: categories[categories.count - (1 + indexPath.row)].getID(), inRealmObject: realm)
-        categories = RealmHandler.shared.getAllCategories(inRealmObject: realm)
+        RealmHandler.deleteCategoryWith(ID: categories[categories.count - (1 + indexPath.row)].getID(), inRealmObject: realm)
+        categories = RealmHandler.getAllCategories(inRealmObject: realm)
         
         tableView.beginUpdates()
         tableView.deleteRows(at: [indexPath], with: .fade)
@@ -111,7 +108,7 @@ extension OverviewChildHomeController: UITableViewDelegate {
         
         selectionDelegate = destinationVC
         
-        guard let category = RealmHandler.shared.getCategoryWith(name: categories[categories.count - (1 + indexPath.row)].getName(), inRealmObject: realm) else {
+        guard let category = RealmHandler.getCategoryWith(name: categories[categories.count - (1 + indexPath.row)].getName(), inRealmObject: realm) else {
             return
         }
         
@@ -134,7 +131,7 @@ extension OverviewChildHomeController: UITableViewDelegate {
         
         let passTitle = categories[categories.count - (1 + indexPath.row)].getName()
         
-        let notes = RealmHandler.shared.getAllNotesInCategoryWith(name: passTitle, inRealmObject: realm)
+        let notes = RealmHandler.getAllNotesInCategoryWith(name: passTitle, inRealmObject: realm)
         selectionDelegate.didSelectCategoryWith(name: passTitle, notes: notes)
         
         self.navigationController?.pushViewController(destinationVC, animated: true)
@@ -200,7 +197,7 @@ extension OverviewChildHomeController: UITableViewDataSource {
         
         let passTitle = categories[0].getName()
         
-        let notes = RealmHandler.shared.getAllNotesInCategoryWith(name: passTitle, inRealmObject: realm)
+        let notes = RealmHandler.getAllNotesInCategoryWith(name: passTitle, inRealmObject: realm)
         
         selectionDelegate.didSelectCategoryWith(name: passTitle, notes: notes)
         self.navigationController?.pushViewController(destinationVC, animated: true)
@@ -250,13 +247,13 @@ extension OverviewChildHomeController: categoryActionDelegate {
     
     func didCreateCategory(category: Category) {
         do {
-            try RealmHandler.shared.createCategoryWith(name: category.name, color: category.color, icon: category.icon, inRealmObject: realm)
+            try RealmHandler.createCategoryWith(name: category.name, color: category.color, icon: category.icon, inRealmObject: realm)
             
         } catch {
             print("creating didcreatecategory error")
         }
         
-        self.categories = RealmHandler.shared.getAllCategories(inRealmObject: realm)
+        self.categories = RealmHandler.getAllCategories(inRealmObject: realm)
         tableView.reloadData()
     }
     

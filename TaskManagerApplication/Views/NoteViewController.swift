@@ -11,7 +11,6 @@ import RealmSwift
 
 class NoteViewController: UIViewController {
     
-    let fontSize = 20.0
     let realm = try! Realm(configuration: RealmHandler.configurationHelper(), queue: nil)
     @IBOutlet var favouriteButton: UIButton!
     @IBOutlet var toolbarView: UIView!
@@ -32,7 +31,7 @@ class NoteViewController: UIViewController {
         
                 
         if currNoteID != nil {
-            guard let note = RealmHandler.shared.getNoteWith(ID: currNoteID!, inRealmObject: realm) else {
+            guard let note = RealmHandler.getNoteWith(ID: currNoteID!, inRealmObject: realm) else {
                 return
             }
             
@@ -73,7 +72,7 @@ class NoteViewController: UIViewController {
             return
         }
         
-        guard let note = RealmHandler.shared.getNoteWith(ID: id, inRealmObject: realm) else {
+        guard let note = RealmHandler.getNoteWith(ID: id, inRealmObject: realm) else {
             return
         }
         
@@ -104,7 +103,7 @@ class NoteViewController: UIViewController {
             return
         }
         
-        RealmHandler.shared.updateFavouriteForNote(ID: uid, inRealmObject: realm)
+        RealmHandler.updateFavouriteForNote(ID: uid, inRealmObject: realm)
         //self.loadView()
         let feedback = UINotificationFeedbackGenerator()
         feedback.notificationOccurred(.success)
@@ -203,9 +202,9 @@ class NoteViewController: UIViewController {
         if currNoteID != nil {
             
             if text?.string == "" {
-                RealmHandler.shared.deleteNoteWith(ID: currNoteID!, inRealmObject: realm)
+                RealmHandler.deleteNoteWith(ID: currNoteID!, inRealmObject: realm)
             }else {
-                RealmHandler.shared.updateNoteWith(ID: currNoteID!, title: title, attrText: text ?? NSAttributedString(""), inRealmObject: realm)
+                RealmHandler.updateNoteWith(ID: currNoteID!, title: title, attrText: text ?? NSAttributedString(""), inRealmObject: realm)
                 
             }
         }

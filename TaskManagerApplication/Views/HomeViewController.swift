@@ -52,7 +52,7 @@ class HomeViewController: UIViewController {
         let myString = NSMutableAttributedString(string: "Good,\nevening!", attributes: myAttribute )
         welcomeLabel.attributedText = myString
         
-        let reminders = RealmHandler.shared.getAllReminders(inRealmObject: realm)
+        let reminders = RealmHandler.getAllReminders(inRealmObject: realm)
         NotificationHelper.createPendingNotificationsIn(reminders: reminders)
         
     }
@@ -61,12 +61,12 @@ class HomeViewController: UIViewController {
     
     
     @IBAction func quickNoteAction(_ sender: Any) {
-        RealmHandler.shared.createNoteWith(title: "", text: NSAttributedString(""), favourite: false, categoryName: "Quick Notes", inRealmObject: self.realm)
+        RealmHandler.createNoteWith(title: "", text: NSAttributedString(""), favourite: false, categoryName: "Quick Notes", inRealmObject: self.realm)
         
         let destinationVC = storyboard?.instantiateViewController(withIdentifier: "NoteViewController") as! NoteViewController
         newNoteDelegate = destinationVC
         
-        guard let note = RealmHandler.shared.getNoteWith(name: "", inRealmObject: self.realm) else {
+        guard let note = RealmHandler.getNoteWith(name: "", inRealmObject: self.realm) else {
             return
         }
         newNoteDelegate.didCreateNoteWith(ID: note.getID())
@@ -99,7 +99,7 @@ class HomeViewController: UIViewController {
         myalert.addAction(UIAlertAction(title: "Continue", style: .default,
                                         handler: {_ in
             do {
-                let reminders = RealmHandler.shared.getAllReminders(inRealmObject: self.realm)
+                let reminders = RealmHandler.getAllReminders(inRealmObject: self.realm)
                 NotificationHelper.removeAllPendingNotificationsIn(reminders: reminders)
                 try Auth.auth().signOut()
                 self.presentLoginViewController()
