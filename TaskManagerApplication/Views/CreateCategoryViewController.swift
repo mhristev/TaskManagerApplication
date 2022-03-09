@@ -13,7 +13,18 @@ import RealmSwift
 class CreateCategoryViewController: UIViewController {
     
     var categoryDelegate: categoryActionDelegate!
-    let realm = try! Realm(configuration: RealmHandler.configurationHelper(), queue: nil)
+    var realm: Realm {
+            get {
+                do {
+                    let realm = try Realm(configuration: RealmHandler.configurationHelper(), queue: nil)
+                    return realm
+                }
+                catch {
+                    print("Could not access database: ", error)
+                }
+                return self.realm
+            }
+        }
     var editCategory: Category? = nil
     
     @IBOutlet var createCategoryButton: UIButton!
@@ -102,26 +113,13 @@ class CreateCategoryViewController: UIViewController {
                 guard let buttonColor = button.backgroundColor else {
                     return
                 }
-                
-                
-                
-                
                 color = hexStringFromColor(color: buttonColor)
-                
-                
-                
             }
         }
-        
-        
         
         guard let name = nameOfCategory.text else {
             return
         }
-        
-        print("icon = \(icon)")
-        print("name = \(name)")
-        print("color = \(color)")
         
         if (icon == "" || name == "" || color == "") {
             dialogWindow(message: "Please fill all the fields!", title: "Error")

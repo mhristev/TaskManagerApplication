@@ -11,10 +11,19 @@ import RealmSwift
 
 
 
-class OverviewChildHomeController: UIViewController {
-    
-    let realm = try! Realm(configuration: RealmHandler.configurationHelper(), queue: nil)
-    
+class OverviewChildHomeController: UIViewController {    
+    var realm: Realm {
+            get {
+                do {
+                    let realm = try Realm(configuration: RealmHandler.configurationHelper(), queue: nil)
+                    return realm
+                }
+                catch {
+                    print("Could not access database: ", error)
+                }
+                return self.realm
+            }
+        }
     var selectionDelegate: categoryActionDelegate!
     
     @IBOutlet var tableView: UITableView!
@@ -246,13 +255,8 @@ extension OverviewChildHomeController: categoryActionDelegate {
     
     
     func didCreateCategory(category: Category) {
-        do {
-            try RealmHandler.createCategoryWith(name: category.name, color: category.color, icon: category.icon, inRealmObject: realm)
+        RealmHandler.createCategoryWith(name: category.name, color: category.color, icon: category.icon, inRealmObject: realm)
             
-        } catch {
-            print("creating didcreatecategory error")
-        }
-        
         self.categories = RealmHandler.getAllCategories(inRealmObject: realm)
         tableView.reloadData()
     }

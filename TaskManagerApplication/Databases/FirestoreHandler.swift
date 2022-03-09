@@ -14,6 +14,45 @@ import UIKit
 
 class FirestoreHandler {
     
+    static func registerUserWith(email: String, password: String, completion: @escaping (String?) -> Void) {
+        Auth.auth().createUser(withEmail: email, password: password) { (result, err) in
+            
+            if err != nil {
+                guard let error = err?.localizedDescription else { return }
+                completion(error)
+                return
+            } else {
+                
+                guard let uid = result?.user.uid else {
+                    return
+                }
+                
+                let values = ["ID": uid, "email" : email]
+                
+                Firestore.firestore().collection("users").document(uid).setData(values)
+                
+                self.dialogWindow(message: "Your account has been created successfully!", title: "Success")
+            }
+            completion(nil)
+            
+        }
+    }
+    
+    static func loginUserWith(email: String, password: String, completion: @escaping(String?) -> Void) {
+        Auth.auth().signIn(withEmail: email, password: password) { (result, error) in
+            if error != nil {
+                guard let err = error?.localizedDescription else { return }
+                //self.dialogWindow(message: err, title: "Error")
+                completion(err)
+                return
+            }
+            if let currentUser = Auth.auth().currentUser {
+                RealmHandler.loadfirstConfiguration(andSetUserID: currentUser.uid)
+            }
+            completion(nil)
+        }
+    }
+    
     static func upload(category: Category) {
         if let user = Auth.auth().currentUser {
             do {

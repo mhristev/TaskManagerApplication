@@ -15,7 +15,18 @@ class HomeViewController: UIViewController {
     @IBOutlet var welcomeLabel: UILabel!
     var newNoteDelegate: noteActionDelegate!
     
-    let realm = try! Realm(configuration: RealmHandler.configurationHelper(), queue: nil)
+    var realm: Realm {
+        get {
+            do {
+                let realm = try Realm(configuration: RealmHandler.configurationHelper(), queue: nil)
+                return realm
+            }
+            catch {
+                print("Could not access database: ", error)
+            }
+            return self.realm
+        }
+    }
     @IBOutlet var overviewView: UIView!
     @IBOutlet var remindersView: UIView!
     

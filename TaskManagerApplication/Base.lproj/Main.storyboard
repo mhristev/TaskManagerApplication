@@ -1204,10 +1204,10 @@
                                                         <rect key="frame" x="8" y="9" width="291" height="143.5"/>
                                                         <subviews>
                                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="7" translatesAutoresizingMaskIntoConstraints="NO" id="Av1-ut-6pW">
-                                                                <rect key="frame" x="0.0" y="0.0" width="291" height="54"/>
+                                                                <rect key="frame" x="0.0" y="0.0" width="291" height="143.5"/>
                                                                 <subviews>
                                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Fv2-Ls-QOj">
-                                                                        <rect key="frame" x="0.0" y="0.0" width="291" height="30"/>
+                                                                        <rect key="frame" x="0.0" y="0.0" width="291" height="119.5"/>
                                                                         <attributedString key="attributedText">
                                                                             <fragment content="Weekly progress">
                                                                                 <attributes>
@@ -1219,23 +1219,10 @@
                                                                         <nil key="highlightedColor"/>
                                                                     </label>
                                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Here you can see your weekly tasks progress" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ncU-NL-U7i">
-                                                                        <rect key="frame" x="0.0" y="37" width="291" height="17"/>
+                                                                        <rect key="frame" x="0.0" y="126.5" width="291" height="17"/>
                                                                         <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                                                                         <nil key="highlightedColor"/>
                                                                     </label>
-                                                                </subviews>
-                                                            </stackView>
-                                                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="wf8-1v-6tf">
-                                                                <rect key="frame" x="0.0" y="111" width="150" height="32.5"/>
-                                                                <subviews>
-                                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="57%" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JIU-m3-lFO">
-                                                                        <rect key="frame" x="0.0" y="0.0" width="150" height="20.5"/>
-                                                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                                        <nil key="highlightedColor"/>
-                                                                    </label>
-                                                                    <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="2dj-9m-65w">
-                                                                        <rect key="frame" x="0.0" y="28.5" width="150" height="4"/>
-                                                                    </progressView>
                                                                 </subviews>
                                                             </stackView>
                                                         </subviews>
@@ -1253,12 +1240,10 @@
                                                 <constraints>
                                                     <constraint firstItem="zzp-3K-yDe" firstAttribute="width" secondItem="2M4-ly-Dk2" secondAttribute="width" constant="1" id="6RJ-NQ-ewB"/>
                                                     <constraint firstItem="sXq-Xc-R6H" firstAttribute="top" secondItem="2M4-ly-Dk2" secondAttribute="top" constant="9" id="AoC-2s-nmG"/>
-                                                    <constraint firstItem="2dj-9m-65w" firstAttribute="top" secondItem="zzp-3K-yDe" secondAttribute="bottom" constant="-11.5" id="OZO-3O-tWE"/>
                                                     <constraint firstAttribute="bottom" secondItem="sXq-Xc-R6H" secondAttribute="bottom" constant="7.5" id="R7D-J4-bQ4"/>
                                                     <constraint firstAttribute="bottom" secondItem="zzp-3K-yDe" secondAttribute="bottom" id="a3j-mq-Xjk"/>
                                                     <constraint firstItem="sXq-Xc-R6H" firstAttribute="leading" secondItem="2M4-ly-Dk2" secondAttribute="leading" constant="8" id="cIi-zd-ScY" userLabel="Stack View.leading = leading + 10"/>
                                                     <constraint firstAttribute="trailing" secondItem="zzp-3K-yDe" secondAttribute="trailing" constant="-1" id="cPq-tB-YUh"/>
-                                                    <constraint firstItem="wf8-1v-6tf" firstAttribute="top" secondItem="zzp-3K-yDe" secondAttribute="bottom" constant="-40" id="dHW-Cl-2MX"/>
                                                     <constraint firstItem="zzp-3K-yDe" firstAttribute="top" secondItem="2M4-ly-Dk2" secondAttribute="top" id="mgc-QZ-mee"/>
                                                     <constraint firstItem="zzp-3K-yDe" firstAttribute="height" secondItem="2M4-ly-Dk2" secondAttribute="height" id="o1Z-bL-LFk"/>
                                                     <constraint firstItem="zzp-3K-yDe" firstAttribute="leading" secondItem="2M4-ly-Dk2" secondAttribute="leading" id="uUp-Te-t2F"/>

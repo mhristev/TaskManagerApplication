@@ -11,6 +11,19 @@ import RealmSwift
 import FirebaseStorage
 
 class GalleryViewController: UIViewController {
+    
+    var realm: Realm {
+            get {
+                do {
+                    let realm = try Realm(configuration: RealmHandler.configurationHelper(), queue: nil)
+                    return realm
+                }
+                catch {
+                    print("Could not access database: ", error)
+                }
+                return self.realm
+            }
+        }
     @IBOutlet var addButton: UIButton!
     
     //@IBOutlet var photoCollection: UICollectionView!
@@ -22,7 +35,7 @@ class GalleryViewController: UIViewController {
     var photos: [String] = []
     
     @IBOutlet var tableView: UITableView!
-    let realm = try! Realm(configuration: RealmHandler.configurationHelper(), queue: nil)
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()

@@ -12,8 +12,18 @@ import RealmSwift
 class CreateReminderViewController: UIViewController {
     
     var currNote: Note?
-    let realm = try! Realm(configuration: RealmHandler.configurationHelper(), queue: nil)
-    
+    var realm: Realm {
+            get {
+                do {
+                    let realm = try Realm(configuration: RealmHandler.configurationHelper(), queue: nil)
+                    return realm
+                }
+                catch {
+                    print("Could not access database: ", error)
+                }
+                return self.realm
+            }
+        }
     var noteDelegate: noteActionDelegate!
     
     @IBOutlet var datePickerView: UIDatePicker!
