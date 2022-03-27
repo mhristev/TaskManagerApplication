@@ -1,4 +1,10 @@
 # TaskManagerApplication 
+##Инсталация 
+ 
+https://www.installonair.com/app-download-link/oNiKeC <br/>
+
+
+
 ## Изисквания:
 1. ~~Възможност за управление на записки~~ <br/>
 2. ~~Възможност за добавяне на форматиране на текст на записки~~<br/>
