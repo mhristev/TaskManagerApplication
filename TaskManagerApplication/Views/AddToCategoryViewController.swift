@@ -9,7 +9,18 @@ import UIKit
 import RealmSwift
 
 class AddToCategoryViewController: UIViewController {
-    let realm = try! Realm(configuration: RealmHandler.configurationHelper(), queue: nil)
+    var realm: Realm {
+            get {
+                do {
+                    let realm = try Realm(configuration: RealmHandler.configurationHelper(), queue: nil)
+                    return realm
+                }
+                catch {
+                    print("Could not access database: ", error)
+                }
+                return self.realm
+            }
+        }
     var categories: Array<Category> = []
     var currCategory: Category!
     var currNote: Note!

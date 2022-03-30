@@ -30,9 +30,7 @@ class LoginFormViewController: UIViewController{
         default:
             actionButton.setTitle("Sign In", for: .normal)
             titleForm.text = "Sign In with your email and password"
-            
         }
-        
     }
     
     override func viewDidLoad() {
@@ -94,8 +92,6 @@ class LoginFormViewController: UIViewController{
             return
         }
         
-        
-        
         if segmentController.selectedSegmentIndex == 1 {
             
             let validation = fieldValidation(email: email, password: password);
@@ -104,56 +100,30 @@ class LoginFormViewController: UIViewController{
                 return
             }
             // Registration
-            
-            Auth.auth().createUser(withEmail: email, password: password) { (result, err) in
-                
-                if err != nil {
-                    guard let error = err?.localizedDescription else { return }
+            FirestoreHandler.registerUserWith(email: email, password: password, completion: { err in
+                if let error = err {
                     self.dialogWindow(message: error, title: "Error")
-                    //  print("error creating user \(String(describing: err))")
-                    return
-                } else {
-                    
-                    guard let uid = result?.user.uid else {
-                        return
-                    }
-                    
-                    let values = ["ID": uid, "email" : email]
-                    
-                    Firestore.firestore().collection("users").document(uid).setData(values)
-                    
-                    self.dialogWindow(message: "Your account has been created successfully!", title: "Success")
                 }
-                
-            }
-            
-            //self.dialogWindow(message: "Your account has been created successfully!", title: "Success")
+                FirestoreHandler.loginUserWith(email: email, password: password, completion: {err in
+                    if let error = err {
+                        self.dialogWindow(message: error, title: "Error")
+                    } else {
+                        self.presentWelcomeViewController()
+                    }
+                })
+            })
             passwordTextField.text = ""
             emailTextField.text = ""
             
-            
         } else {
-            
-            Auth.auth().signIn(withEmail: email, password: password) { (result, error) in
-                if error != nil {
-                    guard let err = error?.localizedDescription else { return }
-                    self.dialogWindow(message: err, title: "Error")
-                    
-                    return
+            FirestoreHandler.loginUserWith(email: email, password: password, completion: { err in
+                if let error = err {
+                    self.dialogWindow(message: error, title: "Error")
+                } else {
+                    self.presentWelcomeViewController()
                 }
-                if let currentUser = Auth.auth().currentUser {
-                    RealmHandler.loadfirstConfiguration(andSetUserID: currentUser.uid)
-                }
-                
-                
-                print("Succesfully logged user in..")
-                
-                self.presentWelcomeViewController()
-                
-            }
+            })
         }
-        
-        
     }
     
     
@@ -215,17 +185,13 @@ class LoginFormViewController: UIViewController{
                     return
                 }
                 
-                let values = ["ID": currentUser.uid, "email" : user.profile?.email]
+                let values = ["email" : user.profile?.email]
                 
                 Firestore.firestore().collection("users").document(currentUser.uid).setData(values as [String : Any], merge: true)
             }
             self.presentWelcomeViewController()
             
         }
-        
-        
-        
-        
     }
     
     

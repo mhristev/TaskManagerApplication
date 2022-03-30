@@ -23,7 +23,18 @@ class CategoryViewController: UIViewController {
     var notes: Array<Note> = []
     var filteredNotes: [Note] = []
     
-    let realm = try! Realm(configuration: RealmHandler.configurationHelper(), queue: nil)
+    var realm: Realm {
+            get {
+                do {
+                    let realm = try Realm(configuration: RealmHandler.configurationHelper(), queue: nil)
+                    return realm
+                }
+                catch {
+                    print("Could not access database: ", error)
+                }
+                return self.realm
+            }
+        }
     
     
     @IBOutlet var NotesInCategoryTableView: UITableView!
@@ -245,7 +256,7 @@ extension CategoryViewController: UITableViewDataSource {
         }
         
         cell.detailTextLabel?.text = nil
-        cell.textLabel?.text = "\(notes[notes.count - (1 + indexPath.row)].title) - \(notes[notes.count - (1 + indexPath.row)].getID())"
+        cell.textLabel?.text = "\(notes[notes.count - (1 + indexPath.row)].title)"
         
         return cell
     }

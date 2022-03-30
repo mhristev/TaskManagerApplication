@@ -10,9 +10,9 @@ import Foundation
 import RealmSwift
 
 class RealmHandler {
-
+    
     static var currUserID: String?
-        
+    
     static func registerUserWith(id: String) {
         let userTable = try! Realm()
         
@@ -53,14 +53,14 @@ class RealmHandler {
         self.setCurrentUser(ID: andSetUserID)
         self.registerUserWith(id: andSetUserID)
         
-        
-        let realm = try! Realm(configuration: RealmHandler.configurationHelper(), queue: nil)
-        
-        
-        if realm.isEmpty {
-            self.createCategoryWith(name: "Quick Notes", color: "#1E63FF", icon: "folder.fill", inRealmObject: realm)
+        do {
+            let realm = try Realm(configuration: RealmHandler.configurationHelper(), queue: nil)
+            if realm.isEmpty {
+                self.createCategoryWith(name: "Quick Notes", color: "#1E63FF", icon: "folder.fill", inRealmObject: realm)
+            }
+        } catch let error as NSError {
+            print(error.localizedDescription)
         }
-        
         
     }
     
@@ -266,7 +266,6 @@ class RealmHandler {
     }
     
     static func createReminderAndNotificationForNote(withID: String, andDate: String, inRealmObject: Realm) {
-        print(inRealmObject.configuration.fileURL!.path)
         if let note = inRealmObject.objects(Note.self).filter("id == %@", withID).first {
             FirestoreHandler.delete(note: note)
             
@@ -376,15 +375,15 @@ class RealmHandler {
         return inRealmObject.objects(Category.self).filter("name == %@", "Quick Notes").first
     }
     
-    static func getAllPhotosinNoteWith(ID: String, inRealmObject: Realm) -> [String]? {
+    static func getAllPhotosInNoteWith(ID: String, inRealmObject: Realm) -> [String]? {
         if let note = inRealmObject.objects(Note.self).filter("id == %@", ID).first {
-            clearOldImagesIn(note: note, inRealmObject: inRealmObject)
+            clearFakeImagesIn(note: note, inRealmObject: inRealmObject)
             return Array(note.photos)
         }
         return nil
     }
     
-    static func clearOldImagesIn(note: Note, inRealmObject: Realm) {
+    static func clearFakeImagesIn(note: Note, inRealmObject: Realm) {
         var i = 0
         for photo in note.photos {
             if let url = URL(string: photo) {
@@ -411,55 +410,53 @@ class RealmHandler {
     
     static func handleFetchedCategories(cloudCategories: [Category]) {
         
-        let realm = try! Realm(configuration: RealmHandler.configurationHelper(), queue: nil)
-        
-        let localCategories = RealmHandler.getAllCategories(inRealmObject: realm)
-        
-        // returns categories that are in the cloud but not in the local storage
-        let differenceFromLocal = Array(Set(cloudCategories).subtracting(Set(localCategories)))
-        
-        var toCreateLocally: [Category] = []
-        
-        
-        var flag = false
-        
-        for cloudCat in differenceFromLocal {
-            for localcat in localCategories {
-                if localcat.id == cloudCat.id {
-                    flag = true
-                    // ASK user if he wants the local or the cloud settings for the given category
-                    try! realm.write() {
-                        localcat.name = cloudCat.name
-                        localcat.color = cloudCat.color
-                        localcat.icon = cloudCat.icon
+        do {
+            let realm = try Realm(configuration: RealmHandler.configurationHelper(), queue: nil)
+            
+            let localCategories = RealmHandler.getAllCategories(inRealmObject: realm)
+            
+            // returns categories that are in the cloud but not in the local storage
+            let differenceFromLocal = Array(Set(cloudCategories).subtracting(Set(localCategories)))
+            
+            var toCreateLocally: [Category] = []
+            
+            
+            var flag = false
+            
+            for cloudCat in differenceFromLocal {
+                for localcat in localCategories {
+                    if localcat.id == cloudCat.id {
+                        flag = true
+                        // ASK user if he wants the local or the cloud settings for the given category
+                        try! realm.write() {
+                            localcat.name = cloudCat.name
+                            localcat.color = cloudCat.color
+                            localcat.icon = cloudCat.icon
+                        }
+                        break
                     }
-                    break
+                    if localcat.name == "Quick Notes" && cloudCat.name == "Quick Notes" {
+                        flag = true
+                        try! realm.write() {
+                            localcat.id = cloudCat.id
+                            localcat.name = cloudCat.name
+                            localcat.color = cloudCat.color
+                            localcat.icon = cloudCat.icon
+                        }
+                        break
+                    }
                 }
-                if localcat.name == "Quick Notes" && cloudCat.name == "Quick Notes" {
-                    flag = true
-                    try! realm.write() {
-                        localcat.id = cloudCat.id
-                        localcat.name = cloudCat.name
-                        localcat.color = cloudCat.color
-                        localcat.icon = cloudCat.icon
-                    }
-                    break
+                if flag {
+                    flag = false
+                } else {
+                    toCreateLocally.append(cloudCat)
                 }
             }
-            if flag {
-                flag = false
-            } else {
-                toCreateLocally.append(cloudCat)
-            }
+            self.createLocalCopiesOf(categories: toCreateLocally, inRealmObject: realm)
+            
+        } catch let error as NSError {
+            print(error.localizedDescription)
         }
-        self.createLocalCopiesOf(categories: toCreateLocally, inRealmObject: realm)
-        
-        //  let toPushToCloud = Array(Set(localCategories).subtracting(Set(cloudCategories)))
-        
-        // for category in toPushToCloud {
-        //FirestoreHandler.upload(category: category)
-        //  }
-        
         
     }
     
@@ -492,65 +489,67 @@ class RealmHandler {
     
     static func handleFetchedNotes(wrappers: [NoteWrapper]) {
         
-        let realm = try! Realm(configuration: RealmHandler.configurationHelper(), queue: nil)
-        
-        
-        
-        let cloudNotes = wrappers.toNotes()
-        let localNotes = RealmHandler.getAllNotes(inRealmObject: realm)
-        
-        // returns categories that are in the cloud but not in the local storage
-        let differenceFromLocal = Array(Set(cloudNotes).subtracting(Set(localNotes)))
-        
-        var toCreateLocally: [Note] = []
-        
-        var flag = false
-        if let quickNotes = RealmHandler.getQuickNotesCategory(inRealmObject: realm) {
-            for cloudNote in differenceFromLocal {
-                for localNote in localNotes {
-                    if localNote.getID() == cloudNote.getID() {
-                        flag = true
-                        // ASK user if he wants the local or the cloud settings for the given category
-                        try! realm.write() {
-                            localNote.title = cloudNote.title
-                            localNote.textHtmlString = cloudNote.textHtmlString
-                            localNote.createdAt = cloudNote.createdAt
-                            localNote.updatedAt = cloudNote.updatedAt
-                            localNote.revisions = cloudNote.revisions
-                            localNote.favourite = cloudNote.favourite
-                            if let localCategoryID = localNote.category?.getID(), let cloudCategoryID = cloudNote.category?.getID() {
-                                if localCategoryID == cloudCategoryID {
-                                    localNote.category = cloudNote.category
+        do {
+            let realm = try Realm(configuration: RealmHandler.configurationHelper(), queue: nil)
+            let cloudNotes = wrappers.toNotes()
+            let localNotes = RealmHandler.getAllNotes(inRealmObject: realm)
+            
+            // returns categories that are in the cloud but not in the local storage
+            let differenceFromLocal = Array(Set(cloudNotes).subtracting(Set(localNotes)))
+            
+            var toCreateLocally: [Note] = []
+            
+            var flag = false
+            if let quickNotes = RealmHandler.getQuickNotesCategory(inRealmObject: realm) {
+                for cloudNote in differenceFromLocal {
+                    for localNote in localNotes {
+                        if localNote.getID() == cloudNote.getID() {
+                            flag = true
+                            // ASK user if he wants the local or the cloud settings for the given category
+                            try! realm.write() {
+                                localNote.title = cloudNote.title
+                                localNote.textHtmlString = cloudNote.textHtmlString
+                                localNote.createdAt = cloudNote.createdAt
+                                localNote.updatedAt = cloudNote.updatedAt
+                                localNote.revisions = cloudNote.revisions
+                                localNote.favourite = cloudNote.favourite
+                                if let localCategoryID = localNote.category?.getID(), let cloudCategoryID = cloudNote.category?.getID() {
+                                    if localCategoryID == cloudCategoryID {
+                                        localNote.category = cloudNote.category
+                                    }
+                                } else {
+                                    localNote.category = quickNotes
                                 }
-                            } else {
+                                
+                                localNote.reminderDate = cloudNote.reminderDate
+                                if let reminder = localNote.reminderDate {
+                                    NotificationHelper.removeNotificationWithID(ID: cloudNote.getID())
+                                    NotificationHelper.createNewNotificationWith(title: cloudNote.title, date: reminder, ID: cloudNote.getID())
+                                }
+                                // delete the current reminder and replace it with the new one
+                            }
+                            break
+                        }
+                        
+                        if localNote.category == nil {
+                            try! realm.write() {
                                 localNote.category = quickNotes
                             }
-                            
-                            localNote.reminderDate = cloudNote.reminderDate
-                            if let reminder = localNote.reminderDate {
-                                NotificationHelper.removeNotificationWithID(ID: cloudNote.getID())
-                                NotificationHelper.createNewNotificationWith(title: cloudNote.title, date: reminder, ID: cloudNote.getID())
-                            }
-                            // delete the current reminder and replace it with the new one
                         }
-                        break
+                        
                     }
-                    
-                    if localNote.category == nil {
-                        try! realm.write() {
-                            localNote.category = quickNotes
-                        }
+                    if flag {
+                        flag = false
+                    } else {
+                        toCreateLocally.append(cloudNote)
                     }
-                    
-                }
-                if flag {
-                    flag = false
-                } else {
-                    toCreateLocally.append(cloudNote)
                 }
             }
+            self.createLocalCopiesOf(notes: toCreateLocally, inRealmObject: realm)
+        } catch let error as NSError {
+            print(error.localizedDescription)
         }
-        self.createLocalCopiesOf(notes: toCreateLocally, inRealmObject: realm)
+        
     }
     
     
@@ -561,59 +560,73 @@ class RealmHandler {
         let imageID = components[components.count - 1]
         let noteID = components[components.count - 2]
         
-        let realm = try! Realm(configuration: RealmHandler.configurationHelper(), queue: nil)
-        
-        if let note = RealmHandler.getNoteWith(ID: noteID, inRealmObject: realm) {
-            let documentsDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
-            
-            let fileName = imageID
-            
-            let fileURL = documentsDirectory.appendingPathComponent(fileName)
+        do {
+            let realm = try Realm(configuration: RealmHandler.configurationHelper(), queue: nil)
             
             
-            for img in note.photos {
-                let path = img.components(separatedBy: "/")
-                if path[path.count - 1] == imageID {
-                    // the image exists for that note -> no need to download
-                    print("exists locally")
-                    return
-                }
-            }
             
-            
-            FirestoreHandler.downloadPicture(pathToImgInFirestore: firestoreURL, localURL: fileURL, completion:{ url in
-                // double check just to be sure
+            if let note = RealmHandler.getNoteWith(ID: noteID, inRealmObject: realm) {
+                let documentsDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
+                
+                let fileName = imageID
+                
+                let fileURL = documentsDirectory.appendingPathComponent(fileName)
+                
+                
                 for img in note.photos {
                     let path = img.components(separatedBy: "/")
                     if path[path.count - 1] == imageID {
-                        // if it has been added second time to the queue
+                        // the image exists for that note -> no need to download
                         print("exists locally")
                         return
                     }
                 }
                 
-                try! realm.write() {
-                    note.photos.append(url)
-                }
-            })
+                
+                FirestoreHandler.downloadPicture(pathToImgInFirestore: firestoreURL, localURL: fileURL, completion:{ url in
+                    // double check just to be sure
+                    for img in note.photos {
+                        let path = img.components(separatedBy: "/")
+                        if path[path.count - 1] == imageID {
+                            // if it has been added second time to the queue
+                            print("exists locally")
+                            return
+                        }
+                    }
+                    
+                    try! realm.write() {
+                        note.photos.append(url)
+                    }
+                })
+            }
+        } catch let error as NSError {
+            print(error.localizedDescription)
         }
     }
     
     
     static func getAllPhotosIDs() -> [String] {
-        let realm = try! Realm(configuration: RealmHandler.configurationHelper(), queue: nil)
-        
-        let notes = self.getAllNotes(inRealmObject: realm)
-        
         var photos: [String] = []
-        
-        for note in notes {
-            for photo in note.photos {
-                let components = photo.components(separatedBy: "/")
-                photos.append(components[components.count - 1])
+        do {
+            let realm = try Realm(configuration: RealmHandler.configurationHelper(), queue: nil)
+            
+            
+            
+            let notes = self.getAllNotes(inRealmObject: realm)
+            
+            
+            
+            for note in notes {
+                for photo in note.photos {
+                    let components = photo.components(separatedBy: "/")
+                    photos.append(components[components.count - 1])
+                }
             }
+            
+            return photos
+        } catch let error as NSError {
+            print(error.localizedDescription)
         }
-        
         return photos
     }
     
@@ -633,15 +646,19 @@ class RealmHandler {
     }
     
     static func getNoteIDforImageURL(url: String) -> String? {
-        let realm = try! Realm(configuration: RealmHandler.configurationHelper(), queue: nil)
-        let notes = self.getAllNotes(inRealmObject: realm)
-        
-        for note in notes {
-            for photoURL in note.photos {
-                if photoURL == url {
-                    return note.getID()
+        do {
+            let realm = try Realm(configuration: RealmHandler.configurationHelper(), queue: nil)
+            let notes = self.getAllNotes(inRealmObject: realm)
+            
+            for note in notes {
+                for photoURL in note.photos {
+                    if photoURL == url {
+                        return note.getID()
+                    }
                 }
             }
+        } catch let error as NSError {
+            print(error.localizedDescription)
         }
         return nil
     }
@@ -695,23 +712,27 @@ extension Array where Element : NoteWrapper {
     func toNotes() -> [Note] {
         var result: [Note] = []
         
-        let realm = try! Realm(configuration: RealmHandler.configurationHelper(), queue: nil)
-        
-        for res in self {
-            let note = Note()
-            note.set(ID: res.id)
-            note.title = res.title
-            note.category = RealmHandler.getCategoryWith(ID: res.categoryID, inRealmObject: realm)
-            note.textHtmlString = res.textHtmlString
-            note.createdAt = res.createdAt
-            note.updatedAt = res.updatedAt
-            note.revisions = res.revisions
-            note.favourite = res.favourite
-            note.reminderDate = res.reminderDate
-            //  note.photos = res.photos
-            
-            result.append(note)
+        do {
+            let realm = try Realm(configuration: RealmHandler.configurationHelper(), queue: nil)
+            for res in self {
+                let note = Note()
+                note.set(ID: res.id)
+                note.title = res.title
+                note.category = RealmHandler.getCategoryWith(ID: res.categoryID, inRealmObject: realm)
+                note.textHtmlString = res.textHtmlString
+                note.createdAt = res.createdAt
+                note.updatedAt = res.updatedAt
+                note.revisions = res.revisions
+                note.favourite = res.favourite
+                note.reminderDate = res.reminderDate
+                //  note.photos = res.photos
+                
+                result.append(note)
+            }
+        } catch let error as NSError {
+            print(error.localizedDescription)
         }
+        
         
         return result
     }

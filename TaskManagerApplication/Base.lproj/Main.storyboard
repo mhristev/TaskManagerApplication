@@ -141,7 +141,7 @@
                                             <attributedString key="attributedTitle">
                                                 <fragment content="Continue with Google"/>
                                             </attributedString>
-                                            <color key="baseForegroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            <color key="baseForegroundColor" name="iconSelectorColor"/>
                                         </buttonConfiguration>
                                         <userDefinedRuntimeAttributes>
                                             <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
@@ -606,7 +606,7 @@
                                             <action selector="favouriteFilter:" destination="4af-va-nnC" eventType="valueChanged" id="ZUE-7W-e3f"/>
                                         </connections>
                                     </segmentedControl>
-                                    <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="70" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="wyr-3v-UD5">
+                                    <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="70" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="wyr-3v-UD5">
                                         <rect key="frame" x="0.0" y="43" width="334" height="508"/>
                                         <color key="backgroundColor" name="backgoundColor"/>
                                         <prototypes>
@@ -917,15 +917,15 @@
                                             </segmentedControl>
                                         </subviews>
                                     </stackView>
-                                    <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="ebP-zg-eud">
+                                    <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="ebP-zg-eud">
                                         <rect key="frame" x="0.0" y="104" width="354" height="363"/>
                                         <color key="backgroundColor" name="backgoundColor"/>
                                         <prototypes>
                                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="noteCell" id="cc9-TC-ZT5">
-                                                <rect key="frame" x="0.0" y="44.5" width="354" height="43.5"/>
+                                                <rect key="frame" x="0.0" y="44.5" width="354" height="44"/>
                                                 <autoresizingMask key="autoresizingMask"/>
                                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="cc9-TC-ZT5" id="gPl-tJ-MjM">
-                                                    <rect key="frame" x="0.0" y="0.0" width="354" height="43.5"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="354" height="44"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <color key="backgroundColor" name="cellBackgound"/>
                                                 </tableViewCellContentView>
@@ -999,7 +999,7 @@
                                         <fontDescription key="fontDescription" type="system" pointSize="34"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="70" estimatedRowHeight="-1" sectionHeaderHeight="70" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="7qr-oQ-chT">
+                                    <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="70" estimatedRowHeight="-1" sectionHeaderHeight="70" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="7qr-oQ-chT">
                                         <rect key="frame" x="0.0" y="66" width="374" height="453"/>
                                         <color key="backgroundColor" name="backgoundColor"/>
                                         <prototypes>
@@ -1200,68 +1200,47 @@
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2M4-ly-Dk2">
                                                 <rect key="frame" x="0.0" y="0.0" width="374" height="160"/>
                                                 <subviews>
-                                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="57" translatesAutoresizingMaskIntoConstraints="NO" id="sXq-Xc-R6H">
-                                                        <rect key="frame" x="8" y="9" width="291" height="143.5"/>
-                                                        <subviews>
-                                                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="7" translatesAutoresizingMaskIntoConstraints="NO" id="Av1-ut-6pW">
-                                                                <rect key="frame" x="0.0" y="0.0" width="291" height="54"/>
-                                                                <subviews>
-                                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Fv2-Ls-QOj">
-                                                                        <rect key="frame" x="0.0" y="0.0" width="291" height="30"/>
-                                                                        <attributedString key="attributedText">
-                                                                            <fragment content="Weekly progress">
-                                                                                <attributes>
-                                                                                    <color key="NSColor" systemColor="labelColor"/>
-                                                                                    <font key="NSFont" size="18" name="Charter-Black"/>
-                                                                                </attributes>
-                                                                            </fragment>
-                                                                        </attributedString>
-                                                                        <nil key="highlightedColor"/>
-                                                                    </label>
-                                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Here you can see your weekly tasks progress" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ncU-NL-U7i">
-                                                                        <rect key="frame" x="0.0" y="37" width="291" height="17"/>
-                                                                        <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
-                                                                        <nil key="highlightedColor"/>
-                                                                    </label>
-                                                                </subviews>
-                                                            </stackView>
-                                                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="wf8-1v-6tf">
-                                                                <rect key="frame" x="0.0" y="111" width="150" height="32.5"/>
-                                                                <subviews>
-                                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="57%" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JIU-m3-lFO">
-                                                                        <rect key="frame" x="0.0" y="0.0" width="150" height="20.5"/>
-                                                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                                        <nil key="highlightedColor"/>
-                                                                    </label>
-                                                                    <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="2dj-9m-65w">
-                                                                        <rect key="frame" x="0.0" y="28.5" width="150" height="4"/>
-                                                                    </progressView>
-                                                                </subviews>
-                                                            </stackView>
-                                                        </subviews>
-                                                    </stackView>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zzp-3K-yDe">
                                                         <rect key="frame" x="0.0" y="0.0" width="375" height="160"/>
                                                         <state key="normal" title="Button"/>
-                                                        <buttonConfiguration key="configuration" style="plain"/>
+                                                        <buttonConfiguration key="configuration" style="plain" title=""/>
                                                         <connections>
                                                             <segue destination="4af-va-nnC" kind="show" identifier="testvam" id="2RT-nR-A2q"/>
                                                         </connections>
                                                     </button>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Here you can see your weekly tasks progress" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ncU-NL-U7i">
+                                                        <rect key="frame" x="0.0" y="80" width="375" height="72"/>
+                                                        <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Fv2-Ls-QOj">
+                                                        <rect key="frame" x="8" y="37" width="235" height="35"/>
+                                                        <attributedString key="attributedText">
+                                                            <fragment content="Weekly progress">
+                                                                <attributes>
+                                                                    <color key="NSColor" systemColor="labelColor"/>
+                                                                    <font key="NSFont" size="24" name="Charter-Black"/>
+                                                                </attributes>
+                                                            </fragment>
+                                                        </attributedString>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
                                                 </subviews>
                                                 <color key="backgroundColor" name="cellBackgound"/>
                                                 <constraints>
+                                                    <constraint firstAttribute="trailing" secondItem="Fv2-Ls-QOj" secondAttribute="trailing" constant="131" id="55o-Ee-nOa"/>
                                                     <constraint firstItem="zzp-3K-yDe" firstAttribute="width" secondItem="2M4-ly-Dk2" secondAttribute="width" constant="1" id="6RJ-NQ-ewB"/>
-                                                    <constraint firstItem="sXq-Xc-R6H" firstAttribute="top" secondItem="2M4-ly-Dk2" secondAttribute="top" constant="9" id="AoC-2s-nmG"/>
-                                                    <constraint firstItem="2dj-9m-65w" firstAttribute="top" secondItem="zzp-3K-yDe" secondAttribute="bottom" constant="-11.5" id="OZO-3O-tWE"/>
-                                                    <constraint firstAttribute="bottom" secondItem="sXq-Xc-R6H" secondAttribute="bottom" constant="7.5" id="R7D-J4-bQ4"/>
+                                                    <constraint firstItem="ncU-NL-U7i" firstAttribute="bottom" secondItem="zzp-3K-yDe" secondAttribute="bottom" id="BUP-QA-Qyn"/>
+                                                    <constraint firstItem="ncU-NL-U7i" firstAttribute="trailing" secondItem="zzp-3K-yDe" secondAttribute="trailing" id="HEs-wK-Lvc"/>
+                                                    <constraint firstItem="Fv2-Ls-QOj" firstAttribute="leading" relation="lessThanOrEqual" secondItem="2M4-ly-Dk2" secondAttribute="leading" constant="8" id="Sef-s5-xyC"/>
+                                                    <constraint firstItem="ncU-NL-U7i" firstAttribute="leading" secondItem="zzp-3K-yDe" secondAttribute="leading" id="TY6-xb-nO7"/>
                                                     <constraint firstAttribute="bottom" secondItem="zzp-3K-yDe" secondAttribute="bottom" id="a3j-mq-Xjk"/>
-                                                    <constraint firstItem="sXq-Xc-R6H" firstAttribute="leading" secondItem="2M4-ly-Dk2" secondAttribute="leading" constant="8" id="cIi-zd-ScY" userLabel="Stack View.leading = leading + 10"/>
                                                     <constraint firstAttribute="trailing" secondItem="zzp-3K-yDe" secondAttribute="trailing" constant="-1" id="cPq-tB-YUh"/>
-                                                    <constraint firstItem="wf8-1v-6tf" firstAttribute="top" secondItem="zzp-3K-yDe" secondAttribute="bottom" constant="-40" id="dHW-Cl-2MX"/>
                                                     <constraint firstItem="zzp-3K-yDe" firstAttribute="top" secondItem="2M4-ly-Dk2" secondAttribute="top" id="mgc-QZ-mee"/>
                                                     <constraint firstItem="zzp-3K-yDe" firstAttribute="height" secondItem="2M4-ly-Dk2" secondAttribute="height" id="o1Z-bL-LFk"/>
+                                                    <constraint firstItem="ncU-NL-U7i" firstAttribute="top" secondItem="Fv2-Ls-QOj" secondAttribute="bottom" constant="8" symbolic="YES" id="pRV-K0-vSJ"/>
                                                     <constraint firstItem="zzp-3K-yDe" firstAttribute="leading" secondItem="2M4-ly-Dk2" secondAttribute="leading" id="uUp-Te-t2F"/>
+                                                    <constraint firstItem="Fv2-Ls-QOj" firstAttribute="top" secondItem="2M4-ly-Dk2" secondAttribute="top" constant="37" id="yJz-fu-yQ9"/>
                                                 </constraints>
                                             </view>
                                         </subviews>
@@ -1292,7 +1271,7 @@
                                                     </button>
                                                 </subviews>
                                             </stackView>
-                                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="70" estimatedRowHeight="-1" sectionHeaderHeight="70" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="A2b-Ub-W9A">
+                                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="70" estimatedRowHeight="-1" sectionHeaderHeight="70" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="A2b-Ub-W9A">
                                                 <rect key="frame" x="0.0" y="36" width="374" height="385"/>
                                                 <color key="backgroundColor" name="backgoundColor"/>
                                                 <prototypes>
@@ -1387,7 +1366,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="N6T-R1-3Nz" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="9568" y="13"/>
+            <point key="canvasLocation" x="9566.6666666666679" y="12.388392857142856"/>
         </scene>
         <!--Reminders Child Home Controller-->
         <scene sceneID="w6y-gr-4Lp">
@@ -1420,7 +1399,7 @@
                                             </searchBar>
                                         </subviews>
                                     </stackView>
-                                    <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="70" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="vnH-xR-DHv">
+                                    <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="70" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="vnH-xR-DHv">
                                         <rect key="frame" x="0.0" y="738" width="414" height="128"/>
                                         <color key="backgroundColor" name="backgoundColor"/>
                                         <color key="sectionIndexBackgroundColor" name="backgoundColor"/>
@@ -1537,6 +1516,9 @@
         </namedColor>
         <namedColor name="colorSelector">
             <color red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="iconSelectorColor">
+            <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="navigationBlue">
             <color red="0.36100000143051147" green="0.74099999666213989" blue="0.9179999828338623" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

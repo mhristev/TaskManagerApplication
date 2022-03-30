@@ -11,7 +11,18 @@ import RealmSwift
 
 class RemindersChildHomeController: UIViewController {
     
-    let realm = try! Realm(configuration: RealmHandler.configurationHelper(), queue: nil)
+    var realm: Realm {
+            get {
+                do {
+                    let realm = try Realm(configuration: RealmHandler.configurationHelper(), queue: nil)
+                    return realm
+                }
+                catch {
+                    print("Could not access database: ", error)
+                }
+                return self.realm
+            }
+        }
     
     @IBOutlet var searchBar: UISearchBar!
     
@@ -78,15 +89,10 @@ extension RemindersChildHomeController: UITableViewDelegate {
         }
         trash.backgroundColor = .systemRed
         
-        let edit = UIContextualAction(style: .normal,
-                                      title: "Edit") { [weak self] (action, view, completionHandler) in
-            self?.handleEdit(indexPath: indexPath)
-            completionHandler(true)
-        }
-        edit.backgroundColor = .brown
+      
         
         
-        let configuration = UISwipeActionsConfiguration(actions: [trash, edit])
+        let configuration = UISwipeActionsConfiguration(actions: [trash])
         
         return configuration
     }

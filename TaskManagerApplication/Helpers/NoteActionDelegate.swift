@@ -11,5 +11,4 @@ protocol noteActionDelegate {
     func didCreateNoteWith(ID: String)
     func didCreateReminderOn(note: Note)
     func reloadData()
-    
 }

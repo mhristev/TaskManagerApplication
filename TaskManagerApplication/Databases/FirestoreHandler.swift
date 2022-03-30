@@ -14,6 +14,45 @@ import UIKit
 
 class FirestoreHandler {
     
+    static func registerUserWith(email: String, password: String, completion: @escaping (String?) -> Void) {
+        Auth.auth().createUser(withEmail: email, password: password) { (result, err) in
+            
+            if err != nil {
+                guard let error = err?.localizedDescription else { return }
+                completion(error)
+                return
+            } else {
+                
+                guard let uid = result?.user.uid else {
+                    return
+                }
+                
+                let values = ["email" : email]
+                
+                Firestore.firestore().collection("users").document(uid).setData(values)
+                
+                self.dialogWindow(message: "Your account has been created successfully!", title: "Success")
+            }
+            completion(nil)
+            
+        }
+    }
+    
+    static func loginUserWith(email: String, password: String, completion: @escaping(String?) -> Void) {
+        Auth.auth().signIn(withEmail: email, password: password) { (result, error) in
+            if error != nil {
+                guard let err = error?.localizedDescription else { return }
+                //self.dialogWindow(message: err, title: "Error")
+                completion(err)
+                return
+            }
+            if let currentUser = Auth.auth().currentUser {
+                RealmHandler.loadfirstConfiguration(andSetUserID: currentUser.uid)
+            }
+            completion(nil)
+        }
+    }
+    
     static func upload(category: Category) {
         if let user = Auth.auth().currentUser {
             do {
@@ -236,36 +275,6 @@ class FirestoreHandler {
         
         let storageRef = Storage.storage().reference().child(cloudURL)
         
-        //        guard let imageData = img.pngData() else {
-        //            return
-        //        }
-        //
-        //
-        //
-        //        // Upload the file to the path "images/rivers.jpg"
-        //        let uploadTask = storageRef.putData(imageData, metadata: nil, completion: { metadata, error in
-        //            guard error == nil else {
-        //                print("failed to upload")
-        //                return
-        //            }
-        //
-        //            storageRef.downloadURL { url, error in
-        //                guard error == nil else {
-        //                    print("error while trying to get the download URL!")
-        //                    return
-        //                }
-        //                guard let downloadURL = url else {
-        //                    print("failed to get the downloadURL of the image!")
-        //                    return
-        //                }
-        //                print("----------------------------------")
-        //                print(downloadURL)
-        //
-        //            }
-        //
-        //        })
-        
-        
         let taskProgress =  storageRef.putFile(from: localFile, metadata: nil) { _, error in
             
             guard error == nil else {
@@ -289,7 +298,7 @@ class FirestoreHandler {
         storageReference.listAll { (result, error) in
             if let error = error {
                 // ...
-                print("hello")
+                print(error.localizedDescription)
             }
             for prefix in result.prefixes {
                 // The prefixes under storageReference.
@@ -390,8 +399,6 @@ class FirestoreHandler {
             }
             
         }
-        
-        
     }
     
 }

@@ -13,7 +13,18 @@ import RealmSwift
 class CreateCategoryViewController: UIViewController {
     
     var categoryDelegate: categoryActionDelegate!
-    let realm = try! Realm(configuration: RealmHandler.configurationHelper(), queue: nil)
+    var realm: Realm {
+            get {
+                do {
+                    let realm = try Realm(configuration: RealmHandler.configurationHelper(), queue: nil)
+                    return realm
+                }
+                catch {
+                    print("Could not access database: ", error)
+                }
+                return self.realm
+            }
+        }
     var editCategory: Category? = nil
     
     @IBOutlet var createCategoryButton: UIButton!
@@ -53,7 +64,14 @@ class CreateCategoryViewController: UIViewController {
             }
             
         }
+        let tap = UITapGestureRecognizer(target: self, action: #selector(UIInputViewController.dismissKeyboard))
+        tap.cancelsTouchesInView = false
+        view.addGestureRecognizer(tap)
         // Do any additional setup after loading the view.
+    }
+    @objc func dismissKeyboard() {
+        //Causes the view (or one of its embedded text fields) to resign the first responder status.
+        view.endEditing(true)
     }
     
     @IBAction func colorSelected(_ sender: UIButton) {
@@ -102,26 +120,13 @@ class CreateCategoryViewController: UIViewController {
                 guard let buttonColor = button.backgroundColor else {
                     return
                 }
-                
-                
-                
-                
                 color = hexStringFromColor(color: buttonColor)
-                
-                
-                
             }
         }
-        
-        
         
         guard let name = nameOfCategory.text else {
             return
         }
-        
-        print("icon = \(icon)")
-        print("name = \(name)")
-        print("color = \(color)")
         
         if (icon == "" || name == "" || color == "") {
             dialogWindow(message: "Please fill all the fields!", title: "Error")
@@ -165,7 +170,6 @@ extension CreateCategoryViewController{
         let b: CGFloat = components?[2] ?? 0.0
         
         let hexString = String.init(format: "#%02lX%02lX%02lX", lroundf(Float(r * 255)), lroundf(Float(g * 255)), lroundf(Float(b * 255)))
-        print(hexString)
         return hexString
     }
     

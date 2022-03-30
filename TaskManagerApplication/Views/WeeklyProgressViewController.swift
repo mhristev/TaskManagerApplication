@@ -11,7 +11,18 @@ import RealmSwift
 class WeeklyProgressViewController: UIViewController {
     @IBOutlet var tableView: UITableView!
     var reminders: [Note] = []
-    let realm = try! Realm(configuration: RealmHandler.configurationHelper(), queue: nil)
+    var realm: Realm {
+            get {
+                do {
+                    let realm = try Realm(configuration: RealmHandler.configurationHelper(), queue: nil)
+                    return realm
+                }
+                catch {
+                    print("Could not access database: ", error)
+                }
+                return self.realm
+            }
+        }
     
     @IBOutlet var favSegment: UISegmentedControl!
     override func viewDidLoad() {
