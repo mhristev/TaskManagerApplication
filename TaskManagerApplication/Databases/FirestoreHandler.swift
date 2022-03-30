@@ -27,7 +27,7 @@ class FirestoreHandler {
                     return
                 }
                 
-                let values = ["ID": uid, "email" : email]
+                let values = ["email" : email]
                 
                 Firestore.firestore().collection("users").document(uid).setData(values)
                 
@@ -275,36 +275,6 @@ class FirestoreHandler {
         
         let storageRef = Storage.storage().reference().child(cloudURL)
         
-        //        guard let imageData = img.pngData() else {
-        //            return
-        //        }
-        //
-        //
-        //
-        //        // Upload the file to the path "images/rivers.jpg"
-        //        let uploadTask = storageRef.putData(imageData, metadata: nil, completion: { metadata, error in
-        //            guard error == nil else {
-        //                print("failed to upload")
-        //                return
-        //            }
-        //
-        //            storageRef.downloadURL { url, error in
-        //                guard error == nil else {
-        //                    print("error while trying to get the download URL!")
-        //                    return
-        //                }
-        //                guard let downloadURL = url else {
-        //                    print("failed to get the downloadURL of the image!")
-        //                    return
-        //                }
-        //                print("----------------------------------")
-        //                print(downloadURL)
-        //
-        //            }
-        //
-        //        })
-        
-        
         let taskProgress =  storageRef.putFile(from: localFile, metadata: nil) { _, error in
             
             guard error == nil else {
@@ -328,7 +298,7 @@ class FirestoreHandler {
         storageReference.listAll { (result, error) in
             if let error = error {
                 // ...
-                print("hello")
+                print(error.localizedDescription)
             }
             for prefix in result.prefixes {
                 // The prefixes under storageReference.
@@ -429,8 +399,6 @@ class FirestoreHandler {
             }
             
         }
-        
-        
     }
     
 }

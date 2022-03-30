@@ -185,7 +185,7 @@ class LoginFormViewController: UIViewController{
                     return
                 }
                 
-                let values = ["ID": currentUser.uid, "email" : user.profile?.email]
+                let values = ["email" : user.profile?.email]
                 
                 Firestore.firestore().collection("users").document(currentUser.uid).setData(values as [String : Any], merge: true)
             }

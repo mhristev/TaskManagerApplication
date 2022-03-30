@@ -47,7 +47,7 @@ class CreateReminderViewController: UIViewController {
         
         
         if datePickerView.date < Date() {
-            let myalert = UIAlertController(title: "Error", message: "The day has passed a long time ago, my friend", preferredStyle: .alert)
+            let myalert = UIAlertController(title: "Error", message: "The day has passed a long time ago", preferredStyle: .alert)
             
             myalert.addAction(UIAlertAction(title: "Dismiss", style: .default,
                                             handler: nil))
@@ -89,17 +89,8 @@ class CreateReminderViewController: UIViewController {
         }
         RealmHandler.createReminderAndNotificationForNote(withID: note.getID(), andDate: datePickerView.date.formatedToStringDate(), inRealmObject: realm)
         
-        
-        let myalert = UIAlertController(title: "Success", message: "You have successfuly created a reminder.", preferredStyle: .alert)
-        
-        myalert.addAction(UIAlertAction(title: "Dismiss", style: .default,
-                                        handler: {_ in
-            self.noteDelegate.reloadData()
-            self.dismiss(animated: true, completion: nil)
-        }))
-        
-        
-        self.present(myalert, animated: true)
+        self.noteDelegate.reloadData()
+        self.dismiss(animated: true, completion: nil)
     }
     /*
      // MARK: - Navigation

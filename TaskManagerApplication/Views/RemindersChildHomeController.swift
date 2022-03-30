@@ -89,15 +89,10 @@ extension RemindersChildHomeController: UITableViewDelegate {
         }
         trash.backgroundColor = .systemRed
         
-        let edit = UIContextualAction(style: .normal,
-                                      title: "Edit") { [weak self] (action, view, completionHandler) in
-            self?.handleEdit(indexPath: indexPath)
-            completionHandler(true)
-        }
-        edit.backgroundColor = .brown
+      
         
         
-        let configuration = UISwipeActionsConfiguration(actions: [trash, edit])
+        let configuration = UISwipeActionsConfiguration(actions: [trash])
         
         return configuration
     }

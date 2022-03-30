@@ -266,7 +266,6 @@ class RealmHandler {
     }
     
     static func createReminderAndNotificationForNote(withID: String, andDate: String, inRealmObject: Realm) {
-        print(inRealmObject.configuration.fileURL!.path)
         if let note = inRealmObject.objects(Note.self).filter("id == %@", withID).first {
             FirestoreHandler.delete(note: note)
             
@@ -376,15 +375,15 @@ class RealmHandler {
         return inRealmObject.objects(Category.self).filter("name == %@", "Quick Notes").first
     }
     
-    static func getAllPhotosinNoteWith(ID: String, inRealmObject: Realm) -> [String]? {
+    static func getAllPhotosInNoteWith(ID: String, inRealmObject: Realm) -> [String]? {
         if let note = inRealmObject.objects(Note.self).filter("id == %@", ID).first {
-            clearOldImagesIn(note: note, inRealmObject: inRealmObject)
+            clearFakeImagesIn(note: note, inRealmObject: inRealmObject)
             return Array(note.photos)
         }
         return nil
     }
     
-    static func clearOldImagesIn(note: Note, inRealmObject: Realm) {
+    static func clearFakeImagesIn(note: Note, inRealmObject: Realm) {
         var i = 0
         for photo in note.photos {
             if let url = URL(string: photo) {
@@ -458,14 +457,6 @@ class RealmHandler {
         } catch let error as NSError {
             print(error.localizedDescription)
         }
-        
-        
-        //  let toPushToCloud = Array(Set(localCategories).subtracting(Set(cloudCategories)))
-        
-        // for category in toPushToCloud {
-        //FirestoreHandler.upload(category: category)
-        //  }
-        
         
     }
     

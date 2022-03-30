@@ -64,7 +64,14 @@ class CreateCategoryViewController: UIViewController {
             }
             
         }
+        let tap = UITapGestureRecognizer(target: self, action: #selector(UIInputViewController.dismissKeyboard))
+        tap.cancelsTouchesInView = false
+        view.addGestureRecognizer(tap)
         // Do any additional setup after loading the view.
+    }
+    @objc func dismissKeyboard() {
+        //Causes the view (or one of its embedded text fields) to resign the first responder status.
+        view.endEditing(true)
     }
     
     @IBAction func colorSelected(_ sender: UIButton) {
@@ -163,7 +170,6 @@ extension CreateCategoryViewController{
         let b: CGFloat = components?[2] ?? 0.0
         
         let hexString = String.init(format: "#%02lX%02lX%02lX", lroundf(Float(r * 255)), lroundf(Float(g * 255)), lroundf(Float(b * 255)))
-        print(hexString)
         return hexString
     }
     

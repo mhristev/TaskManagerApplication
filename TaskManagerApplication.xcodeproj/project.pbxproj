@@ -16,7 +16,6 @@
 		0215036227AB0A5E00086D5D /* CategoryActionDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0215036127AB0A5E00086D5D /* CategoryActionDelegate.swift */; };
 		0215036427AB0B0C00086D5D /* NoteActionDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0215036327AB0B0C00086D5D /* NoteActionDelegate.swift */; };
 		022E09AD279C869800484A94 /* GalleryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 022E09AC279C869800484A94 /* GalleryViewController.swift */; };
-		0239B7492795F06A00CCEC2D /* RemindersChildHomeController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0239B7482795F06A00CCEC2D /* RemindersChildHomeController.swift */; };
 		0241AC6827B53FB2003EDA41 /* FirestoreHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0241AC6727B53FB2003EDA41 /* FirestoreHandler.swift */; };
 		0241AC6A27B540DD003EDA41 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0241AC6927B540DD003EDA41 /* User.swift */; };
 		024EDCCB2764C8F900B73D98 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 024EDCCA2764C8F900B73D98 /* AppDelegate.swift */; };
@@ -54,6 +53,7 @@
 		025D7F1327ADCFC10094701F /* ReminderTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 025D7F1227ADCFC10094701F /* ReminderTableViewCell.swift */; };
 		026E229C27690C83001B0ACD /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 026E229B27690C83001B0ACD /* HomeViewController.swift */; };
 		027DEF48279D75CF0062AA08 /* CreateCategoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 027DEF47279D75CF0062AA08 /* CreateCategoryViewController.swift */; };
+		0290F08C27DFE38D004F5058 /* RemindersChildHomeController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0290F08B27DFE38D004F5058 /* RemindersChildHomeController.swift */; };
 		029847CC27A170970046B90F /* Note.swift in Sources */ = {isa = PBXBuildFile; fileRef = 029847CB27A170970046B90F /* Note.swift */; };
 		029847CF27A171CF0046B90F /* RealmHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 029847CE27A171CF0046B90F /* RealmHandler.swift */; };
 		0298891827A93F8E0083E959 /* CreateReminderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0298891727A93F8E0083E959 /* CreateReminderViewController.swift */; };
@@ -75,7 +75,6 @@
 		0215036127AB0A5E00086D5D /* CategoryActionDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryActionDelegate.swift; sourceTree = "<group>"; };
 		0215036327AB0B0C00086D5D /* NoteActionDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteActionDelegate.swift; sourceTree = "<group>"; };
 		022E09AC279C869800484A94 /* GalleryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GalleryViewController.swift; sourceTree = "<group>"; };
-		0239B7482795F06A00CCEC2D /* RemindersChildHomeController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemindersChildHomeController.swift; sourceTree = "<group>"; };
 		0241AC6727B53FB2003EDA41 /* FirestoreHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestoreHandler.swift; sourceTree = "<group>"; };
 		0241AC6927B540DD003EDA41 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		024EDCC72764C8F900B73D98 /* TaskManagerApplication.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TaskManagerApplication.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -89,6 +88,7 @@
 		025D7F1227ADCFC10094701F /* ReminderTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReminderTableViewCell.swift; sourceTree = "<group>"; };
 		026E229B27690C83001B0ACD /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		027DEF47279D75CF0062AA08 /* CreateCategoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateCategoryViewController.swift; sourceTree = "<group>"; };
+		0290F08B27DFE38D004F5058 /* RemindersChildHomeController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RemindersChildHomeController.swift; sourceTree = "<group>"; };
 		029847CB27A170970046B90F /* Note.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Note.swift; sourceTree = "<group>"; };
 		029847CE27A171CF0046B90F /* RealmHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmHandler.swift; sourceTree = "<group>"; };
 		0298891727A93F8E0083E959 /* CreateReminderViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateReminderViewController.swift; sourceTree = "<group>"; };
@@ -202,7 +202,7 @@
 				026E229B27690C83001B0ACD /* HomeViewController.swift */,
 				020572172793607B0001D702 /* CategoryViewController.swift */,
 				02C0202427957C2700AEA028 /* OverviewChildHomeController.swift */,
-				0239B7482795F06A00CCEC2D /* RemindersChildHomeController.swift */,
+				0290F08B27DFE38D004F5058 /* RemindersChildHomeController.swift */,
 				022E09AC279C869800484A94 /* GalleryViewController.swift */,
 				027DEF47279D75CF0062AA08 /* CreateCategoryViewController.swift */,
 				02029EA0279E02FD00A29A07 /* NoteViewController.swift */,
@@ -340,7 +340,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				0241AC6A27B540DD003EDA41 /* User.swift in Sources */,
-				0239B7492795F06A00CCEC2D /* RemindersChildHomeController.swift in Sources */,
 				020572182793607B0001D702 /* CategoryViewController.swift in Sources */,
 				025D7F1327ADCFC10094701F /* ReminderTableViewCell.swift in Sources */,
 				024EDCCB2764C8F900B73D98 /* AppDelegate.swift in Sources */,
@@ -364,6 +363,7 @@
 				02C5BA7E279F06E70091DDD4 /* Category.swift in Sources */,
 				0298891827A93F8E0083E959 /* CreateReminderViewController.swift in Sources */,
 				029847CC27A170970046B90F /* Note.swift in Sources */,
+				0290F08C27DFE38D004F5058 /* RemindersChildHomeController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -511,10 +511,13 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 49GAB9URB7;
+				CURRENT_PROJECT_VERSION = 2;
+				DEVELOPMENT_TEAM = 6E38FUWW9U;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = TaskManagerApplication/Info.plist;
+				INFOPLIST_KEY_NSCameraUsageDescription = "Allow taking pictures to save them to note";
+				INFOPLIST_KEY_NSLocationUsageDescription = TEST;
+				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "Allow taking pictures to save them to note";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
@@ -526,12 +529,12 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.elsys.diploma.TaskManagerApplication;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -541,10 +544,13 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 49GAB9URB7;
+				CURRENT_PROJECT_VERSION = 2;
+				DEVELOPMENT_TEAM = 6E38FUWW9U;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = TaskManagerApplication/Info.plist;
+				INFOPLIST_KEY_NSCameraUsageDescription = "Allow taking pictures to save them to note";
+				INFOPLIST_KEY_NSLocationUsageDescription = TEST;
+				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "Allow taking pictures to save them to note";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
@@ -556,12 +562,12 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.elsys.diploma.TaskManagerApplication;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};

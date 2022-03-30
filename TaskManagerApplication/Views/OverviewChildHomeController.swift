@@ -11,7 +11,7 @@ import RealmSwift
 
 
 
-class OverviewChildHomeController: UIViewController {    
+class OverviewChildHomeController: UIViewController {
     var realm: Realm {
             get {
                 do {
@@ -177,7 +177,7 @@ extension OverviewChildHomeController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: CategoryTableViewCell.identifier, for: indexPath) as! CategoryTableViewCell
-        cell.configureWith(title: "\(categories[categories.count - (1+indexPath.row)].getName()) - \(categories[categories.count - (1+indexPath.row)].getID())",
+        cell.configureWith(title: "\(categories[categories.count - (1+indexPath.row)].getName())",
                            imageName: categories[categories.count-(1+indexPath.row)].icon,
                            color: OverviewChildHomeController.hexStringToUIColor(hex: categories[categories.count-(1+indexPath.row)].getColor()))
         
@@ -192,7 +192,7 @@ extension OverviewChildHomeController: UITableViewDataSource {
         
         let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(handleTap))
         
-        cell.configureWith(title: "\(categories[0].getName()) - \(categories[0].getID())", imageName: categories[0].icon, color: OverviewChildHomeController.hexStringToUIColor(hex: categories[0].getColor()))
+        cell.configureWith(title: "\(categories[0].getName())", imageName: categories[0].icon, color: OverviewChildHomeController.hexStringToUIColor(hex: categories[0].getColor()))
         
         cell.addGestureRecognizer(tapRecognizer)
         return cell
