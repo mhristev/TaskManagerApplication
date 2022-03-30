@@ -1,9 +1,9 @@
 # TaskManagerApplication 
 ## Инсталация 
-За инсталация директно на IOS мобилно устройство натиснете [тук](https://google.com) <br/>
+За инсталация директно на IOS мобилно устройство натиснете [тук](https://www.installonair.com/app-download-link/pwQJGQ) <br/>
  
 Или сканирайте: <br/>
-![image](https://user-images.githubusercontent.com/48886314/160277029-191ff1ac-532a-4d48-8cab-bbe9e34e2371.png)
+![image](https://www.installonair.com/storage/qr-code/pwQJGQ.png)
 
 
 
