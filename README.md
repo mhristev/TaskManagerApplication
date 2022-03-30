@@ -3,6 +3,7 @@
 За инсталация директно на IOS мобилно устройство натиснете [тук](https://www.installonair.com/app-download-link/pwQJGQ) <br/>
  
 Или сканирайте: <br/>
+
 ![image](https://www.installonair.com/storage/qr-code/pwQJGQ.png)
 
 
