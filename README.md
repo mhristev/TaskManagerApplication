@@ -1,12 +1,7 @@
 # TaskManagerApplication 
 ## Инсталация 
-За инсталация директно на IOS мобилно устройство натиснете [тук](https://www.installonair.com/app-download-link/pwQJGQ) <br/>
+За инсталация директно на IOS мобилно устройство натиснете [тук](https://testflight.apple.com/join/AkRIMdDb) <br/>
  
-Или сканирайте: <br/>
-
-![image](https://www.installonair.com/storage/qr-code/pwQJGQ.png)
-
-
 
 ## Изисквания:
 1. ~~Възможност за управление на записки~~ <br/>
