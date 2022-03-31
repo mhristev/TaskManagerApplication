@@ -156,18 +156,8 @@ class NoteViewController: UIViewController {
             textView.attributedText = string
             textView.selectedRange = range
             
-            
-            
-            
-            
-            
         }
-        
-        
-        
-        
-        
-        
+
     }
     
     @IBAction func italicButton(_ sender: UIButton) {

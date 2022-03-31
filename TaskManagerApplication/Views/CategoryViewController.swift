@@ -68,7 +68,7 @@ class CategoryViewController: UIViewController {
         
         RealmHandler.createNoteWith(title: "", text: NSAttributedString(""), favourite: false, categoryName: self.title!, inRealmObject: realm)
         
-        reloadTableBasedOnSegment()
+        //reloadTableBasedOnSegment()
         
         let destinationVC = storyboard?.instantiateViewController(withIdentifier: "NoteViewController") as! NoteViewController
         newNoteDelegate = destinationVC
@@ -83,6 +83,12 @@ class CategoryViewController: UIViewController {
     }
     
     func updateDataInTableViewAll() {
+        notes = RealmHandler.getAllNotesInCategoryWith(name: self.title!, inRealmObject: realm)
+        for note in notes {
+            if note.title.isEmpty {
+                RealmHandler.deleteNoteWith(ID: note.getID(), inRealmObject: realm)
+            }
+        }
         notes = RealmHandler.getAllNotesInCategoryWith(name: self.title!, inRealmObject: realm)
         NotesInCategoryTableView.reloadData()
     }
@@ -102,6 +108,7 @@ class CategoryViewController: UIViewController {
             updateDataInTableViewFavourite()
         }
     }
+    
     
     
 }

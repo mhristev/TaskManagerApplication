@@ -57,6 +57,7 @@
 		029847CC27A170970046B90F /* Note.swift in Sources */ = {isa = PBXBuildFile; fileRef = 029847CB27A170970046B90F /* Note.swift */; };
 		029847CF27A171CF0046B90F /* RealmHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 029847CE27A171CF0046B90F /* RealmHandler.swift */; };
 		0298891827A93F8E0083E959 /* CreateReminderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0298891727A93F8E0083E959 /* CreateReminderViewController.swift */; };
+		02B34A8A27F47ADD00587D5C /* Entitlements.plist in Resources */ = {isa = PBXBuildFile; fileRef = 02B34A8927F47ADD00587D5C /* Entitlements.plist */; };
 		02C0202527957C2800AEA028 /* OverviewChildHomeController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02C0202427957C2700AEA028 /* OverviewChildHomeController.swift */; };
 		02C5BA7E279F06E70091DDD4 /* Category.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02C5BA7D279F06E70091DDD4 /* Category.swift */; };
 		02C5BA81279F26630091DDD4 /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 02C5BA80279F26630091DDD4 /* RealmSwift */; };
@@ -92,6 +93,7 @@
 		029847CB27A170970046B90F /* Note.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Note.swift; sourceTree = "<group>"; };
 		029847CE27A171CF0046B90F /* RealmHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmHandler.swift; sourceTree = "<group>"; };
 		0298891727A93F8E0083E959 /* CreateReminderViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateReminderViewController.swift; sourceTree = "<group>"; };
+		02B34A8927F47ADD00587D5C /* Entitlements.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Entitlements.plist; sourceTree = "<group>"; };
 		02C0202427957C2700AEA028 /* OverviewChildHomeController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverviewChildHomeController.swift; sourceTree = "<group>"; };
 		02C5BA7D279F06E70091DDD4 /* Category.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Category.swift; sourceTree = "<group>"; };
 		02C9F59E27AFD8E600431F88 /* HtmlConvertHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HtmlConvertHelper.swift; sourceTree = "<group>"; };
@@ -163,6 +165,7 @@
 		024EDCBE2764C8F900B73D98 = {
 			isa = PBXGroup;
 			children = (
+				02B34A8927F47ADD00587D5C /* Entitlements.plist */,
 				024EDCC92764C8F900B73D98 /* TaskManagerApplication */,
 				024EDCC82764C8F900B73D98 /* Products */,
 			);
@@ -328,6 +331,7 @@
 				024EDCD72764C8FB00B73D98 /* LaunchScreen.storyboard in Resources */,
 				024EDCDF2764C8FB00B73D98 /* GoogleService-Info.plist in Resources */,
 				024EDCD42764C8FB00B73D98 /* Assets.xcassets in Resources */,
+				02B34A8A27F47ADD00587D5C /* Entitlements.plist in Resources */,
 				024EDCD22764C8F900B73D98 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -510,8 +514,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = Entitlements.plist;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 6E38FUWW9U;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = TaskManagerApplication/Info.plist;
@@ -529,7 +534,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1;
+				MARKETING_VERSION = 1.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.elsys.diploma.TaskManagerApplication;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -543,8 +548,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = Entitlements.plist;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 6E38FUWW9U;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = TaskManagerApplication/Info.plist;
@@ -562,7 +568,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1;
+				MARKETING_VERSION = 1.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.elsys.diploma.TaskManagerApplication;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
