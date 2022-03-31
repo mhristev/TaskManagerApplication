@@ -178,17 +178,16 @@ extension GalleryViewController {
     func displayAndSaveImageFromCamera(image: UIImage) {
         let imageID = UUID().uuidString
         
-        let documentsDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
-        // choose a name for your image
+        guard let documentsDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else { return }
+        // задава се име на снимката
         let fileName = imageID + ".png"
-        // create the destination file url to save your image
+        // създаване на destination file url където ще се запази снимката
         let fileURL = documentsDirectory.appendingPathComponent(fileName)
         
-        // get your UIImage jpeg data representation and check if the destination file url already exists
         if let data = image.pngData(),
            !FileManager.default.fileExists(atPath: fileURL.path) {
             do {
-                // writes the image data to disk
+                // записва снимката в destination url
                 try data.write(to: fileURL)
                 print("file saved")
                 saveImageToRealm(photoURL: fileURL.absoluteString)

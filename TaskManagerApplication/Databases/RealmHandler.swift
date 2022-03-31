@@ -75,8 +75,9 @@ class RealmHandler {
         guard let uid = RealmHandler.currUserID else {
             return config
         }
+        guard let URL = config.fileURL else { return config }
         
-        config.fileURL = config.fileURL!.deletingLastPathComponent().appendingPathComponent("\(uid).realm")
+        config.fileURL = URL.deletingLastPathComponent().appendingPathComponent("\(uid).realm")
         
         return config
     }
@@ -565,7 +566,7 @@ class RealmHandler {
             
             
             if let note = RealmHandler.getNoteWith(ID: noteID, inRealmObject: realm) {
-                let documentsDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
+                guard let documentsDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else { return }
                 
                 let fileName = imageID
                 

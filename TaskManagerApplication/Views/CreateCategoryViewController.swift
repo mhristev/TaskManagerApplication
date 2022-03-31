@@ -137,7 +137,8 @@ class CreateCategoryViewController: UIViewController {
             let category = Category(name: name, color: color, icon: icon)
             categoryDelegate.didCreateCategory(category: category)
         } else {
-            RealmHandler.updateCategoryWith(ID: editCategory!.id, name: name, icon: icon, color: color, inRealmObject: realm)
+            guard let editCategory = editCategory else { return }
+            RealmHandler.updateCategoryWith(ID: editCategory.id, name: name, icon: icon, color: color, inRealmObject: realm)
             let categories = RealmHandler.getAllCategories(inRealmObject: realm)
             categoryDelegate.didEditCategory(categories: categories)
         }

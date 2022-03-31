@@ -195,9 +195,11 @@ class FirestoreHandler {
         
         let db = Firestore.firestore()
         
+        guard let currentUser = Auth.auth().currentUser else { return }
+        
         let docRef = db
             .collection("users")
-            .document(Auth.auth().currentUser!.uid)
+            .document(currentUser.uid)
         
         
         
@@ -231,9 +233,10 @@ class FirestoreHandler {
         
     }
     static func fetchNotes(completion: @escaping ([NoteWrapper]) -> Void) {
+        guard let currentUser = Auth.auth().currentUser else { return }
         let docRef = Firestore.firestore()
             .collection("users")
-            .document(Auth.auth().currentUser!.uid)
+            .document(currentUser.uid)
         
         
         // https://firebase.google.com/docs/firestore/query-data/queries
@@ -351,7 +354,8 @@ class FirestoreHandler {
     
     
     static func fetchPictures() {
-        let url = "\(Auth.auth().currentUser!.uid)"
+        guard let currentUser = Auth.auth().currentUser else { return }
+        let url = "\(currentUser.uid)"
         let storageReference = Storage.storage().reference().child(url)
         
         storageReference.listAll { (result, error) in
@@ -415,6 +419,7 @@ class FirestoreHandler {
     static func checkForNotUploadedMedia() {
         
         var cloudPhotoIDs: [String] = []
+        
         guard let currentUser = Auth.auth().currentUser else {
             return
         }

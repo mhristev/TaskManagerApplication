@@ -142,9 +142,12 @@ class Note: Object, Codable {
     func toWrapper() -> NoteWrapper {
         let wrapper = NoteWrapper()
         
+        guard let category = self.category else { return wrapper }
+
+        
         wrapper.id = self.id
         wrapper.title = self.title
-        wrapper.categoryID = self.category!.id
+        wrapper.categoryID = category.id
         wrapper.textHtmlString = self.textHtmlString
         wrapper.createdAt = self.createdAt
         wrapper.updatedAt = self.updatedAt

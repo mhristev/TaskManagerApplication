@@ -65,8 +65,9 @@ class CategoryViewController: UIViewController {
     }
     
     @IBAction func createNote(_ sender: Any) {
+        guard let catName = self.title else { return }
         
-        RealmHandler.createNoteWith(title: "", text: NSAttributedString(""), favourite: false, categoryName: self.title!, inRealmObject: realm)
+        RealmHandler.createNoteWith(title: "", text: NSAttributedString(""), favourite: false, categoryName: catName, inRealmObject: realm)
         
         //reloadTableBasedOnSegment()
         
