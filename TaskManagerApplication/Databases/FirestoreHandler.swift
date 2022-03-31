@@ -87,7 +87,7 @@ class FirestoreHandler {
                 
                 let noteAsValue = FieldValue.arrayUnion([dictionary])
                 
-                Firestore.firestore().collection("users").document(user.uid).setData(["notes": noteAsValue], merge: true)
+                Firestore.firestore().collection("users").document(user.uid).setData(["notes": noteAsValue], merge:true)
                 
             } catch {
                 print(error)
@@ -109,6 +109,35 @@ class FirestoreHandler {
         
         if let user = Auth.auth().currentUser {
             let wrapper = note.toWrapper()
+            do {
+                let noteData = try JSONEncoder().encode(wrapper)
+                let json = try JSONSerialization.jsonObject(with: noteData, options: [])
+                
+                
+                guard let dictionary = json as? [String: Any] else {
+                    return
+                }
+                
+                
+                Firestore.firestore().collection("users").document(user.uid).updateData([
+                    "notes": FieldValue.arrayRemove([dictionary])
+                ]) { error in
+                    if let error = error {
+                        print("Unable to delete note: \(error.localizedDescription)")
+                    }  else {
+                        print("Successfully deleted note")
+                    }
+                }
+            } catch {
+                print("error")
+            }
+        }
+    }
+    
+    static func delete(wrapper: NoteWrapper) {
+        
+        if let user = Auth.auth().currentUser {
+            
             do {
                 let noteData = try JSONEncoder().encode(wrapper)
                 let json = try JSONSerialization.jsonObject(with: noteData, options: [])
@@ -227,7 +256,37 @@ class FirestoreHandler {
                 let data = try JSONSerialization.data(withJSONObject: dataDescription?["notes"] as Any, options: .prettyPrinted)
                 
                 
-                let noteWrappers = try JSONDecoder().decode(Array<NoteWrapper>.self, from: data)
+                var noteWrappers = try JSONDecoder().decode(Array<NoteWrapper>.self, from: data)
+                
+                var i = 0
+                var k = 0
+                
+                var toRemove: [Int] = []
+                
+                for note in noteWrappers {
+                    if (toRemove.contains(i) == false) {
+                        k = 0
+                        for sameIDnote in noteWrappers {
+                            if note.id == sameIDnote.id && k != i && toRemove.contains(k) == false {
+                                if note.revisions > sameIDnote.revisions {
+                                    toRemove.append(k)
+                                    FirestoreHandler.delete(wrapper: sameIDnote)
+                                } else {
+                                    toRemove.append(i)
+                                    FirestoreHandler.delete(wrapper: note)
+                                }
+                            }
+                            k += 1
+                        }
+                    }
+                    i += 1
+                }
+                
+                toRemove = toRemove.sorted {$0 > $1}
+                for t in toRemove {
+                    noteWrappers.remove(at: t)
+                }
+                
                 completion(noteWrappers)
                 
             } catch {
@@ -356,8 +415,11 @@ class FirestoreHandler {
     static func checkForNotUploadedMedia() {
         
         var cloudPhotoIDs: [String] = []
+        guard let currentUser = Auth.auth().currentUser else {
+            return
+        }
         
-        let url = "\(Auth.auth().currentUser!.uid)"
+        let url = "\(currentUser.uid)"
         let storageReference = Storage.storage().reference().child(url)
         
         storageReference.listAll { (result, error) in

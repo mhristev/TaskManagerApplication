@@ -204,7 +204,6 @@ class RealmHandler {
     static func updateNoteWith(ID: String, title: String, attrText: NSAttributedString, inRealmObject: Realm) {
         if let note = inRealmObject.objects(Note.self).filter("id == %@", ID).first {
             
-            
             if (note.title != title) {
                 if let date = note.reminderDate {
                     NotificationHelper.removeNotificationWithID(ID: ID)
