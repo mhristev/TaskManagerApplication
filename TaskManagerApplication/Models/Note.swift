@@ -54,6 +54,12 @@ class NoteWrapper: Codable {
 }
 
 
+extension NoteWrapper: Equatable {
+    static func == (note1: NoteWrapper, note2: NoteWrapper) -> Bool {
+        return note1.id == note2.id && note1.updatedAt == note2.updatedAt
+    }
+}
+
 
 class Note: Object, Codable {
     @objc dynamic private var id: String = ""
@@ -136,7 +142,9 @@ class Note: Object, Codable {
     //    }
     
     func html2AttrString() -> NSAttributedString? {
+        
         return self.textHtmlString.html2AttributedString
+       
     }
     
     func toWrapper() -> NoteWrapper {
@@ -182,7 +190,7 @@ extension String {
 extension Data {
     var html2AttributedString: NSAttributedString? {
         do {
-            return try NSAttributedString(data: self, options: [.documentType: NSAttributedString.DocumentType.html, .characterEncoding: String.Encoding.utf8.rawValue], documentAttributes: nil)
+            return try NSAttributedString(data: self, options: [.documentType: NSAttributedString.DocumentType.html], documentAttributes: nil)
         } catch {
             print("error:", error)
             return  nil

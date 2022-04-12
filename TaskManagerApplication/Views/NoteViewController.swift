@@ -39,7 +39,7 @@ class NoteViewController: UIViewController {
 
         textView.delegate = self
         //textView.font = UIFont(name: "ArialMT", size: 18)
-        
+        textView.font = UIFont(name: ".AppleSystemUIFont", size: 18)
                 
         if currNoteID != nil {
             guard let note = RealmHandler.getNoteWith(ID: currNoteID!, inRealmObject: realm) else {
@@ -199,7 +199,7 @@ class NoteViewController: UIViewController {
         let title = textView.text.trimmingCharacters(in: .whitespacesAndNewlines).components(separatedBy: .newlines).first ?? ""
         let text = textView.attributedText
         
-        
+        print(textView.font?.fontName)
         if currNoteID != nil {
             
             if text?.string == "" {

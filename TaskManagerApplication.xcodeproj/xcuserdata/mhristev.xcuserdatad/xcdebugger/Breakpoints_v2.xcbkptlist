@@ -567,15 +567,15 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "3A408F05-421F-4A2C-94FD-0A9152B91CFF"
+            uuid = "CBBC6B50-21B2-4AD9-A25D-3B7F9649B189"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "TaskManagerApplication/Databases/FirestoreHandler.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "288"
-            endingLineNumber = "288"
+            startingLineNumber = "313"
+            endingLineNumber = "313"
             landmarkName = "fetchNotes(completion:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -583,15 +583,15 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "29FB2EB1-2FE8-403D-98AB-44EF0602D893"
+            uuid = "1F3E9AB1-6EB9-4CA3-B529-E44A2C9FC712"
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "TaskManagerApplication/Databases/FirestoreHandler.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "274"
-            endingLineNumber = "274"
+            startingLineNumber = "293"
+            endingLineNumber = "293"
             landmarkName = "fetchNotes(completion:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -599,32 +599,16 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "511BE1D0-D301-42E5-A821-2BD6E029777A"
-            shouldBeEnabled = "Yes"
+            uuid = "5421960A-D9C8-489F-BCBC-25042130C557"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "TaskManagerApplication/Databases/FirestoreHandler.swift"
+            filePath = "TaskManagerApplication/Views/NoteViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "275"
-            endingLineNumber = "275"
-            landmarkName = "fetchNotes(completion:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "89BD7AA4-F63C-4F78-90B1-6E7216F3227E"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "TaskManagerApplication/Databases/FirestoreHandler.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "278"
-            endingLineNumber = "278"
-            landmarkName = "fetchNotes(completion:)"
+            startingLineNumber = "202"
+            endingLineNumber = "202"
+            landmarkName = "viewDidDisappear(_:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

@@ -259,38 +259,59 @@ class FirestoreHandler {
                 let data = try JSONSerialization.data(withJSONObject: dataDescription?["notes"] as Any, options: .prettyPrinted)
                 
                 
-                var noteWrappers = try JSONDecoder().decode(Array<NoteWrapper>.self, from: data)
+                var notes = try JSONDecoder().decode(Array<NoteWrapper>.self, from: data)
                 
-                var i = 0
-                var k = 0
+//                var i = 0
+//                var k = 0
+//
+//                var toRemove: [Int] = []
+//
+//                for note in noteWrappers {
+//                    if (toRemove.contains(i) == false) {
+//                        k = 0
+//                        for sameIDnote in noteWrappers {
+//                            if note.id == sameIDnote.id && k != i && toRemove.contains(k) == false {
+//                                if note.revisions > sameIDnote.revisions {
+//                                    toRemove.append(k)
+//                                    FirestoreHandler.delete(wrapper: sameIDnote)
+//                                } else {
+//                                    toRemove.append(i)
+//                                    FirestoreHandler.delete(wrapper: note)
+//                                }
+//                            }
+//                            k += 1
+//                        }
+//                    }
+//                    i += 1
+//                }
+//
+//                toRemove = toRemove.sorted {$0 > $1}
+//                for t in toRemove {
+//                    noteWrappers.remove(at: t)
+//                }
                 
-                var toRemove: [Int] = []
-                
-                for note in noteWrappers {
-                    if (toRemove.contains(i) == false) {
-                        k = 0
-                        for sameIDnote in noteWrappers {
-                            if note.id == sameIDnote.id && k != i && toRemove.contains(k) == false {
-                                if note.revisions > sameIDnote.revisions {
-                                    toRemove.append(k)
-                                    FirestoreHandler.delete(wrapper: sameIDnote)
+                for note in notes {
+                    for second in notes {
+                        if note.id == second.id && note !== second {
+                            if let date1 = note.updatedAt.toDate(), let date2 = second.updatedAt.toDate() {
+                                if date1 > date2 {
+                                    if let i = notes.firstIndex(of: second) {
+                                        notes.remove(at: i)
+                                        FirestoreHandler.delete(wrapper: second)
+                                    }
                                 } else {
-                                    toRemove.append(i)
-                                    FirestoreHandler.delete(wrapper: note)
+                                    if let i = notes.firstIndex(of: note) {
+                                        notes.remove(at: i)
+                                        FirestoreHandler.delete(wrapper: note)
+                                    }
                                 }
+                                break;
                             }
-                            k += 1
                         }
                     }
-                    i += 1
                 }
                 
-                toRemove = toRemove.sorted {$0 > $1}
-                for t in toRemove {
-                    noteWrappers.remove(at: t)
-                }
-                
-                completion(noteWrappers)
+                completion(notes)
                 
             } catch {
                 print(error)
