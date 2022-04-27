@@ -90,7 +90,7 @@ extension GalleryViewController: UIImagePickerControllerDelegate, UINavigationCo
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         
         if picker.sourceType == .camera {
-            if let pickedImage = info[UIImagePickerController.InfoKey.editedImage] as? UIImage {
+            if let pickedImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
                 displayAndSaveImageFromCamera(image: pickedImage)
             }
         } else if picker.sourceType == .photoLibrary {
