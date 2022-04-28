@@ -366,9 +366,9 @@ class FirestoreHandler {
         }
         
         
-        taskProgress.observe(.failure) { snapshot in
-            self.dialogWindow(message: "We couldn't upload the image to the cloud", title: "Error")
-        }
+//        taskProgress.observe(.failure) { snapshot in
+//            self.dialogWindow(message: "We couldn't upload the image to the cloud", title: "Error")
+//        }
         
     }
     
