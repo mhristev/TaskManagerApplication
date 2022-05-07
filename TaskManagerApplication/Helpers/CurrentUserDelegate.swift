@@ -7,6 +7,6 @@
 
 import Foundation
 
-protocol currentUserDelegate {
+protocol currentUserDelegate: AnyObject {
     func setCurrentUserID(uuid: String)
 }

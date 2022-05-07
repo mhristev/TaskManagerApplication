@@ -1,0 +1,16 @@
+disabled_rules:
+- type_body_length
+- file_length
+- function_body_length
+
+line_length:
+  ignores_comments: true
+  ignores_interpolated_strings: true
+
+identifier_name:
+  min_length: 2
+  excluded:
+    - id
+
+cyclomatic_complexity:
+  ignores_if_statements: true

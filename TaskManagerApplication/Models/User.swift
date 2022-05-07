@@ -17,13 +17,13 @@ class User: Object {
         self.id = id
         self.lastSeenAt = Date()
     }
-    
+
     func updateLastSeen() {
         self.lastSeenAt = Date()
     }
-    
+
     func getID() -> String {
         return self.id
     }
-    
+
 }

@@ -9,15 +9,14 @@ import UIKit
 
 class CategoryTableViewCell: UITableViewCell {
 
-    
     static func nib() -> UINib {
         return UINib(nibName: "CategoryCell", bundle: nil)
     }
-    
+
     public func configure() {
-        return 
+        return
     }
-    
+
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code

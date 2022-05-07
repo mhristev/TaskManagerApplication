@@ -19,10 +19,10 @@ class NoteWrapper: Codable {
     var favourite: Bool = false
     var categoryID: String = ""
     var reminderDate: String?
-    //var photos = List<String>()
-    
+    // var photos = List<String>()
+
     init() {}
-    
+
     enum CodingKeys: String, CodingKey {
         case id
         case title
@@ -33,9 +33,9 @@ class NoteWrapper: Codable {
         case favourite
         case categoryID
         case reminderDate
-        //case photos
+        // case photos
     }
-    
+
     required init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: CodingKeys.self)
         id = try values.decode(String.self, forKey: .id)
@@ -49,17 +49,14 @@ class NoteWrapper: Codable {
         reminderDate = try? values.decodeIfPresent(String.self, forKey: .reminderDate)
        // photos = try values.decode(List<String>.self, forKey: .photos)
     }
-    
 
 }
-
 
 extension NoteWrapper: Equatable {
     static func == (note1: NoteWrapper, note2: NoteWrapper) -> Bool {
         return note1.id == note2.id && note1.updatedAt == note2.updatedAt
     }
 }
-
 
 class Note: Object, Codable {
     @objc dynamic private var id: String = ""
@@ -69,11 +66,10 @@ class Note: Object, Codable {
     @objc dynamic var updatedAt: String = ""
     @objc dynamic var revisions: Int = 0
     @objc dynamic var favourite: Bool = false
-    @objc dynamic var category: Category? = nil
+    @objc dynamic var category: Category?
     @objc dynamic var reminderDate: String?
     var photos = List<String>()
-    
-    
+
     convenience init(title: String, htmlText: String, favourite: Bool, category: Category) {
         self.init()
         self.id = UUID().uuidString
@@ -86,8 +82,10 @@ class Note: Object, Codable {
         self.category = category
         self.reminderDate = nil
     }
-    
-    convenience init(id: String, title: String, htmlText: String, createdAt: String, updatedAt: String, revisions: Int, favourite: Bool, category: Category?, reminderDate: String?) {
+
+    convenience init(id: String, title: String, htmlText: String,
+                     createdAt: String, updatedAt: String, revisions: Int,
+                     favourite: Bool, category: Category?, reminderDate: String?) {
         self.init()
         self.id = id
         self.title = title
@@ -99,17 +97,15 @@ class Note: Object, Codable {
         self.category = category
         self.reminderDate = reminderDate
     }
-    
-   
-    
+
     func getID() -> String {
         return self.id
     }
-    
+
     func set(ID: String) {
         self.id = ID
     }
-    
+
     //    func getTitle() -> String {
     //        return self.title
     //    }
@@ -140,19 +136,18 @@ class Note: Object, Codable {
     //    func getReminderDate() -> NSDate? {
     //        return self.reminderDate
     //    }
-    
+
     func html2AttrString() -> NSAttributedString? {
-        
+
         return self.textHtmlString.html2AttributedString
-       
+
     }
-    
+
     func toWrapper() -> NoteWrapper {
         let wrapper = NoteWrapper()
-        
+
         guard let category = self.category else { return wrapper }
 
-        
         wrapper.id = self.id
         wrapper.title = self.title
         wrapper.categoryID = category.id
@@ -163,38 +158,33 @@ class Note: Object, Codable {
         wrapper.favourite = self.favourite
         wrapper.reminderDate = self.reminderDate
 //        wrapper.photos = self.photos
-        
+
         return wrapper
     }
-    
-    
+
 }
 
-
-
-
 extension String {
-    
+
     func toDate() -> Date? {
         let dateFormatter = DateFormatter().getDefaultDateFormatter()
-        
+
         return dateFormatter.date(from: self)
     }
-    
+
     var html2AttributedString: NSAttributedString? {
         Data(utf8).html2AttributedString
     }
 }
 
-
 extension Data {
     var html2AttributedString: NSAttributedString? {
         do {
-            return try NSAttributedString(data: self, options: [.documentType: NSAttributedString.DocumentType.html], documentAttributes: nil)
+            return try NSAttributedString(data: self, options: [.documentType: NSAttributedString.DocumentType.html],
+                                          documentAttributes: nil)
         } catch {
             print("error:", error)
             return  nil
         }
     }
 }
-

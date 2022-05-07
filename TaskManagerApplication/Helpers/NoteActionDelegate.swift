@@ -7,7 +7,7 @@
 
 import Foundation
 
-protocol noteActionDelegate {
+protocol noteActionDelegate: AnyObject {
     func didCreateNoteWith(ID: String)
     func didCreateReminderOn(note: Note)
     func reloadData()

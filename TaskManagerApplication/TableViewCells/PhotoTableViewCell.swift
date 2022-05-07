@@ -8,16 +8,12 @@
 import UIKit
 
 class PhotoTableViewCell: UITableViewCell {
+
     static let identifier = "photoCell"
-    
     @IBOutlet var imgView: UIImageView!
-    
     public func configureWith(image: UIImage) {
         self.imgView.image = image
     }
-    
-    
-    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code

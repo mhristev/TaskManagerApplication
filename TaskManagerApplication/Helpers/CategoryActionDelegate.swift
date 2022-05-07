@@ -7,10 +7,10 @@
 
 import Foundation
 
-protocol categoryActionDelegate {
-    func didEditCategory(categories: Array<Category>)
+protocol categoryActionDelegate: AnyObject {
+    func didEditCategory(categories: [Category])
     func didCreateCategory(category: Category)
     func didChangeCategory(currCategory: Category, currNote: Note)
-    func didSelectCategoryWith(name: String, notes: Array<Note>)
+    func didSelectCategoryWith(name: String, notes: [Note])
     func didEditCategory(category: Category)
 }

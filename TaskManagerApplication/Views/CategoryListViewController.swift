@@ -8,32 +8,15 @@
 import UIKit
 
 class CategoryListViewController: UIViewController {
-
+    // swiftlint:disable identifier_name
     @IBOutlet var NotesInCategoryTableView: UITableView!
-    
+    // swiftlint:enable identifier_name
     override func viewDidLoad() {
         super.viewDidLoad()
         NotesInCategoryTableView.delegate = self
         NotesInCategoryTableView.dataSource = self
-
-        // Do any additional setup after loading the view.
     }
-    
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }
-
-
-
 
 extension CategoryListViewController: UITableViewDelegate {
     private func handleMarkAsFavourite() {
@@ -51,24 +34,26 @@ extension CategoryListViewController: UITableViewDelegate {
 
     private func handleCreateReminder() {
         self.performSegue(withIdentifier: "showCreateReminder", sender: self)
-        
+
     }
-    
-    func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+
+    func tableView(_ tableView: UITableView,
+                   leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let action = UIContextualAction(style: .normal,
-                                        title: "Favourite") { [weak self] (action, view, completionHandler) in
+                                        title: "Favourite") { [weak self] (_, _, completionHandler) in
                                             self?.handleMarkAsFavourite()
                                             completionHandler(true)
         }
         action.backgroundColor = .systemBlue
-        
+
         return UISwipeActionsConfiguration(actions: [action])
     }
-    
-    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+
+    func tableView(_ tableView: UITableView,
+                   trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         // Archive action
         let archive = UIContextualAction(style: .normal,
-                                         title: "Reminder") { [weak self] (action, view, completionHandler) in
+                                         title: "Reminder") { [weak self] (_, _, completionHandler) in
                                             self?.handleCreateReminder()
                                             completionHandler(true)
         }
@@ -76,7 +61,7 @@ extension CategoryListViewController: UITableViewDelegate {
 
         // Trash action
         let trash = UIContextualAction(style: .destructive,
-                                       title: "Delete") { [weak self] (action, view, completionHandler) in
+                                       title: "Delete") { [weak self] (_, _, completionHandler) in
                                         self?.handleMoveToTrash()
                                         completionHandler(true)
         }
@@ -84,7 +69,7 @@ extension CategoryListViewController: UITableViewDelegate {
 
         // Unread action
         let unread = UIContextualAction(style: .normal,
-                                       title: "Add to folder") { [weak self] (action, view, completionHandler) in
+                                       title: "Add to folder") { [weak self] (_, _, completionHandler) in
                                         self?.handleAddToFolder()
                                         completionHandler(true)
         }
@@ -94,24 +79,22 @@ extension CategoryListViewController: UITableViewDelegate {
 
         return configuration
     }
-    
-    
+
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         print("You tapped \(indexPath.row)")
-        
+
         self.performSegue(withIdentifier: "clickNoteToView", sender: self)
     }
 }
-
 
 extension CategoryListViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 1
     }
-    
+
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = NotesInCategoryTableView.dequeueReusableCell(withIdentifier: "noteCell", for: indexPath)
-        
+
         cell.textLabel?.text = "My first Note"
         return cell
     }

@@ -185,24 +185,24 @@
             <objects>
                 <viewController storyboardIdentifier="NoteViewController" id="hvl-tY-16o" customClass="NoteViewController" customModule="TaskManagerApplication" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="0oY-hZ-lpb">
-                        <rect key="frame" x="0.0" y="0.0" width="374" height="573"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nb8-iI-aIc">
-                                <rect key="frame" x="0.0" y="0.0" width="374" height="573"/>
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="808"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="muq-17-oyO">
-                                        <rect key="frame" x="0.0" y="0.0" width="374" height="573"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="414" height="808"/>
                                         <subviews>
                                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" keyboardDismissMode="interactive" usesAttributedText="YES" allowsEditingTextAttributes="YES" translatesAutoresizingMaskIntoConstraints="NO" id="cRl-zW-Vp2">
-                                                <rect key="frame" x="20" y="21" width="334" height="542"/>
+                                                <rect key="frame" x="20" y="21" width="374" height="777"/>
                                                 <color key="backgroundColor" name="backgoundColor"/>
                                                 <attributedString key="attributedText"/>
                                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences" returnKeyType="done" enablesReturnKeyAutomatically="YES"/>
                                                 <dataDetectorType key="dataDetectorTypes" phoneNumber="YES" link="YES" address="YES" calendarEvent="YES" shipmentTrackingNumber="YES" flightNumber="YES" lookupSuggestion="YES"/>
                                             </textView>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yCU-xd-BNw">
-                                                <rect key="frame" x="70" y="494" width="234" height="79"/>
+                                                <rect key="frame" x="70" y="494" width="274" height="314"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                 <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <nil key="highlightedColor"/>
@@ -589,14 +589,14 @@
             <objects>
                 <viewController storyboardIdentifier="WeeklyProgressViewController" id="4af-va-nnC" customClass="WeeklyProgressViewController" customModule="TaskManagerApplication" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="gBO-JV-TLe">
-                        <rect key="frame" x="0.0" y="0.0" width="374" height="573"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="12" translatesAutoresizingMaskIntoConstraints="NO" id="8XC-Ue-PST">
-                                <rect key="frame" x="20" y="24" width="334" height="551"/>
+                                <rect key="frame" x="20" y="68" width="374" height="796"/>
                                 <subviews>
                                     <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="66w-rh-b8W">
-                                        <rect key="frame" x="0.0" y="0.0" width="154" height="32"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="194" height="277"/>
                                         <segments>
                                             <segment title="All"/>
                                             <segment title="Favourites"/>
@@ -607,18 +607,18 @@
                                         </connections>
                                     </segmentedControl>
                                     <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="70" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="wyr-3v-UD5">
-                                        <rect key="frame" x="0.0" y="43" width="334" height="508"/>
+                                        <rect key="frame" x="0.0" y="288" width="374" height="508"/>
                                         <color key="backgroundColor" name="backgoundColor"/>
                                         <prototypes>
                                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="ReminderCell" id="zGq-1w-Oma" customClass="ReminderTableViewCell" customModule="TaskManagerApplication" customModuleProvider="target">
-                                                <rect key="frame" x="0.0" y="44.5" width="334" height="70"/>
+                                                <rect key="frame" x="0.0" y="44.5" width="374" height="70"/>
                                                 <autoresizingMask key="autoresizingMask"/>
                                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="zGq-1w-Oma" id="LmD-PF-y8j">
-                                                    <rect key="frame" x="0.0" y="0.0" width="334" height="70"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="374" height="70"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <subviews>
                                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="L4q-qY-ZQd">
-                                                            <rect key="frame" x="0.0" y="0.0" width="334" height="58"/>
+                                                            <rect key="frame" x="0.0" y="0.0" width="374" height="58"/>
                                                             <subviews>
                                                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="bell.fill" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="0Le-n5-odu">
                                                                     <rect key="frame" x="11" y="12.5" width="45" height="37.5"/>
@@ -635,7 +635,7 @@
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="252" verticalCompressionResistancePriority="751" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="h4R-U8-buh">
-                                                                    <rect key="frame" x="64" y="8" width="242" height="20.5"/>
+                                                                    <rect key="frame" x="64" y="8" width="282" height="20.5"/>
                                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
@@ -891,21 +891,21 @@
             <objects>
                 <viewController storyboardIdentifier="CategoryViewController" id="SOe-Bz-B0c" customClass="CategoryViewController" customModule="TaskManagerApplication" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="VlG-5g-0Mn">
-                        <rect key="frame" x="0.0" y="0.0" width="374" height="573"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="11" translatesAutoresizingMaskIntoConstraints="NO" id="zMx-rB-Tzx">
-                                <rect key="frame" x="10" y="24" width="354" height="467"/>
+                                <rect key="frame" x="10" y="68" width="394" height="746"/>
                                 <subviews>
                                     <searchBar contentMode="redraw" searchBarStyle="minimal" translatesAutoresizingMaskIntoConstraints="NO" id="se6-g0-4Nd">
-                                        <rect key="frame" x="0.0" y="0.0" width="354" height="51"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="394" height="330"/>
                                         <textInputTraits key="textInputTraits"/>
                                     </searchBar>
                                     <stackView opaque="NO" contentMode="scaleToFill" spacing="999" translatesAutoresizingMaskIntoConstraints="NO" id="Bf1-w1-dd7">
-                                        <rect key="frame" x="0.0" y="62" width="354" height="31"/>
+                                        <rect key="frame" x="0.0" y="341" width="394" height="31"/>
                                         <subviews>
                                             <segmentedControl opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="249" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="FL4-oO-ZaN">
-                                                <rect key="frame" x="0.0" y="0.0" width="354" height="32"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="394" height="32"/>
                                                 <segments>
                                                     <segment title="All"/>
                                                     <segment title="Favourites"/>
@@ -918,14 +918,14 @@
                                         </subviews>
                                     </stackView>
                                     <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="ebP-zg-eud">
-                                        <rect key="frame" x="0.0" y="104" width="354" height="363"/>
+                                        <rect key="frame" x="0.0" y="383" width="394" height="363"/>
                                         <color key="backgroundColor" name="backgoundColor"/>
                                         <prototypes>
                                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="noteCell" id="cc9-TC-ZT5">
-                                                <rect key="frame" x="0.0" y="44.5" width="354" height="44"/>
+                                                <rect key="frame" x="0.0" y="44.5" width="394" height="44"/>
                                                 <autoresizingMask key="autoresizingMask"/>
                                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="cc9-TC-ZT5" id="gPl-tJ-MjM">
-                                                    <rect key="frame" x="0.0" y="0.0" width="354" height="44"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="394" height="44"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <color key="backgroundColor" name="cellBackgound"/>
                                                 </tableViewCellContentView>
@@ -940,7 +940,7 @@
                                 </constraints>
                             </stackView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ING-Wz-y8t">
-                                <rect key="frame" x="289" y="488" width="60" height="60"/>
+                                <rect key="frame" x="329" y="777" width="60" height="60"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="60" id="7o7-O6-Vg7"/>
                                     <constraint firstAttribute="height" constant="60" id="svn-m3-BQL"/>
@@ -987,11 +987,11 @@
             <objects>
                 <viewController storyboardIdentifier="AddToCategoryViewController" id="LMH-fc-nQe" customClass="AddToCategoryViewController" customModule="TaskManagerApplication" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" ambiguous="YES" id="alI-1e-RUd">
-                        <rect key="frame" x="0.0" y="0.0" width="374" height="573"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" ambiguous="YES" axis="vertical" spacing="25" translatesAutoresizingMaskIntoConstraints="NO" id="BtU-u7-23u">
-                                <rect key="frame" x="20" y="34" width="374" height="519"/>
+                                <rect key="frame" x="20" y="34" width="374" height="754"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Add To Category" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="E3G-bk-kOz">
                                         <rect key="frame" x="0.0" y="0.0" width="374" height="41"/>
@@ -1000,7 +1000,7 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="70" estimatedRowHeight="-1" sectionHeaderHeight="70" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="7qr-oQ-chT">
-                                        <rect key="frame" x="0.0" y="66" width="374" height="453"/>
+                                        <rect key="frame" x="0.0" y="66" width="374" height="688"/>
                                         <color key="backgroundColor" name="backgoundColor"/>
                                         <prototypes>
                                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="CategoryCell" rowHeight="70" id="xgC-a0-hH7" customClass="CategoryTableViewCell" customModule="TaskManagerApplication" customModuleProvider="target">
@@ -1099,25 +1099,25 @@
             <objects>
                 <viewController storyboardIdentifier="CreateReminderViewController" id="cXr-us-Psz" customClass="CreateReminderViewController" customModule="TaskManagerApplication" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="2hc-jC-0J7">
-                        <rect key="frame" x="0.0" y="0.0" width="374" height="573"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="dZp-PE-Oym">
-                                <rect key="frame" x="20" y="50" width="334" height="503"/>
+                                <rect key="frame" x="20" y="50" width="374" height="531.5"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Create Reminder" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="U0T-ca-ZMC">
-                                        <rect key="frame" x="0.0" y="0.0" width="334" height="39.5"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="374" height="39.5"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="33"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="For Date:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BSY-KO-gXO">
-                                        <rect key="frame" x="0.0" y="59.5" width="334" height="20.5"/>
+                                        <rect key="frame" x="0.0" y="59.5" width="374" height="20.5"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <datePicker contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="dateAndTime" style="inline" translatesAutoresizingMaskIntoConstraints="NO" id="pmF-6p-xUH">
-                                        <rect key="frame" x="0.0" y="100" width="334" height="352"/>
+                                        <rect key="frame" x="0.0" y="100" width="374" height="380.5"/>
                                         <color key="tintColor" systemColor="tintColor"/>
                                         <userDefinedRuntimeAttributes>
                                             <userDefinedRuntimeAttribute type="color" keyPath="textColor">
@@ -1126,7 +1126,7 @@
                                         </userDefinedRuntimeAttributes>
                                     </datePicker>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="sZC-rL-fPj">
-                                        <rect key="frame" x="0.0" y="472" width="334" height="31"/>
+                                        <rect key="frame" x="0.0" y="500.5" width="374" height="31"/>
                                         <color key="backgroundColor" red="0.1176470588" green="0.56470588239999997" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <state key="normal" title="Button"/>
@@ -1204,9 +1204,6 @@
                                                         <rect key="frame" x="0.0" y="0.0" width="375" height="160"/>
                                                         <state key="normal" title="Button"/>
                                                         <buttonConfiguration key="configuration" style="plain" title=""/>
-                                                        <connections>
-                                                            <segue destination="4af-va-nnC" kind="show" identifier="testvam" id="2RT-nR-A2q"/>
-                                                        </connections>
                                                     </button>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Here you can see your weekly tasks progress" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ncU-NL-U7i">
                                                         <rect key="frame" x="0.0" y="80" width="375" height="72"/>
@@ -1361,7 +1358,6 @@
                     </view>
                     <connections>
                         <outlet property="tableView" destination="A2b-Ub-W9A" id="oRN-uT-B0H"/>
-                        <segue destination="SOe-Bz-B0c" kind="show" identifier="test" id="URP-dE-7lB"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="N6T-R1-3Nz" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
