@@ -18,7 +18,7 @@ class OverviewChildHomeController: UIViewController {
                 }
                 return self.realm
         }
-    var selectionDelegate: categoryActionDelegate!
+    var selectionDelegate: CategoryActionDelegate!
 
     @IBOutlet var tableView: UITableView!
 
@@ -189,7 +189,7 @@ extension OverviewChildHomeController {
     }
 }
 
-extension OverviewChildHomeController: categoryActionDelegate {
+extension OverviewChildHomeController: CategoryActionDelegate {
     func didSelectCategoryWith(name: String, notes: [Note]) { return }
     func didEditCategory(category: Category) { return }
     func didChangeCategory(currCategory: Category, currNote: Note) { return }

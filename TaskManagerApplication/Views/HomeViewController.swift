@@ -13,7 +13,7 @@ import RealmSwift
 class HomeViewController: UIViewController {
 
     @IBOutlet var welcomeLabel: UILabel!
-    var newNoteDelegate: noteActionDelegate!
+    var newNoteDelegate: NoteActionDelegate!
 
     var realm: Realm {
             do {
@@ -45,8 +45,19 @@ class HomeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         prepareChildren()
-        let myAttribute = [ NSAttributedString.Key.font: UIFont(name: "Arial-BoldMT", size: 52.0)! ]
-        let myString = NSMutableAttributedString(string: "Good,\nevening!", attributes: myAttribute )
+        let myAttribute = [NSAttributedString.Key.font: UIFont(name: "Arial-BoldMT", size: 52.0)!]
+        let today = Date()
+        let hours = (Calendar.current.component(.hour, from: today))
+        var greeting: String
+        if hours >= 5 && hours < 12 {
+            greeting = "Good,\nmorning!"
+        } else if hours >= 12 && hours < 18 {
+            greeting = "Good,\nafternoon!"
+        } else {
+            greeting = "Good,\nevening!"
+        }
+
+        let myString = NSMutableAttributedString(string: greeting, attributes: myAttribute)
         welcomeLabel.attributedText = myString
         let reminders = RealmHandler.getAllReminders(inRealmObject: realm)
         NotificationHelper.createPendingNotificationsIn(reminders: reminders)

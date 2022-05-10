@@ -24,11 +24,8 @@ class WeeklyProgressViewController: UIViewController {
     @IBOutlet var favSegment: UISegmentedControl!
     override func viewDidLoad() {
         super.viewDidLoad()
-
         tableView.dataSource = self
-        tableView.delegate = self
         reminders = RealmHandler.getAllRemindersForThisWeek(inRealmObject: realm)
-
     }
 
     @IBAction func favouriteFilter(_ sender: UISegmentedControl) {
@@ -41,10 +38,6 @@ class WeeklyProgressViewController: UIViewController {
             tableView.reloadData()
         }
     }
-
-}
-
-extension WeeklyProgressViewController: UITableViewDelegate {
 
 }
 

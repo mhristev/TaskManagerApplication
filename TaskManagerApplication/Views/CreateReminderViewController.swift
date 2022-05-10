@@ -21,22 +21,15 @@ class CreateReminderViewController: UIViewController {
                 }
                 return self.realm
         }
-    var noteDelegate: noteActionDelegate!
+    var noteDelegate: NoteActionDelegate!
 
     @IBOutlet var datePickerView: UIDatePicker!
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // datePickerView.overrideUserInterfaceStyle = .dark
-
-        // myDatePicker.overrideUserInterfaceStyle = .light
-
-        // Do any additional setup after loading the view.
     }
 
     @IBAction func createReminder(_ sender: UIButton) {
-        //     print(datePickerView.date)
-
         guard let note = currNote else {
             return
         }
@@ -93,19 +86,9 @@ class CreateReminderViewController: UIViewController {
         self.noteDelegate.reloadData()
         self.dismiss(animated: true, completion: nil)
     }
-    /*
-     // MARK: - Navigation
-     
-     // In a storyboard-based application, you will often want to do a little preparation before navigation
-     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-     // Get the new view controller using segue.destination.
-     // Pass the selected object to the new view controller.
-     }
-     */
-
 }
 
-extension CreateReminderViewController: noteActionDelegate {
+extension CreateReminderViewController: NoteActionDelegate {
     func reloadData() {
         return
     }

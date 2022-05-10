@@ -22,7 +22,7 @@ class AddToCategoryViewController: UIViewController {
     var currCategory: Category!
     var currNote: Note!
 
-    var noteDelegate: noteActionDelegate!
+    var noteDelegate: NoteActionDelegate!
 
     @IBOutlet var tableView: UITableView!
 
@@ -76,7 +76,7 @@ extension AddToCategoryViewController: UITableViewDelegate {
     }
 }
 
-extension AddToCategoryViewController: categoryActionDelegate {
+extension AddToCategoryViewController: CategoryActionDelegate {
     func didSelectCategoryWith(name: String, notes: [Note]) {
         return
     }

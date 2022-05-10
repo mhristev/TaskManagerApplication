@@ -177,6 +177,9 @@ class RealmHandler {
     static func updateNoteWith(ID: String, title: String, attrText: NSAttributedString, inRealmObject: Realm) {
         if let note = inRealmObject.objects(Note.self).filter("id == %@", ID).first {
 
+            if note.title == title && note.textHtmlString.html2AttributedString == attrText {
+                return
+            }
             if note.title != title {
                 if let date = note.reminderDate {
                     NotificationHelper.removeNotificationWithID(ID: ID)
@@ -187,7 +190,6 @@ class RealmHandler {
             guard let htmlString = attrText.toHtmlString() else {
                 return
             }
-
             FirestoreHandler.delete(note: note)
             try? inRealmObject.write {
                 note.textHtmlString = htmlString
@@ -681,7 +683,6 @@ extension Array where Element: NoteWrapper {
                 note.favourite = res.favourite
                 note.reminderDate = res.reminderDate
                 //  note.photos = res.photos
-
                 result.append(note)
             }
         } catch let error as NSError {

@@ -26,7 +26,7 @@ class NoteViewController: UIViewController {
 
     var currNoteID: String?
 
-    var noteDelegate: noteActionDelegate!
+    var noteDelegate: NoteActionDelegate!
 
     @IBOutlet var metaInformation: UILabel!
 
@@ -224,7 +224,7 @@ extension NoteViewController: UITextViewDelegate {
     }
 }
 
-extension NoteViewController: noteActionDelegate {
+extension NoteViewController: NoteActionDelegate {
     func reloadData() {
         return
     }

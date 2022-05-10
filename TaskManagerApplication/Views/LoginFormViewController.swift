@@ -40,10 +40,10 @@ class LoginFormViewController: UIViewController {
         actionButton.layer.cornerRadius = 18
 
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(sender:)),
-                                               name: UIResponder.keyboardWillShowNotification, object: nil);
+                                               name: UIResponder.keyboardWillShowNotification, object: nil)
 
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(sender:)),
-                                               name: UIResponder.keyboardWillHideNotification, object: nil);
+                                               name: UIResponder.keyboardWillHideNotification, object: nil)
 
     }
 
@@ -54,15 +54,6 @@ class LoginFormViewController: UIViewController {
     @objc func keyboardWillHide(sender: NSNotification) {
          self.view.frame.origin.y = 0 // Move view to original position
     }
-
-//    func keyboardWasShown(notification: NSNotification) {
-//        let info = notification.userInfo!
-//        let keyboardFrame: CGRect = (info[UIKeyboardFrameEndUserInfoKey] as! NSValue).CGRectValue
-//
-//        UIView.animateWithDuration(0.1, animations: { () -> Void in
-//            self.bottomConstraint.constant = keyboardFrame.size.height + 20
-//        })
-//    }
 
     func fieldValidation(email: String, password: String) -> Bool {
 

@@ -114,9 +114,7 @@ extension GalleryViewController {
                 print("image not found!")
             }
         }
-
         return nil
-
     }
 
     func saveImageToRealm(photoURL: String) {
@@ -136,46 +134,41 @@ extension GalleryViewController {
     }
 
     func recognizeTextIn(indexPath: IndexPath) {
-
         guard let url = URL(string: photos[photos.count - (1 + indexPath.row)]) else {
             return
         }
-
         var recognizedResult: String = "\n"
-
         guard let imageData = try? Data(contentsOf: url) else { return }
                         guard let image = UIImage(data: imageData) else {
                                 return
                         }
 
             let request = VNRecognizeTextRequest { request, error in
+                if error != nil {
+                    return
+                }
                 guard let observations = request.results as? [VNRecognizedTextObservation] else {
                     fatalError("Received invalid observations")
                 }
-
                 for observation in observations {
                     guard let bestCandidate = observation.topCandidates(1).first else {
                         print("No candidate")
                         continue
                     }
                     recognizedResult.append(bestCandidate.string + "\n")
-                    //print("Found this candidate: \(bestCandidate.string)")
                 }
-                let noteText = RealmHandler.getNoteWith(ID: self.currNoteID, inRealmObject: self.realm)?.textHtmlString.html2AttributedString
+                let noteText = RealmHandler.getNoteWith(ID: self.currNoteID,
+                                                        inRealmObject: self.realm)?.textHtmlString.html2AttributedString
                 let title = noteText!.string.trimmingCharacters(in: .whitespacesAndNewlines)
                     .components(separatedBy: .newlines).first ?? ""
-
-                let swag = NSAttributedString(string: recognizedResult,
-                                              attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 18.0)])
-                // swiftlint:disable force_cast
-                let a = noteText!.mutableCopy() as! NSMutableAttributedString
-                let b = swag.mutableCopy() as! NSMutableAttributedString
-
-                a.append(b)
-
-                RealmHandler.updateNoteWith(ID: self.currNoteID, title: title, attrText: a.copy() as! NSAttributedString, inRealmObject: self.realm)
-                print(recognizedResult)
-                // swiftlint:enable force_cast
+                let attributedResult = NSAttributedString(string: recognizedResult,
+                                              attributes: [NSAttributedString.Key.font:
+                                                            UIFont.systemFont(ofSize: 18.0)])
+                guard let currText = noteText!.mutableCopy() as? NSMutableAttributedString else { return }
+                guard let textInPicture = attributedResult.mutableCopy() as? NSMutableAttributedString else { return }
+                currText.append(textInPicture)
+                RealmHandler.updateNoteWith(ID: self.currNoteID,
+                                            title: title, attrText: currText, inRealmObject: self.realm)
             }
             let requests = [request]
             request.recognitionLevel = .accurate
@@ -203,14 +196,11 @@ extension GalleryViewController {
         }
 
         let imgURL = photos[photos.count - (1 + indexPath.row)]
-
         let stack = imgURL.components(separatedBy: "/")
 
         FirestoreHandler.deletePicture(inNoteID: currNoteID, imgID: stack.last ?? "")
-
         photos.remove(at: photos.count - (1 + indexPath.row))
         tableView.reloadData()
-
         print("Deleted")
     }
 
@@ -239,7 +229,7 @@ extension GalleryViewController {
     }
 }
 
-extension GalleryViewController: noteActionDelegate {
+extension GalleryViewController: NoteActionDelegate {
     func didCreateNoteWith(ID: String) {
         self.currNoteID = ID
     }
@@ -281,7 +271,7 @@ extension GalleryViewController: UITableViewDelegate, UITableViewDataSource {
             })
 
             let recognizeAction = UIAction(title: "Recognize Text",
-                                           image: nil, attributes: .destructive, handler: { (_) in
+                                           image: nil, attributes: [], handler: { (_) in
                 self.recognizeTextIn(indexPath: indexPath)  // Put button handler here
             })
 

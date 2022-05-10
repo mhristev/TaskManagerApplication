@@ -12,8 +12,8 @@ import UserNotifications
 class CategoryViewController: UIViewController {
 
     @IBOutlet var searchBar: UISearchBar!
-    var newNoteDelegate: noteActionDelegate!
-    var categoryDelegate: categoryActionDelegate!
+    var newNoteDelegate: NoteActionDelegate!
+    var categoryDelegate: CategoryActionDelegate!
     @IBOutlet var favSegmentControl: UISegmentedControl!
     var notes: [Note] = []
     var filteredNotes: [Note] = []
@@ -205,7 +205,7 @@ extension CategoryViewController: UITableViewDataSource {
     }
 }
 
-extension CategoryViewController: categoryActionDelegate {
+extension CategoryViewController: CategoryActionDelegate {
     func didEditCategory(categories: [Category]) { return }
     func didCreateCategory(category: Category) { return }
     func didChangeCategory(currCategory: Category, currNote: Note) { return }
@@ -216,7 +216,7 @@ extension CategoryViewController: categoryActionDelegate {
     }
 }
 
-extension CategoryViewController: noteActionDelegate {
+extension CategoryViewController: NoteActionDelegate {
     func reloadData() {
         reloadTableBasedOnSegment()
     }

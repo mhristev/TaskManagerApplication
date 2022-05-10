@@ -10,7 +10,7 @@ import RealmSwift
 
 class CreateCategoryViewController: UIViewController {
 
-    var categoryDelegate: categoryActionDelegate!
+    var categoryDelegate: CategoryActionDelegate!
     var realm: Realm {
                 do {
                     let realm = try Realm(configuration: RealmHandler.configurationHelper(), queue: nil)
@@ -170,7 +170,7 @@ extension UIColor {
     }
 }
 // swiftlint:enable identifier_name
-extension CreateCategoryViewController: categoryActionDelegate {
+extension CreateCategoryViewController: CategoryActionDelegate {
     func didEditCategory(categories: [Category]) {
         return
     }
