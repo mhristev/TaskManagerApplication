@@ -10,17 +10,53 @@ import RealmSwift
 import FirebaseFirestoreSwift
 
 class Category: Object, Codable {
-    @objc dynamic var id: String = ""
-    @objc dynamic var name: String = ""
-    @objc dynamic var color: String = ""
-    @objc dynamic var icon: String = ""
-
-    enum CodingKeys: String, CodingKey {
-        case id
-        case name
-        case color
-        case icon
+    @objc dynamic private var _id: String = ""
+    var id: String {
+        get {
+            return self._id
+        }
+        set {
+            self._id = newValue
+        }
     }
+
+    @objc dynamic private var _name: String = ""
+    var name: String {
+        get {
+            return self._name
+        }
+        set {
+            self._name = newValue
+        }
+    }
+
+    @objc dynamic private var _color: String = ""
+    var color: String {
+        get {
+            return self._color
+        }
+        set {
+            return self._color = newValue
+        }
+    }
+
+    @objc dynamic private var _icon: String = ""
+    var icon: String {
+        get {
+            return self._icon
+        }
+        set {
+            return self._icon = newValue
+        }
+    }
+    // swiftlint:disable identifier_name
+    enum CodingKeys: String, CodingKey {
+        case _id
+        case _name
+        case _color
+        case _icon
+    }
+    // swiftlint:enable identifier_name
 
     convenience init(name: String, color: String, icon: String) {
         self.init()
@@ -44,10 +80,6 @@ class Category: Object, Codable {
 
     func getColor() -> String {
         return color
-    }
-
-    func getID() -> String {
-        return id
     }
 
 }

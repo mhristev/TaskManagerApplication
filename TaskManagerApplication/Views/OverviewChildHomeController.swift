@@ -79,7 +79,7 @@ class OverviewChildHomeController: UIViewController {
 extension OverviewChildHomeController: UITableViewDelegate {
     private func handleMoveToTrash(indexPath: IndexPath) {
         RealmHandler.deleteCategoryWith(
-            ID: categories[categories.count - (1 + indexPath.row)].getID(), inRealmObject: realm)
+            ID: categories[categories.count - (1 + indexPath.row)].id, inRealmObject: realm)
         categories = RealmHandler.getAllCategories(inRealmObject: realm)
         tableView.beginUpdates()
         tableView.deleteRows(at: [indexPath], with: .fade)

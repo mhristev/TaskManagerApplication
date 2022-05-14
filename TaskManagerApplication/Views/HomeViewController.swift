@@ -71,7 +71,7 @@ class HomeViewController: UIViewController {
         guard let note = RealmHandler.getNoteWith(name: "", inRealmObject: self.realm) else {
             return
         }
-        newNoteDelegate.didCreateNoteWith(ID: note.getID())
+        newNoteDelegate.didCreateNoteWith(ID: note.id)
 
         self.navigationController?.pushViewController(destinationVC, animated: true)
     }

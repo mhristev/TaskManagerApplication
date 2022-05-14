@@ -13,7 +13,7 @@ class RealmHandler {
     static var currUserID: String = ""
     static func registerUserWith(id: String) {
         guard let userTable = try? Realm() else { return }
-        if let user = userTable.objects(User.self).filter("id == %@", id).first {
+        if let user = userTable.objects(User.self).filter("_id == %@", id).first {
             if userTable.objects(User.self).count < 4 {
                     try? userTable.write {
                         user.updateLastSeen()
@@ -21,8 +21,8 @@ class RealmHandler {
             }
         } else {
             if userTable.objects(User.self).count > 2 {
-                if let oldUser = userTable.objects(User.self).sorted(byKeyPath: "lastSeenAt").first {
-                    self.deleteConfigurationForUser(id: oldUser.getID())
+                if let oldUser = userTable.objects(User.self).sorted(byKeyPath: "_lastSeenAt").first {
+                    self.deleteConfigurationForUser(id: oldUser.id)
                     try? userTable.write {
                         userTable.delete(oldUser)
                     }
@@ -74,11 +74,11 @@ class RealmHandler {
         return config
     }
     static func doesExistCategoryWith(name: String, inRealmObject: Realm) -> Bool {
-        return (inRealmObject.objects(Category.self).filter("name == %@", name).first != nil)
+        return (inRealmObject.objects(Category.self).filter("_name == %@", name).first != nil)
     }
 
     static func getCategoryWith(ID: String, inRealmObject: Realm) -> Category? {
-        if let category = inRealmObject.objects(Category.self).filter("id == %@", ID).first {
+        if let category = inRealmObject.objects(Category.self).filter("_id == %@", ID).first {
             return category
         }
         return nil
@@ -98,11 +98,11 @@ class RealmHandler {
         }
     }
     static func deleteCategoryWith(ID: String, inRealmObject: Realm) {
-        if let category = inRealmObject.objects(Category.self).filter("id == %@", ID).first {
+        if let category = inRealmObject.objects(Category.self).filter("_id == %@", ID).first {
             let notesInCategory = getAllNotesInCategoryWith(name: category.getName(), inRealmObject: inRealmObject)
             for note in notesInCategory {
                 if note.reminderDate != nil {
-                    NotificationHelper.removeNotificationWithID(ID: note.getID())
+                    NotificationHelper.removeNotificationWithID(ID: note.id)
                 }
                 FirestoreHandler.delete(note: note)
             }
@@ -120,14 +120,14 @@ class RealmHandler {
     }
     static func getAllNotesInCategoryWith(name: String, inRealmObject: Realm) -> [Note] {
         // self.clearEmtyNotes(inRealmObject: inRealmObject)
-        return Array(inRealmObject.objects(Note.self).filter("category.name == %@", name)).sortedByUpdatedAt()
+        return Array(inRealmObject.objects(Note.self).filter("_category._name == %@", name)).sortedByUpdatedAt()
     }
     static func getAllNotes(inRealmObject: Realm) -> [Note] {
         // self.clearEmtyNotes(inRealmObject: inRealmObject)
         return Array(inRealmObject.objects(Note.self))
     }
     static func clearEmtyNotes(inRealmObject: Realm) {
-        let emtyNotes = inRealmObject.objects(Note.self).filter("title == %@", "")
+        let emtyNotes = inRealmObject.objects(Note.self).filter("_title == %@", "")
         for note in emtyNotes {
             try? inRealmObject.write {
                 inRealmObject.delete(note)
@@ -136,11 +136,11 @@ class RealmHandler {
     }
 
     static func getCategoryWith(name: String, inRealmObject: Realm) -> Category? {
-        return inRealmObject.objects(Category.self).filter("name == %@", name).first
+        return inRealmObject.objects(Category.self).filter("_name == %@", name).first
     }
 
     static func updateCategoryWith(ID: String, name: String, icon: String, color: String, inRealmObject: Realm) {
-        if let category = inRealmObject.objects(Category.self).filter("id == %@", ID).first {
+        if let category = inRealmObject.objects(Category.self).filter("_id == %@", ID).first {
 
             FirestoreHandler.delete(category: category)
 
@@ -158,7 +158,7 @@ class RealmHandler {
                                text: NSAttributedString, favourite: Bool, categoryName: String, inRealmObject: Realm) {
         print(inRealmObject.configuration.fileURL!.path)
 
-        if let foundCategory = inRealmObject.objects(Category.self).filter("name == %@", categoryName).first {
+        if let foundCategory = inRealmObject.objects(Category.self).filter("_name == %@", categoryName).first {
 
             guard let htmlString = text.toHtmlString() else {
                 return
@@ -175,10 +175,12 @@ class RealmHandler {
     }
 
     static func updateNoteWith(ID: String, title: String, attrText: NSAttributedString, inRealmObject: Realm) {
-        if let note = inRealmObject.objects(Note.self).filter("id == %@", ID).first {
+        if let note = inRealmObject.objects(Note.self).filter("_id == %@", ID).first {
 
-            if note.title == title && note.textHtmlString.html2AttributedString == attrText {
-                return
+            if let text = note.textHtmlString.html2AttributedString {
+                if text.string == attrText.string {
+                    return
+                }
             }
             if note.title != title {
                 if let date = note.reminderDate {
@@ -203,18 +205,18 @@ class RealmHandler {
     }
 
     static func getNoteWith(name: String, inRealmObject: Realm) -> Note? {
-        return inRealmObject.objects(Note.self).filter("title == %@", name).first
+        return inRealmObject.objects(Note.self).filter("_title == %@", name).first
     }
 
     static func getNoteWith(ID: String, inRealmObject: Realm) -> Note? {
-        return inRealmObject.objects(Note.self).filter("id == %@", ID).first
+        return inRealmObject.objects(Note.self).filter("_id == %@", ID).first
     }
 
     static func deleteNoteWith(ID: String, inRealmObject: Realm) {
-        if let note = inRealmObject.objects(Note.self).filter("id == %@", ID).first {
+        if let note = inRealmObject.objects(Note.self).filter("_id == %@", ID).first {
 
             if note.reminderDate != nil {
-                NotificationHelper.removeNotificationWithID(ID: note.getID())
+                NotificationHelper.removeNotificationWithID(ID: note.id)
             }
 
             FirestoreHandler.deletePicturesIn(note: note)
@@ -227,7 +229,7 @@ class RealmHandler {
     }
 
     static func update(note: Note, inCategory: Category, inRealmObject: Realm) {
-        if let note = inRealmObject.objects(Note.self).filter("id == %@", note.getID()).first {
+        if let note = inRealmObject.objects(Note.self).filter("_id == %@", note.id).first {
             FirestoreHandler.delete(note: note)
             try? inRealmObject.write {
                 note.category = inCategory
@@ -237,13 +239,13 @@ class RealmHandler {
     }
 
     static func createReminderAndNotificationForNote(withID: String, andDate: String, inRealmObject: Realm) {
-        if let note = inRealmObject.objects(Note.self).filter("id == %@", withID).first {
+        if let note = inRealmObject.objects(Note.self).filter("_id == %@", withID).first {
             FirestoreHandler.delete(note: note)
 
             try? inRealmObject.write {
                 note.reminderDate = andDate
             }
-            NotificationHelper.createNewNotificationWith(title: note.title, date: andDate, ID: note.getID())
+            NotificationHelper.createNewNotificationWith(title: note.title, date: andDate, ID: note.id)
 
             FirestoreHandler.upload(note: note)
         }
@@ -251,17 +253,17 @@ class RealmHandler {
 
     static func getAllReminders(inRealmObject: Realm) -> [Note] {
         cleanOldReminders(inRealmObject: inRealmObject)
-        return Array(inRealmObject.objects(Note.self).filter("reminderDate != null")).returnDatesAfterToday()
+        return Array(inRealmObject.objects(Note.self).filter("_reminderDate != null")).returnDatesAfterToday()
     }
 
     static func getAllRemindersForThisWeek(inRealmObject: Realm) -> [Note] {
         cleanOldReminders(inRealmObject: inRealmObject)
-        return Array(inRealmObject.objects(Note.self).filter("reminderDate != null")).onlyThisWeek()
+        return Array(inRealmObject.objects(Note.self).filter("_reminderDate != null")).onlyThisWeek()
     }
 
     static func returnFavouriteReminders(inRealmObject: Realm) -> [Note] {
         return Array(inRealmObject.objects(Note.self)
-                        .filter("reminderDate != null && favourite = 1"))
+                        .filter("_reminderDate != null && _favourite = 1"))
                         .sortedByRemindersDate()
     }
 
@@ -270,7 +272,7 @@ class RealmHandler {
         let today = Date()
 
         for oldReminder in inRealmObject.objects(Note.self)
-                .filter("reminderDate != null") {
+                .filter("_reminderDate != null") {
 
             guard let day = oldReminder.reminderDate else {
                 return
@@ -294,7 +296,7 @@ class RealmHandler {
 
     static func removeReminderAndNotificationForNote(withID: String, inRealmObject: Realm) {
         if let note = inRealmObject.objects(Note.self)
-            .filter("id == %@", withID)
+            .filter("_id == %@", withID)
             .first {
             try? inRealmObject.write {
                 note.reminderDate = nil
@@ -305,7 +307,7 @@ class RealmHandler {
 
     static func updateFavouriteForNote(ID: String, inRealmObject: Realm) {
         if let note = inRealmObject.objects(Note.self)
-            .filter("id == %@", ID)
+            .filter("_id == %@", ID)
             .first {
             FirestoreHandler.delete(note: note)
             if note.favourite {
@@ -324,15 +326,15 @@ class RealmHandler {
 
     static func returnFavouriteNotesInCategory(name: String, inRealmObject: Realm) -> [Note] {
         let results: Results<Note> = inRealmObject.objects(Note.self)
-            .filter("category.name == %@", name)
-            .filter("favourite == 1")
+            .filter("_category._name == %@", name)
+            .filter("_favourite == 1")
 
         return Array(results).sortedByUpdatedAt()
     }
 
     static func addPhotoToNoteWith(ID: String, photoURL: String, inRealmObject: Realm) {
         let note = inRealmObject.objects(Note.self)
-            .filter("id == %@", ID)
+            .filter("_id == %@", ID)
             .first
 
         try? inRealmObject.write {
@@ -341,11 +343,11 @@ class RealmHandler {
     }
 
     static func getQuickNotesCategory(inRealmObject: Realm) -> Category? {
-        return inRealmObject.objects(Category.self).filter("name == %@", "Quick Notes").first
+        return inRealmObject.objects(Category.self).filter("_name == %@", "Quick Notes").first
     }
 
     static func getAllPhotosInNoteWith(ID: String, inRealmObject: Realm) -> [String]? {
-        if let note = inRealmObject.objects(Note.self).filter("id == %@", ID).first {
+        if let note = inRealmObject.objects(Note.self).filter("_id == %@", ID).first {
             clearFakeImagesIn(note: note, inRealmObject: inRealmObject)
             return Array(note.photos)
         }
@@ -429,19 +431,16 @@ class RealmHandler {
 
     static func checkIfNoteExists(noteID: String, inRealmObject: Realm) -> Bool {
         let notes = inRealmObject.objects(Note.self)
-        for note in notes {
-            if note.getID() == noteID {
-                return true
-            }
+        for note in notes where note.id == noteID {
+            return true
         }
-
         return false
     }
 
     static func createLocalCopiesOf(notes: [Note], inRealmObject: Realm ) {
         for note in notes {
-            if !self.checkIfNoteExists(noteID: note.getID(), inRealmObject: inRealmObject) {
-                let localNote = Note(id: note.getID(), title: note.title,
+            if !self.checkIfNoteExists(noteID: note.id, inRealmObject: inRealmObject) {
+                let localNote = Note(id: note.id, title: note.title,
                                      htmlText: note.textHtmlString, createdAt: note.createdAt,
                                      updatedAt: note.updatedAt, revisions: note.revisions, favourite: note.favourite,
                                      category: note.category, reminderDate: note.reminderDate)
@@ -451,7 +450,7 @@ class RealmHandler {
                 }
                 if let reminder = localNote.reminderDate {
                     NotificationHelper.createNewNotificationWith(
-                        title: localNote.title, date: reminder, ID: localNote.getID())
+                        title: localNote.title, date: reminder, ID: localNote.id)
                 }
             }
         }
@@ -471,7 +470,7 @@ class RealmHandler {
             if let quickNotes = RealmHandler.getQuickNotesCategory(inRealmObject: realm) {
                 for cloudNote in differenceFromLocal {
                     for localNote in localNotes {
-                        if localNote.getID() == cloudNote.getID() {
+                        if localNote.id == cloudNote.id {
                             flag = true
                             // ASK user if he wants the local or the cloud settings for the given category
                             try? realm.write {
@@ -481,8 +480,8 @@ class RealmHandler {
                                 localNote.updatedAt = cloudNote.updatedAt
                                 localNote.revisions = cloudNote.revisions
                                 localNote.favourite = cloudNote.favourite
-                                if let localCategoryID = localNote.category?.getID(),
-                                    let cloudCategoryID = cloudNote.category?.getID() {
+                                if let localCategoryID = localNote.category?.id,
+                                    let cloudCategoryID = cloudNote.category?.id {
                                     if localCategoryID == cloudCategoryID {
                                         localNote.category = cloudNote.category
                                     }
@@ -492,9 +491,9 @@ class RealmHandler {
 
                                 localNote.reminderDate = cloudNote.reminderDate
                                 if let reminder = localNote.reminderDate {
-                                    NotificationHelper.removeNotificationWithID(ID: cloudNote.getID())
+                                    NotificationHelper.removeNotificationWithID(ID: cloudNote.id)
                                     NotificationHelper.createNewNotificationWith(title: cloudNote.title,
-                                                                                 date: reminder, ID: cloudNote.getID())
+                                                                                 date: reminder, ID: cloudNote.id)
                                 }
                                 // delete the current reminder and replace it with the new one
                             }
@@ -614,7 +613,7 @@ class RealmHandler {
 
             for note in notes {
                 for photoURL in note.photos where photoURL == url {
-                    return note.getID()
+                    return note.id
                 }
             }
         } catch let error as NSError {
@@ -645,7 +644,7 @@ func isInCurrentWeek(date: Date) -> Bool {
     var interval: TimeInterval = 0.0
     let calendar = Calendar.current
     // calendar.firstWeekday = 1 set the index of the first weekday if necessary
-    calendar.dateInterval(of: .weekOfYear, start: &startDate, interval: &interval, for: Date())
+    _ = calendar.dateInterval(of: .weekOfYear, start: &startDate, interval: &interval, for: Date())
     let endDate = calendar.date(byAdding: .second, value: Int(interval), to: startDate)!
     return date >= startDate && date < endDate
 
@@ -673,7 +672,7 @@ extension Array where Element: NoteWrapper {
             let realm = try Realm(configuration: RealmHandler.configurationHelper(), queue: nil)
             for res in self {
                 let note = Note()
-                note.set(ID: res.id)
+                note.id = res.id
                 note.title = res.title
                 note.category = RealmHandler.getCategoryWith(ID: res.categoryID, inRealmObject: realm)
                 note.textHtmlString = res.textHtmlString

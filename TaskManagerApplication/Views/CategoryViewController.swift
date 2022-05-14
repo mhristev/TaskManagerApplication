@@ -26,16 +26,14 @@ class CategoryViewController: UIViewController {
                 }
                 return self.realm
         }
-    // swiftlint:disable identifier_name
-    @IBOutlet var NotesInCategoryTableView: UITableView!
-    // swiftlint:enable identifier_name
+    @IBOutlet var notesInCategoryTableView: UITableView!
     @IBOutlet var titleCategory: UINavigationItem!
     override func viewDidLoad() {
         super.viewDidLoad()
-        NotesInCategoryTableView.delegate = self
-        NotesInCategoryTableView.dataSource = self
+        notesInCategoryTableView.delegate = self
+        notesInCategoryTableView.dataSource = self
         searchBar.delegate = self
-        self.NotesInCategoryTableView.register(SubtitleTableViewCell.self, forCellReuseIdentifier: "noteCell")
+        self.notesInCategoryTableView.register(SubtitleTableViewCell.self, forCellReuseIdentifier: "noteCell")
         // dismiss the keyboard tap
         let tap = UITapGestureRecognizer(target: self, action: #selector(UIInputViewController.dismissKeyboard))
         tap.cancelsTouchesInView = false
@@ -59,20 +57,20 @@ class CategoryViewController: UIViewController {
         guard let note = RealmHandler.getNoteWith(name: "", inRealmObject: realm) else {
             return
         }
-        newNoteDelegate.didCreateNoteWith(ID: note.getID())
+        newNoteDelegate.didCreateNoteWith(ID: note.id)
         self.navigationController?.pushViewController(destinationVC, animated: true)
     }
     func updateDataInTableViewAll() {
         notes = RealmHandler.getAllNotesInCategoryWith(name: self.title!, inRealmObject: realm)
         for note in notes where note.title.isEmpty {
-            RealmHandler.deleteNoteWith(ID: note.getID(), inRealmObject: realm)
+            RealmHandler.deleteNoteWith(ID: note.id, inRealmObject: realm)
         }
         notes = RealmHandler.getAllNotesInCategoryWith(name: self.title!, inRealmObject: realm)
-        NotesInCategoryTableView.reloadData()
+        notesInCategoryTableView.reloadData()
     }
     func updateDataInTableViewFavourite() {
         notes = RealmHandler.returnFavouriteNotesInCategory(name: self.title!, inRealmObject: realm)
-        NotesInCategoryTableView.reloadData()
+        notesInCategoryTableView.reloadData()
     }
     override func viewDidAppear(_ animated: Bool) {
         reloadTableBasedOnSegment()
@@ -88,7 +86,7 @@ class CategoryViewController: UIViewController {
 
 extension CategoryViewController: UITableViewDelegate {
     private func handleMarkAsFavourite(indexPath: IndexPath) {
-        RealmHandler.updateFavouriteForNote(ID: notes[notes.count - (1 + indexPath.row)].getID(), inRealmObject: realm)
+        RealmHandler.updateFavouriteForNote(ID: notes[notes.count - (1 + indexPath.row)].id, inRealmObject: realm)
         print("Marked as favourite")
     }
     private func handleChangeCategory(indexPath: IndexPath) {
@@ -99,7 +97,7 @@ extension CategoryViewController: UITableViewDelegate {
             return
         }
         guard let note = RealmHandler.getNoteWith(
-            ID: notes[notes.count - (1 + indexPath.row)].getID(), inRealmObject: realm) else {
+            ID: notes[notes.count - (1 + indexPath.row)].id, inRealmObject: realm) else {
             return
         }
         categoryDelegate.didChangeCategory(currCategory: category, currNote: note)
@@ -107,11 +105,11 @@ extension CategoryViewController: UITableViewDelegate {
         present(destinationVC, animated: true, completion: nil)
     }
     private func handleMoveToTrash(indexPath: IndexPath) {
-        RealmHandler.deleteNoteWith(ID: notes[notes.count - (1 + indexPath.row)].getID(), inRealmObject: realm)
+        RealmHandler.deleteNoteWith(ID: notes[notes.count - (1 + indexPath.row)].id, inRealmObject: realm)
         notes = RealmHandler.getAllNotesInCategoryWith(name: self.title!, inRealmObject: realm)
-        NotesInCategoryTableView.beginUpdates()
-        NotesInCategoryTableView.deleteRows(at: [indexPath], with: .fade)
-        NotesInCategoryTableView.endUpdates()
+        notesInCategoryTableView.beginUpdates()
+        notesInCategoryTableView.deleteRows(at: [indexPath], with: .fade)
+        notesInCategoryTableView.endUpdates()
         print("Moved to trash")
     }
     private func handleCreateReminder(indexPath: IndexPath) {
@@ -127,7 +125,7 @@ extension CategoryViewController: UITableViewDelegate {
         self.newNoteDelegate = destinationVC
         destinationVC.noteDelegate = self
         guard let note = RealmHandler.getNoteWith(
-            ID: notes[notes.count - (1 + indexPath.row)].getID(), inRealmObject: self.realm) else {
+            ID: notes[notes.count - (1 + indexPath.row)].id, inRealmObject: self.realm) else {
             return
         }
         newNoteDelegate.didCreateReminderOn(note: note)
@@ -175,10 +173,10 @@ extension CategoryViewController: UITableViewDelegate {
             withIdentifier: "NoteViewController") as? NoteViewController else { return }
         newNoteDelegate = destinationVC
         guard let note = RealmHandler.getNoteWith(
-            ID: notes[notes.count - (1 + indexPath.row)].getID(), inRealmObject: realm) else {
+            ID: notes[notes.count - (1 + indexPath.row)].id, inRealmObject: realm) else {
             return
         }
-        newNoteDelegate.didCreateNoteWith(ID: note.getID())
+        newNoteDelegate.didCreateNoteWith(ID: note.id)
         self.navigationController?.pushViewController(destinationVC, animated: true)
     }
 }
@@ -188,7 +186,7 @@ extension CategoryViewController: UITableViewDataSource {
         return notes.count
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = NotesInCategoryTableView.dequeueReusableCell(withIdentifier: "noteCell", for: indexPath)
+        let cell = notesInCategoryTableView.dequeueReusableCell(withIdentifier: "noteCell", for: indexPath)
         print(notes)
         if let reminder = notes[notes.count - (1+indexPath.row)].reminderDate {
             if let date = reminder.toDate() {
@@ -230,7 +228,7 @@ extension CategoryViewController: UISearchBarDelegate {
         if searchText == "" {
             notes = RealmHandler.getAllNotesInCategoryWith(
                 name: self.title!, inRealmObject: realm)
-            NotesInCategoryTableView.reloadData()
+            notesInCategoryTableView.reloadData()
             return
         }
         for note in notes {
@@ -239,7 +237,7 @@ extension CategoryViewController: UISearchBarDelegate {
             }
         }
         notes = filteredNotes
-        self.NotesInCategoryTableView.reloadData()
+        self.notesInCategoryTableView.reloadData()
     }
 }
 

@@ -12,7 +12,7 @@ class NotificationHelper {
 
     static func removeAllPendingNotificationsIn(reminders: [Note]) {
         for reminder in reminders {
-            UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: [reminder.getID()])
+            UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: [reminder.id])
         }
     }
     static func createPendingNotificationsIn(reminders: [Note]) {
@@ -20,7 +20,7 @@ class NotificationHelper {
             guard let date = reminder.reminderDate  else {
                 return
             }
-            NotificationHelper.createNewNotificationWith(title: reminder.title, date: date, ID: reminder.getID())
+            NotificationHelper.createNewNotificationWith(title: reminder.title, date: date, ID: reminder.id)
         }
     }
     static func createNewNotificationWith(title: String, date: String, ID: String) {

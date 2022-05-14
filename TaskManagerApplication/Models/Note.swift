@@ -10,44 +10,115 @@ import RealmSwift
 import UIKit
 
 class NoteWrapper: Codable {
-    var id: String = ""
-    var title: String = ""
-    var textHtmlString: String = ""
-    var createdAt: String = ""
-    var updatedAt: String = ""
-    var revisions: Int = 0
-    var favourite: Bool = false
-    var categoryID: String = ""
-    var reminderDate: String?
-    // var photos = List<String>()
+    private var _id: String = ""
+    var id: String {
+        get {
+            return self._id
+        }
+        set {
+            self._id = newValue
+        }
+    }
+    private var _title: String = ""
+    var title: String {
+        get {
+            return self._title
+        }
+        set {
+            self._title = newValue
+        }
+    }
+    private var _textHtmlString: String = ""
+    var textHtmlString: String {
+        get {
+            return self._textHtmlString
+        }
+        set {
+            self._textHtmlString = newValue
+        }
+    }
+    private var _createdAt: String = ""
+    var createdAt: String {
+        get {
+            return self._createdAt
+        }
+        set {
+            self._createdAt = newValue
+        }
+    }
+    private var _updatedAt: String = ""
+    var updatedAt: String {
+        get {
+            return self._updatedAt
+        }
+        set {
+            self._updatedAt = newValue
+        }
+    }
+    private var _revisions: Int = 0
+    var revisions: Int {
+        get {
+            return self._revisions
+        }
+        set {
+            self._revisions = newValue
+        }
+    }
+    private var _favourite: Bool = false
+    var favourite: Bool {
+        get {
+            return self._favourite
+        }
+        set {
+            self._favourite = newValue
+        }
+    }
+    private var _categoryID: String = ""
+    var categoryID: String {
+        get {
+            return self._categoryID
+        }
+        set {
+            self._categoryID = newValue
+        }
+    }
+    private var _reminderDate: String?
+    var reminderDate: String? {
+        get {
+            return self._reminderDate
+        }
+        set {
+            self._reminderDate = newValue
+        }
+    }
 
     init() {}
 
+    // swiftlint:disable identifier_name
     enum CodingKeys: String, CodingKey {
-        case id
-        case title
-        case textHtmlString
-        case createdAt
-        case updatedAt
-        case revisions
-        case favourite
-        case categoryID
-        case reminderDate
-        // case photos
+        case _id
+        case _title
+        case _textHtmlString
+        case _createdAt
+        case _updatedAt
+        case _revisions
+        case _favourite
+        case _categoryID
+        case _reminderDate
     }
+    // swiftlint:enable identifier_name
 
     required init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: CodingKeys.self)
-        id = try values.decode(String.self, forKey: .id)
-        title = try values.decode(String.self, forKey: .title)
-        textHtmlString = try values.decode(String.self, forKey: .textHtmlString)
-        createdAt = try values.decode(String.self, forKey: .createdAt)
-        updatedAt = try values.decode(String.self, forKey: .updatedAt)
-        revisions = try values.decode(Int.self, forKey: .revisions)
-        favourite = try values.decode(Bool.self, forKey: .favourite)
-        categoryID = try values.decode(String.self, forKey: .categoryID)
-        reminderDate = try? values.decodeIfPresent(String.self, forKey: .reminderDate)
-       // photos = try values.decode(List<String>.self, forKey: .photos)
+        id = try values.decode(String.self, forKey: ._id)
+        title = try values.decode(String.self, forKey: ._title)
+        textHtmlString = try values.decode(String.self, forKey: ._textHtmlString)
+        createdAt = try values.decode(String.self, forKey: ._createdAt)
+        updatedAt = try values.decode(String.self, forKey: ._updatedAt)
+        revisions = try values.decode(Int.self, forKey: ._revisions)
+        favourite = try values.decode(Bool.self, forKey: ._favourite)
+        categoryID = try values.decode(String.self, forKey: ._categoryID)
+        reminderDate = try? values.decodeIfPresent(String.self, forKey: ._reminderDate)
     }
 
 }
@@ -59,16 +130,97 @@ extension NoteWrapper: Equatable {
 }
 
 class Note: Object, Codable {
-    @objc dynamic private var id: String = ""
-    @objc dynamic var title: String = ""
-    @objc dynamic var textHtmlString: String = ""
-    @objc dynamic var createdAt: String = ""
-    @objc dynamic var updatedAt: String = ""
-    @objc dynamic var revisions: Int = 0
-    @objc dynamic var favourite: Bool = false
-    @objc dynamic var category: Category?
-    @objc dynamic var reminderDate: String?
-    var photos = List<String>()
+
+    @objc dynamic private var _id: String = ""
+    var id: String {
+        get {
+            return self._id
+        }
+        set {
+            return self._id = newValue
+        }
+    }
+    @objc dynamic private var _title: String = ""
+    var title: String {
+        get {
+            return self._title
+        }
+        set {
+            return self._title = newValue
+        }
+    }
+    @objc dynamic private var _textHtmlString: String = ""
+    var textHtmlString: String {
+        get {
+            return self._textHtmlString
+        }
+        set {
+            return self._textHtmlString = newValue
+        }
+    }
+    @objc dynamic private var _createdAt: String = ""
+    var createdAt: String {
+        get {
+            return self._createdAt
+        }
+        set {
+            return self._createdAt = newValue
+        }
+    }
+    @objc dynamic private var _updatedAt: String = ""
+    var updatedAt: String {
+        get {
+            return self._updatedAt
+        }
+        set {
+            return self._updatedAt = newValue
+        }
+    }
+    @objc dynamic private var _revisions: Int = 0
+    var revisions: Int {
+        get {
+            return self._revisions
+        }
+        set {
+            return self._revisions = newValue
+        }
+    }
+    @objc dynamic private var _favourite: Bool = false
+    var favourite: Bool {
+        get {
+            return self._favourite
+        }
+        set {
+            return self._favourite = newValue
+        }
+    }
+    @objc dynamic private var _category: Category?
+    var category: Category? {
+        get {
+            return self._category
+        }
+        set {
+            return self._category = newValue
+        }
+    }
+    @objc dynamic private var _reminderDate: String?
+    var reminderDate: String? {
+        get {
+            return self._reminderDate
+        }
+        set {
+            return self._reminderDate = newValue
+        }
+    }
+    private var _photos = List<String>()
+    var photos: List<String> {
+        get {
+            return self._photos
+        }
+        set {
+            self._photos = newValue
+        }
+    }
 
     convenience init(title: String, htmlText: String, favourite: Bool, category: Category) {
         self.init()
@@ -98,45 +250,6 @@ class Note: Object, Codable {
         self.reminderDate = reminderDate
     }
 
-    func getID() -> String {
-        return self.id
-    }
-
-    func set(ID: String) {
-        self.id = ID
-    }
-
-    //    func getTitle() -> String {
-    //        return self.title
-    //    }
-    //
-    //    func getCreatedAt() -> NSDate {
-    //        return self.createdAt
-    //    }
-    //
-    //    func getUpdatedAt() -> NSDate {
-    //        return self.updatedAt
-    //    }
-    //
-    //    func getRevisions() -> Int {
-    //        return self.revisions
-    //    }
-    //
-    //    func getFavourite() -> Bool {
-    //        return self.favourite
-    //    }
-    //
-    //    func getCategory() -> Category {
-    //        return self.category
-    //    }
-    //
-    //    func getAttrStringData() -> Data? {
-    //        return self.attrStringData
-    //    }
-    //    func getReminderDate() -> NSDate? {
-    //        return self.reminderDate
-    //    }
-
     func html2AttrString() -> NSAttributedString? {
 
         return self.textHtmlString.html2AttributedString
@@ -157,7 +270,6 @@ class Note: Object, Codable {
         wrapper.revisions = self.revisions
         wrapper.favourite = self.favourite
         wrapper.reminderDate = self.reminderDate
-//        wrapper.photos = self.photos
 
         return wrapper
     }

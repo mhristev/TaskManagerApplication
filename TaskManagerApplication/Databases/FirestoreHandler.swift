@@ -30,8 +30,6 @@ class FirestoreHandler {
                 let values = ["email": email]
 
                 Firestore.firestore().collection("users").document(uid).setData(values)
-
-                self.dialogWindow(message: "Your account has been created successfully!", title: "Success")
             }
             completion(nil)
 
@@ -42,7 +40,6 @@ class FirestoreHandler {
         Auth.auth().signIn(withEmail: email, password: password) { (_, error) in
             if error != nil {
                 guard let err = error?.localizedDescription else { return }
-                // self.dialogWindow(message: err, title: "Error")
                 completion(err)
                 return
             }
@@ -102,7 +99,7 @@ class FirestoreHandler {
             for photo in note.photos {
 
                 let stack = photo.components(separatedBy: "/")
-                FirestoreHandler.deletePicture(inNoteID: note.getID(), imgID: stack[stack.count - 1])
+                FirestoreHandler.deletePicture(inNoteID: note.id, imgID: stack[stack.count - 1])
             }
         }
     }
@@ -326,13 +323,6 @@ class FirestoreHandler {
                 completion(url.absoluteString)
             }
         }
-    }
-    static func dialogWindow(message: String, title: String) {
-        let myalert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        myalert.addAction(UIAlertAction(title: "Dismiss", style: .default,
-                                        handler: {_ in
-        }))
-        UIApplication.shared.keyWindow?.rootViewController?.present(myalert, animated: true)
     }
     static func checkForNotUploadedMedia() {
         var cloudPhotoIDs: [String] = []

@@ -58,7 +58,7 @@ class CreateReminderViewController: UIViewController {
 
                 myalert.addAction(UIAlertAction(title: "Continue",
                                                 style: UIAlertAction.Style.default, handler: { _ in
-                    NotificationHelper.removeNotificationWithID(ID: note.getID())
+                    NotificationHelper.removeNotificationWithID(ID: note.id)
                     self.createReminder()
 
                 }))
@@ -79,7 +79,7 @@ class CreateReminderViewController: UIViewController {
         guard let note = currNote else {
             return
         }
-        RealmHandler.createReminderAndNotificationForNote(withID: note.getID(),
+        RealmHandler.createReminderAndNotificationForNote(withID: note.id,
                                                           andDate: datePickerView.date.formatedToStringDate(),
                                                           inRealmObject: realm)
 

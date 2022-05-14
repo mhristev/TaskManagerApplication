@@ -199,7 +199,6 @@
                                                 <color key="backgroundColor" name="backgoundColor"/>
                                                 <attributedString key="attributedText"/>
                                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences" returnKeyType="done" enablesReturnKeyAutomatically="YES"/>
-                                                <dataDetectorType key="dataDetectorTypes" phoneNumber="YES" link="YES" address="YES" calendarEvent="YES" shipmentTrackingNumber="YES" flightNumber="YES" lookupSuggestion="YES"/>
                                             </textView>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yCU-xd-BNw">
                                                 <rect key="frame" x="70" y="494" width="274" height="314"/>
@@ -243,7 +242,7 @@
                     </view>
                     <navigationItem key="navigationItem" id="yXR-3P-Eib">
                         <rightBarButtonItems>
-                            <barButtonItem style="plain" id="pe4-4D-8vK">
+                            <barButtonItem style="done" id="pe4-4D-8vK">
                                 <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" id="OqF-3Q-tFQ">
                                     <rect key="frame" x="340.5" y="5" width="53.5" height="34"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -258,7 +257,7 @@
                                     </connections>
                                 </button>
                             </barButtonItem>
-                            <barButtonItem style="plain" id="UuL-2q-qj1">
+                            <barButtonItem style="done" id="UuL-2q-qj1">
                                 <button key="customView" opaque="NO" contentMode="scaleToFill" restorationIdentifier="heart" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="pg7-pX-dBN">
                                     <rect key="frame" x="279" y="0.5" width="53.5" height="43"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -755,7 +754,7 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Gallery" id="0JT-3m-QA6">
-                        <barButtonItem key="rightBarButtonItem" style="plain" id="gaf-Hj-Dxz">
+                        <barButtonItem key="rightBarButtonItem" style="done" id="gaf-Hj-Dxz">
                             <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" id="eUS-RF-Qu8">
                                 <rect key="frame" x="344.5" y="0.5" width="49.5" height="43"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -791,16 +790,16 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="6" translatesAutoresizingMaskIntoConstraints="NO" id="ZXS-wP-y0s">
-                                <rect key="frame" x="20" y="88" width="374" height="158.5"/>
+                                <rect key="frame" x="20" y="88" width="374" height="73"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Good, evening!" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" adjustsFontForContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="aUf-MM-F7y">
-                                        <rect key="frame" x="0.0" y="0.0" width="374" height="121.5"/>
-                                        <fontDescription key="fontDescription" name="Arial-Black" family="Arial Black" pointSize="52"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="374" height="36"/>
+                                        <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                                         <color key="textColor" name="colorSelector"/>
                                         <color key="highlightedColor" systemColor="systemFillColor"/>
                                     </label>
                                     <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="MU9-dt-Sg1">
-                                        <rect key="frame" x="0.0" y="127.5" width="374" height="32"/>
+                                        <rect key="frame" x="0.0" y="42" width="374" height="32"/>
                                         <segments>
                                             <segment title="Overview"/>
                                             <segment title="Reminders"/>
@@ -813,19 +812,19 @@
                                 </subviews>
                             </stackView>
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Jdh-KI-51z">
-                                <rect key="frame" x="20" y="269" width="374" height="627"/>
+                                <rect key="frame" x="20" y="183.5" width="374" height="712.5"/>
                                 <connections>
                                     <segue destination="UoK-Aw-4UD" kind="embed" identifier="toOverview" id="ory-4u-56R"/>
                                 </connections>
                             </containerView>
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="XtH-rh-70N">
-                                <rect key="frame" x="20" y="269" width="374" height="627"/>
+                                <rect key="frame" x="20" y="183.5" width="374" height="712.5"/>
                             </containerView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RaS-Pw-zwH">
-                                <rect key="frame" x="329" y="728" width="60" height="60"/>
+                                <rect key="frame" x="299" y="707" width="90" height="81"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="60" id="8IE-SZ-DNv"/>
-                                    <constraint firstAttribute="height" constant="60" id="rUD-Yx-SDT"/>
+                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="60" id="8IE-SZ-DNv"/>
+                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="60" id="rUD-Yx-SDT"/>
                                 </constraints>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="plain" image="plus.circle.fill" catalog="system">
@@ -840,6 +839,7 @@
                         <viewLayoutGuide key="safeArea" id="DDE-Lz-pyF"/>
                         <color key="backgroundColor" name="backgoundColor"/>
                         <constraints>
+                            <constraint firstItem="RaS-Pw-zwH" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="DDE-Lz-pyF" secondAttribute="leading" symbolic="YES" id="6Xo-OQ-gVC"/>
                             <constraint firstItem="XtH-rh-70N" firstAttribute="leading" secondItem="DDE-Lz-pyF" secondAttribute="leading" constant="20" id="IYA-9t-jdq"/>
                             <constraint firstItem="Jdh-KI-51z" firstAttribute="top" secondItem="ZXS-wP-y0s" secondAttribute="bottom" constant="22.5" id="QuO-u2-Y20"/>
                             <constraint firstItem="Jdh-KI-51z" firstAttribute="leading" secondItem="DDE-Lz-pyF" secondAttribute="leading" constant="20" id="RJn-D3-RDB"/>
@@ -857,7 +857,7 @@
                     </view>
                     <toolbarItems/>
                     <navigationItem key="navigationItem" title="Home" id="2eS-sr-qIy">
-                        <barButtonItem key="rightBarButtonItem" title="Item" style="plain" id="Etn-Sn-sCI">
+                        <barButtonItem key="rightBarButtonItem" title="Item" style="done" id="Etn-Sn-sCI">
                             <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" id="aMp-Hp-1JA">
                                 <rect key="frame" x="320.5" y="0.5" width="73.5" height="43"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -940,10 +940,10 @@
                                 </constraints>
                             </stackView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ING-Wz-y8t">
-                                <rect key="frame" x="329" y="777" width="60" height="60"/>
+                                <rect key="frame" x="299" y="756" width="90" height="81"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="60" id="7o7-O6-Vg7"/>
-                                    <constraint firstAttribute="height" constant="60" id="svn-m3-BQL"/>
+                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="60" id="7o7-O6-Vg7"/>
+                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="60" id="svn-m3-BQL"/>
                                 </constraints>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="plain" image="plus.circle.fill" catalog="system">
@@ -969,8 +969,8 @@
                     </view>
                     <navigationItem key="navigationItem" title="Category Name" id="xg9-53-0lO"/>
                     <connections>
-                        <outlet property="NotesInCategoryTableView" destination="ebP-zg-eud" id="QkC-ud-402"/>
                         <outlet property="favSegmentControl" destination="FL4-oO-ZaN" id="rcC-vn-sGX"/>
+                        <outlet property="notesInCategoryTableView" destination="ebP-zg-eud" id="Pls-ea-oap"/>
                         <outlet property="searchBar" destination="se6-g0-4Nd" id="8en-xb-tkt"/>
                         <outlet property="titleCategory" destination="xg9-53-0lO" id="v3g-tJ-nUF"/>
                         <segue destination="hvl-tY-16o" kind="show" identifier="clickNoteToView" id="Itu-6n-Zma"/>
@@ -986,11 +986,11 @@
         <scene sceneID="KSF-c3-6YX">
             <objects>
                 <viewController storyboardIdentifier="AddToCategoryViewController" id="LMH-fc-nQe" customClass="AddToCategoryViewController" customModule="TaskManagerApplication" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" ambiguous="YES" id="alI-1e-RUd">
+                    <view key="view" contentMode="scaleToFill" id="alI-1e-RUd">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <stackView opaque="NO" contentMode="scaleToFill" ambiguous="YES" axis="vertical" spacing="25" translatesAutoresizingMaskIntoConstraints="NO" id="BtU-u7-23u">
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="25" translatesAutoresizingMaskIntoConstraints="NO" id="BtU-u7-23u">
                                 <rect key="frame" x="20" y="34" width="374" height="754"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Add To Category" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="E3G-bk-kOz">
@@ -1079,8 +1079,7 @@
                         <viewLayoutGuide key="safeArea" id="c7w-Nw-g3A"/>
                         <color key="backgroundColor" name="backgoundColor"/>
                         <constraints>
-                            <constraint firstAttribute="trailing" secondItem="BtU-u7-23u" secondAttribute="trailing" constant="20" id="MQA-E8-2LH"/>
-                            <constraint firstItem="BtU-u7-23u" firstAttribute="trailing" secondItem="c7w-Nw-g3A" secondAttribute="trailing" id="QIr-Dk-6Nb" userLabel="Stack View.trailing = Safe Area.trailing + 20"/>
+                            <constraint firstItem="BtU-u7-23u" firstAttribute="trailing" secondItem="c7w-Nw-g3A" secondAttribute="trailing" constant="-20" id="QIr-Dk-6Nb" userLabel="Stack View.trailing = Safe Area.trailing + 20"/>
                             <constraint firstItem="BtU-u7-23u" firstAttribute="top" secondItem="c7w-Nw-g3A" secondAttribute="top" constant="34" id="cU1-Em-Z3T"/>
                             <constraint firstItem="c7w-Nw-g3A" firstAttribute="bottom" secondItem="BtU-u7-23u" secondAttribute="bottom" constant="20" id="nVh-AB-rmu"/>
                             <constraint firstItem="BtU-u7-23u" firstAttribute="leading" secondItem="alI-1e-RUd" secondAttribute="leading" constant="20" id="wFW-VC-Q7l"/>
@@ -1188,11 +1187,11 @@
             <objects>
                 <viewController storyboardIdentifier="OverviewChildHomeController" id="UoK-Aw-4UD" customClass="OverviewChildHomeController" customModule="TaskManagerApplication" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="IWk-a1-4cy">
-                        <rect key="frame" x="0.0" y="0.0" width="374" height="627"/>
+                        <rect key="frame" x="0.0" y="0.0" width="374" height="712.5"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="g3y-NU-1fn">
-                                <rect key="frame" x="0.0" y="0.0" width="374" height="597"/>
+                                <rect key="frame" x="0.0" y="0.0" width="374" height="682.5"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="WZ7-GA-hcw">
                                         <rect key="frame" x="0.0" y="0.0" width="374" height="160"/>
@@ -1246,7 +1245,7 @@
                                         </constraints>
                                     </stackView>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="fno-Pb-xPy">
-                                        <rect key="frame" x="0.0" y="176" width="374" height="421"/>
+                                        <rect key="frame" x="0.0" y="176" width="374" height="506.5"/>
                                         <subviews>
                                             <stackView opaque="NO" contentMode="scaleToFill" spacing="186" id="h86-c2-bae">
                                                 <rect key="frame" x="0.0" y="0.0" width="374" height="31"/>
@@ -1269,7 +1268,7 @@
                                                 </subviews>
                                             </stackView>
                                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="70" estimatedRowHeight="-1" sectionHeaderHeight="70" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="A2b-Ub-W9A">
-                                                <rect key="frame" x="0.0" y="36" width="374" height="385"/>
+                                                <rect key="frame" x="0.0" y="36" width="374" height="470.5"/>
                                                 <color key="backgroundColor" name="backgoundColor"/>
                                                 <prototypes>
                                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="CategoryCell" rowHeight="70" id="Mm6-bj-5RI" customClass="CategoryTableViewCell" customModule="TaskManagerApplication" customModuleProvider="target">
