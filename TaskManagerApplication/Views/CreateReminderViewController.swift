@@ -67,11 +67,11 @@ class CreateReminderViewController: UIViewController {
                 }))
 
                 self.present(myalert, animated: true)
+                return
             }
-
         }
 
-        self.createReminder()
+       self.createReminder()
 
     }
 

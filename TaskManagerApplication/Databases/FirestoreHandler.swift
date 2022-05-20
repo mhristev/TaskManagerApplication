@@ -214,7 +214,6 @@ class FirestoreHandler {
             .collection("users")
             .document(currentUser.uid)
 
-        // https://firebase.google.com/docs/firestore/query-data/queries
         docRef.getDocument { (document, error) in
             guard let document = document, document.exists else {
                 print("Document does not exist")
@@ -336,7 +335,7 @@ class FirestoreHandler {
                 print("error while trying to access storage")
             }
             for prefix in result.prefixes {
-                // go deap
+                // go deep
                 prefix.listAll { result, error in
                     guard error == nil else {
                         return

@@ -267,12 +267,12 @@ extension GalleryViewController: UITableViewDelegate, UITableViewDataSource {
                    point: CGPoint) -> UIContextMenuConfiguration? {
         let configuration = UIContextMenuConfiguration(identifier: nil, previewProvider: nil) { _ -> UIMenu? in
             let deleteAction = UIAction(title: "Delete", image: nil, attributes: .destructive, handler: { (_) in
-                self.deletePhoto(indexPath: indexPath)   // Put button handler here
+                self.deletePhoto(indexPath: indexPath) 
             })
 
             let recognizeAction = UIAction(title: "Recognize Text",
                                            image: nil, attributes: [], handler: { (_) in
-                self.recognizeTextIn(indexPath: indexPath)  // Put button handler here
+                self.recognizeTextIn(indexPath: indexPath)
             })
 
             return UIMenu( image: nil, identifier: nil, options: [], children: [deleteAction, recognizeAction])

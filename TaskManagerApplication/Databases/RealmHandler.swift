@@ -40,7 +40,7 @@ class RealmHandler {
         do {
             try FileManager.default.removeItem(at: config.fileURL!)
         } catch {
-            print("help")
+            print("deleting db failed")
         }
     }
 
@@ -119,11 +119,9 @@ class RealmHandler {
         return Array(inRealmObject.objects(Category.self))
     }
     static func getAllNotesInCategoryWith(name: String, inRealmObject: Realm) -> [Note] {
-        // self.clearEmtyNotes(inRealmObject: inRealmObject)
         return Array(inRealmObject.objects(Note.self).filter("_category._name == %@", name)).sortedByUpdatedAt()
     }
     static func getAllNotes(inRealmObject: Realm) -> [Note] {
-        // self.clearEmtyNotes(inRealmObject: inRealmObject)
         return Array(inRealmObject.objects(Note.self))
     }
     static func clearEmtyNotes(inRealmObject: Realm) {
@@ -385,14 +383,22 @@ class RealmHandler {
 
             let localCategories = RealmHandler.getAllCategories(inRealmObject: realm)
 
-            // returns categories that are in the cloud but not in the local storage
-            let differenceFromLocal = Array(Set(cloudCategories).subtracting(Set(localCategories)))
+            var f = false
+            for localCategory in localCategories {
+                for cloudCategory in cloudCategories
+                where localCategory.id == cloudCategory.id {
+                    f = true
+                }
+                if f { f = false } else {
+                    self.deleteCategoryWith(ID: localCategory.id, inRealmObject: realm)
+                }
+            }
 
             var toCreateLocally: [Category] = []
 
             var flag = false
 
-            for cloudCat in differenceFromLocal {
+            for cloudCat in cloudCategories {
                 for localcat in localCategories {
                     if localcat.id == cloudCat.id {
                         flag = true
@@ -459,16 +465,24 @@ class RealmHandler {
         do {
             let realm = try Realm(configuration: RealmHandler.configurationHelper(), queue: nil)
             let cloudNotes = wrappers.toNotes()
-            let localNotes = RealmHandler.getAllNotes(inRealmObject: realm)
+            var localNotes = RealmHandler.getAllNotes(inRealmObject: realm)
 
-            // returns categories that are in the cloud but not in the local storage
-            let differenceFromLocal = Array(Set(cloudNotes).subtracting(Set(localNotes)))
-
+            var f = false
+            for localNote in localNotes {
+                for cloudNote in cloudNotes where localNote.id == cloudNote.id {
+                    f = true
+                }
+                if f { f = false }
+                    else {
+                        self.deleteNoteWith(ID: localNote.id, inRealmObject: realm)
+                    }
+            }
+            localNotes = RealmHandler.getAllNotes(inRealmObject: realm)
             var toCreateLocally: [Note] = []
 
             var flag = false
             if let quickNotes = RealmHandler.getQuickNotesCategory(inRealmObject: realm) {
-                for cloudNote in differenceFromLocal {
+                for cloudNote in cloudNotes {
                     for localNote in localNotes {
                         if localNote.id == cloudNote.id {
                             flag = true
@@ -482,7 +496,7 @@ class RealmHandler {
                                 localNote.favourite = cloudNote.favourite
                                 if let localCategoryID = localNote.category?.id,
                                     let cloudCategoryID = cloudNote.category?.id {
-                                    if localCategoryID == cloudCategoryID {
+                                    if localCategoryID != cloudCategoryID {
                                         localNote.category = cloudNote.category
                                     }
                                 } else {
@@ -495,7 +509,6 @@ class RealmHandler {
                                     NotificationHelper.createNewNotificationWith(title: cloudNote.title,
                                                                                  date: reminder, ID: cloudNote.id)
                                 }
-                                // delete the current reminder and replace it with the new one
                             }
                             break
                         }
@@ -681,7 +694,6 @@ extension Array where Element: NoteWrapper {
                 note.revisions = res.revisions
                 note.favourite = res.favourite
                 note.reminderDate = res.reminderDate
-                //  note.photos = res.photos
                 result.append(note)
             }
         } catch let error as NSError {

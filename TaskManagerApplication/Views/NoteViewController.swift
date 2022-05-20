@@ -32,9 +32,7 @@ class NoteViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
         textView.delegate = self
-        // textView.font = UIFont(name: "ArialMT", size: 18)
         textView.font = UIFont(name: ".AppleSystemUIFont", size: 18)
 
         if currNoteID != nil {
@@ -51,13 +49,11 @@ class NoteViewController: UIViewController {
             configureFavourite()
 
             metaInformation.text = "created at: \(note.createdAt)\nupdated at: \(note.updatedAt) \nrevisions: \(note.revisions)\n"
-            //            self.textView.font = UIFont(name: self.textView.font!.fontName, size: self.fontSize)
         }
 
         textView.inputAccessoryView = toolbarView
         textView.keyboardDismissMode = .onDrag
 
-        // https://www.hackingwithswift.com/example-code/uikit/how-to-adjust-a-uiscrollview-to-fit-the-keyboard
         let not = NotificationCenter.default
 
         not.addObserver(self, selector: #selector(adjustForKeyboard),
@@ -65,7 +61,6 @@ class NoteViewController: UIViewController {
         not.addObserver(self, selector: #selector(adjustForKeyboard),
                         name: UIResponder.keyboardWillChangeFrameNotification, object: nil)
 
-        // Do any additional setup after loading the view.
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -107,7 +102,6 @@ class NoteViewController: UIViewController {
         }
 
         noteDelegate.didCreateNoteWith(ID: id)
-        // destinationVC.title = "\(categories[categories.count - (1 + indexPath.row)])"
 
         self.navigationController?.pushViewController(destinationVC, animated: true)    }
 
@@ -117,7 +111,6 @@ class NoteViewController: UIViewController {
         }
 
         RealmHandler.updateFavouriteForNote(ID: uid, inRealmObject: realm)
-        // self.loadView()
         let feedback = UINotificationFeedbackGenerator()
         feedback.notificationOccurred(.success)
         self.configureFavourite()
@@ -144,8 +137,6 @@ class NoteViewController: UIViewController {
         textView.scrollRangeToVisible(selectedRange)
     }
 
-    // title = 34
-    // heading =
     @IBAction func boldButton(_ sender: UIButton) {
 
         if let text = textView {
@@ -201,7 +192,6 @@ class NoteViewController: UIViewController {
         let title = textView.text.trimmingCharacters(in: .whitespacesAndNewlines)
             .components(separatedBy: .newlines).first ?? ""
         let text = textView.attributedText
-        // print(textView.font?.fontName)
         if currNoteID != nil {
             if text?.string == "" {
                 RealmHandler.deleteNoteWith(ID: currNoteID!, inRealmObject: realm)
@@ -217,7 +207,6 @@ class NoteViewController: UIViewController {
 extension NoteViewController: UITextViewDelegate {
 
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
-        // textView.typingAttributes = [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 18)]
         textView.typingAttributes = [NSAttributedString.Key.foregroundColor: UIColor(named: "colorSelector") as Any,
                                      NSAttributedString.Key.font: UIFont.systemFont(ofSize: 18)]
         return true

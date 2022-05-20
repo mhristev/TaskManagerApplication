@@ -48,7 +48,7 @@ class LoginFormViewController: UIViewController {
     }
 
     @objc func keyboardWillShow(sender: NSNotification) {
-         self.view.frame.origin.y = -180 // Move view 150 points upward
+         self.view.frame.origin.y = -180 // Move view 180 points upward
     }
 
     @objc func keyboardWillHide(sender: NSNotification) {

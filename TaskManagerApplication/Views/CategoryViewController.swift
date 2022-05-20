@@ -104,13 +104,27 @@ extension CategoryViewController: UITableViewDelegate {
         destinationVC.noteDelegate = self
         present(destinationVC, animated: true, completion: nil)
     }
-    private func handleMoveToTrash(indexPath: IndexPath) {
-        RealmHandler.deleteNoteWith(ID: notes[notes.count - (1 + indexPath.row)].id, inRealmObject: realm)
-        notes = RealmHandler.getAllNotesInCategoryWith(name: self.title!, inRealmObject: realm)
-        notesInCategoryTableView.beginUpdates()
-        notesInCategoryTableView.deleteRows(at: [indexPath], with: .fade)
-        notesInCategoryTableView.endUpdates()
-        print("Moved to trash")
+
+    private func dialogWindow(message: String, title: String, indexPath: IndexPath) {
+
+        let myalert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+
+        myalert.addAction(UIAlertAction(title: "Delete", style: .default,
+                                        handler: {_ in
+            RealmHandler.deleteNoteWith(ID: self.notes[self.notes.count - (1 + indexPath.row)].id, inRealmObject: self.realm)
+            self.notes = RealmHandler.getAllNotesInCategoryWith(name: self.title!, inRealmObject: self.realm)
+            self.notesInCategoryTableView.beginUpdates()
+            self.notesInCategoryTableView.deleteRows(at: [indexPath], with: .fade)
+            self.notesInCategoryTableView.endUpdates()
+            print("Moved to trash")
+        }))
+
+        myalert.addAction(UIAlertAction(title: "Cancel", style: .default,
+                                        handler: {_ in
+        }))
+
+        present(myalert, animated: true)
+
     }
     private func handleCreateReminder(indexPath: IndexPath) {
         UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .sound],
@@ -153,7 +167,9 @@ extension CategoryViewController: UITableViewDelegate {
         // Trash action
         let trash = UIContextualAction(style: .destructive,
                                        title: "Delete") { [weak self] (_, _, completionHandler) in
-            self?.handleMoveToTrash(indexPath: indexPath)
+            self?.self.dialogWindow(message:
+                                        "Are you sure you want to delete this note?", title: "Attention!",
+                                    indexPath: indexPath)
             completionHandler(true)
         }
         trash.backgroundColor = .systemRed

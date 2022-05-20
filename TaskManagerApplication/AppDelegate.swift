@@ -11,7 +11,6 @@ import GoogleSignIn
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
-    // var window: UIWindow?
 
     func application(_ application: UIApplication,
                      didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
@@ -49,7 +48,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 }
 
-// MARK: - UNUserNotificationCenterDelegate https://www.raywenderlich.com/21458686-local-notifications-getting-started
+
 extension AppDelegate: UNUserNotificationCenterDelegate {
   func userNotificationCenter(
     _ center: UNUserNotificationCenter,
